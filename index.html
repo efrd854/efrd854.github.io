@@ -123,14 +123,16 @@
   }
 
   header {
-    position: fixed;
-    top: 0; left: 0; width: 100%;
-    z-index: 100;
-    padding: 15px 0;
-    transition: var(--transition);
-    background: rgba(244, 248, 246, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Увеличили слой, чтобы быть точно поверх всего */
+  padding: 15px 0;
+  transition: var(--transition);
+  background: rgba(244, 248, 246, 0.95); /* Сделали чуть менее прозрачным для читаемости */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   .nav-wrapper {
@@ -477,7 +479,7 @@
     <div class="container nav-wrapper">
       <div class="logo">
         <div style="width:24px;height:24px;background:var(--color-primary);border-radius:50%"></div>
-        Карельский<span>Дзен</span>
+        Карелия<span>Тур</span>
       </div>
       <nav class="nav-links">
         <a href="#about">О туре</a>
