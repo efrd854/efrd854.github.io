@@ -17,7 +17,66 @@
  <!-- Yandex.Metrika counter --> <script type="text/javascript">     (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106897818', 'ym');      ym(106897818, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/106897818" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->   
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+<style>
+  .photo-slider-section {
+    background: var(--color-bg-alt);
+  }
+  
+  .slider-container {
+    position: relative;
+    padding-bottom: 50px; /* Место для пагинации */
+  }
+
+  .swiper {
+    width: 100%;
+    height: 550px; /* Высота для десктопа */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Стилизация стрелок под ваш дизайн */
+  .swiper-button-next, .swiper-button-prev {
+    color: #fff;
+    background: rgba(23, 94, 64, 0.8); /* Ваш --color-primary с прозрачностью */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    after: { font-size: 20px; }
+    transition: var(--transition);
+  }
+
+  .swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .swiper-button-next:hover, .swiper-button-prev:hover {
+    background: var(--color-primary-light);
+    transform: scale(1.1);
+  }
+
+  /* Стилизация точек (пагинации) */
+  .swiper-pagination-bullet-active {
+    background: var(--color-primary) !important;
+  }
+
+  @media (max-width: 768px) {
+    .swiper {
+      height: 350px; /* Меньшая высота для мобильных */
+    }
+    .swiper-button-next, .swiper-button-prev {
+      display: none; /* Прячем стрелки на мобильных для чистоты */
+    }
+  }
+</style>
   
   <style>
     :root {
@@ -599,6 +658,48 @@
       </div>
     </section>
 
+
+
+
+<section class="photo-slider-section reveal">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span class="eyebrow">Атмосфера</span>
+      <h2>Посмотрите, что вас ждет</h2>
+      <p style="color: var(--color-muted); max-width: 600px; margin: 0 auto;">Листайте фотографии, чтобы прочувствовать масштаб Ладоги и уют наших вечеров у костра.</p>
+    </div>
+
+    <div class="slider-container">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="https://images.pexels.com/photos/2397414/pexels-photo-2397414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Карелия фото 1">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Карелия фото 2">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Карелия фото 3">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://images.pexels.com/photos/1037090/pexels-photo-1037090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Карелия фото 4">
+          </div>
+        </div>
+        
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+    
+
     <section class="guide" id="guide">
       <div class="container guide-container">
         <img src="http://xn-----8kcgrslk2bfpm9h4b.xn--p1ai/lev.jpg" alt="Лев Геннадьевич" class="guide-img">
@@ -744,5 +845,35 @@
       }
     });
   </script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      // Когда ширина экрана >= 1024px
+      1024: {
+        slidesPerView: 1.2, // Немного видно края следующего фото (стильный эффект)
+        centeredSlides: true,
+      }
+    }
+  });
+</script>
+  
 </body>
 </html>
