@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /admin/
+
+User-agent: Yandex
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /admin/
+Clean-param: utm_source
