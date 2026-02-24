@@ -687,7 +687,7 @@
       </div>
     </section>
 
-    <section class="reviews" id="reviews">
+   <section class="reviews" id="reviews">
       <div class="container">
         <div style="text-align: center; margin-bottom: 40px;">
           <span class="eyebrow">Отзывы</span>
@@ -871,28 +871,27 @@
       }
     });
 
-    // Инициализация слайдера отзывов
+   // Инициализация слайдера отзывов
     const reviewSwiper = new Swiper(".review-slider", {
       slidesPerView: 1,
       spaceBetween: 30,
       loop: true,
-      centeredSlides: false, /* Выравнивание по левому краю для корректной сетки */
+      centeredSlides: false, 
+      observer: true, // Исправление: слайдер пересчитает размеры при появлении
+      observeParents: true, // Исправление: следит за изменениями родительских блоков
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
       },
       breakpoints: {
-        // На компьютерах показываем по 3 отзыва в ряд
         1024: {
           slidesPerView: 3,
         },
-        // На планшетах — по 2
         768: {
           slidesPerView: 2,
         }
       }
     });
-
   </script>
   
 </body>
