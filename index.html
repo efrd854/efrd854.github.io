@@ -463,37 +463,32 @@
     .hero-actions .btn { width: 100%; }
   }
 
-/* Отзывы */
-  .reviews { background: var(--color-bg); }
-  .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-  }
-  .review-item {
-    background: #fff;
-    padding: 15px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-soft);
-    transition: var(--transition);
-    cursor: zoom-in;
-  }
-  .review-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-  }
-  .review-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    display: block;
-  }
-  
-  @media (max-width: 768px) {
-    .reviews-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+/* Блок отзывов — Слайдер */
+.reviews { background: var(--color-bg); overflow: hidden; }
+
+.review-slider {
+  padding: 20px 0 50px; /* Отступы для пагинации */
+}
+
+.review-slider .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.review-slider .swiper-slide img {
+  max-height: 70vh; /* Скриншот не длиннее 70% высоты экрана */
+  width: auto;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  cursor: grab;
+}
+
+.review-slider .swiper-pagination-bullet-active {
+  background: var(--color-primary) !important;
+}
   
 </style>
 </head>
@@ -696,39 +691,25 @@
 
 
 <section class="reviews" id="reviews">
-      <div class="container">
-        <div style="text-align: center; margin-bottom: 40px;">
-          <span class="eyebrow">Отзывы</span>
-          <h2>Что говорят путешественники</h2>
-        </div>
-        
-        <div class="reviews-grid">
-          <div class="review-item reveal">
-            <img src="1_feedback.webp" alt="Отзыв о походе в Карелию 1">
-          </div>
-          
-          <div class="review-item reveal">
-            <img src="2_feedback.webp" alt="Отзыв о походе в Карелию 2">
-          </div>
-          
-          <div class="review-item reveal">
-            <img src="3_feedback.webp" alt="Отзыв о походе в Карелию 3">
-          </div>
-          
-          <div class="review-item reveal">
-            <img src="4_feedback.webp" alt="Отзыв о походе в Карелию 4">
-          </div>
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span class="eyebrow">Отзывы</span>
+      <h2>Что говорят путешественники</h2>
+    </div>
 
-            <div class="review-item reveal">
-            <img src="5_feedback.webp" alt="Отзыв о походе в Карелию 5">
-          </div>
-          
-          <div class="review-item reveal">
-            <img src="6_feedback.webp" alt="Отзыв о походе в Карелию 6">
-          </div>
-        </div>
+    <div class="swiper review-slider reveal">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="1_feedback.webp" alt="Отзыв 1"></div>
+        <div class="swiper-slide"><img src="2_feedback.webp" alt="Отзыв 2"></div>
+        <div class="swiper-slide"><img src="3_feedback.webp" alt="Отзыв 3"></div>
+        <div class="swiper-slide"><img src="4_feedback.webp" alt="Отзыв 4"></div>
+        <div class="swiper-slide"><img src="5_feedback.webp" alt="Отзыв 4"></div>
+        <div class="swiper-slide"><img src="6_feedback.webp" alt="Отзыв 6"></div>
       </div>
-    </section>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
 
 
 
@@ -900,6 +881,33 @@
         }
       }
     });
+
+// Инициализация слайдера отзывов
+const reviewSwiper = new Swiper(".review-slider", {
+  slidesPerView: 1,
+  spaceBetween: 30,
+  loop: true,
+  centeredSlides: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  breakpoints: {
+    // На компьютерах показываем по 3 отзыва в ряд
+    1024: {
+      slidesPerView: 3,
+    },
+    // На планшетах — по 2
+    768: {
+      slidesPerView: 2,
+    }
+  }
+});
+
+
+
+
+    
   </script>
   
 </body>
