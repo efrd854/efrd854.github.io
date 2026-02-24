@@ -712,12 +712,22 @@
       </div>
     </section>
 
-    <section id="dates">
+
+
+
+
+
+
+
+
+<section id="dates">
       <div class="container">
         <div class="price-block">
-          <div style="text-align: center; margin-bottom: 40px;">
+          <div style="text-align: center; margin-bottom: 30px;">
             <h2>Даты и стоимость 2026</h2>
-            <p>В стоимость включено ВСЁ: снаряжение, питание, трансферы, экскурсии и SPA. <br>Никаких скрытых доплат.</p>
+            <p style="max-width: 600px; margin: 0 auto; color: var(--color-muted);">
+              Мы придерживаемся принципа «Всё включено». <br>Вам нужно только добраться до точки сбора, остальное — наша забота.
+            </p>
           </div>
 
           <div class="date-row">
@@ -749,13 +759,124 @@
               <button class="btn btn-accent btn-sm js-open-modal" style="margin-left: 15px; padding: 10px 20px; font-size: 14px;">Забронировать</button>
             </div>
           </div>
+
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+          <div style="margin-bottom: 20px;">
+            <h3 style="margin-bottom: 25px; font-size: 22px;">Что входит в стоимость:</h3>
+            
+            <style>
+              .included-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                font-size: 15px;
+              }
+              .included-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+              }
+              .included-icon {
+                font-size: 20px;
+                line-height: 1.3;
+                min-width: 24px;
+              }
+              @media (max-width: 768px) {
+                .included-grid { grid-template-columns: 1fr; gap: 15px; }
+              }
+            </style>
+
+            <div class="included-grid">
+              <div class="included-item">
+                <span class="included-icon">🚤</span>
+                <div>
+                  <strong>Полная логистика:</strong> Трансферы от п. Кузнечное до финиша в Приозерске + билеты на «Метеор» (Валаам и обратно).
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🍲</span>
+                <div>
+                  <strong>Вкусное питание:</strong> Горячие завтраки и ужины на костре, сытные перекусы в обед. Готовим мы — вы отдыхаете.
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🧖‍♂️</span>
+                <div>
+                  <strong>SPA-релакс:</strong> 3 часа полного расслабления в SPA-комплексе (бассейн, хамам, баня) для восстановления сил.
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">⚓</span>
+                <div>
+                  <strong>Эксклюзив на Валааме:</strong> Две экскурсии — пешая по Усадьбе и уникальная прогулка на катере вокруг островов.
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🏕️</span>
+                <div>
+                  <strong>Снаряжение и флот:</strong> Лодки, спасжилеты + моторная лодка сопровождения для безопасности и комфорта.
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🎫</span>
+                <div>
+                  <strong>Все сборы оплачены:</strong> Разрешения нацпарка «Ладожские шхеры» и плата за стоянки на Валааме включены.
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🎒</span>
+                <div>
+                  <strong>Грузовой сервис:</strong> Доставка ваших вещей на Валааме от причала до места стоянки (вам не нести тяжести).
+                </div>
+              </div>
+
+              <div class="included-item">
+                <span class="included-icon">🌲</span>
+                <div>
+                  <strong>Работа гидов:</strong> Круглосуточное сопровождение и помощь опытных инструкторов на маршруте.
+                </div>
+              </div>
+            </div>
+          </div>
           
-          <div style="margin-top: 30px; text-align: center; font-size: 14px; color: var(--color-muted);">
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed #ddd; text-align: center; font-size: 14px; color: var(--color-muted);">
             <p>Детям предоставляется скидка. <br>Кэшбек за приведённого друга — вместе веселее!</p>
           </div>
         </div>
       </div>
     </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     <section id="faq">
       <div class="container" style="max-width: 800px;">
