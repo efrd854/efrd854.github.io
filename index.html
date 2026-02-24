@@ -14,7 +14,7 @@
   <meta property="og:image" content="https://xn-----8kcgrslk2bfpm9h4b.xn--p1ai/bgseo.jpg">
   
   <meta name="yandex-verification" content="296d9f7dcdfb52a4" />
- <script type="text/javascript">     (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106897818', 'ym');      ym(106897818, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/106897818" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+ <script type="text/javascript">      (function(m,e,t,r,i,k,a){         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};         m[i].l=1*new Date();         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106897818', 'ym');      ym(106897818, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true}); </script> <noscript><div><img src="https://mc.yandex.ru/watch/106897818" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 <style>
   :root {
@@ -127,18 +127,16 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* Увеличили слой, чтобы быть точно поверх всего */
+  z-index: 1000;
   padding: 15px 0;
   transition: var(--transition);
-  background: rgba(244, 248, 246, 0.95); /* Сделали чуть менее прозрачным для читаемости */
+  background: rgba(244, 248, 246, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,0,0,0.05);
-
--webkit-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  
   }
 
   .nav-wrapper {
@@ -439,7 +437,7 @@
   .footer-flex { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
   .footer-col h4 { color: #fff; margin-bottom: 15px; }
 
-  /* МОБИЛЬНАЯ АДАПТАЦИЯ (ИСПРАВЛЕНИЯ) */
+  /* МОБИЛЬНАЯ АДАПТАЦИЯ */
   @media (max-width: 1024px) {
     .hero-grid, .guide-container, .program-grid { grid-template-columns: 1fr; gap: 40px; }
     .hero-image-wrapper { order: -1; max-width: 500px; margin: 0 auto; }
@@ -463,32 +461,34 @@
     .hero-actions .btn { width: 100%; }
   }
 
-/* Блок отзывов — Слайдер */
-.reviews { background: var(--color-bg); overflow: hidden; }
+  /* --- ИСПРАВЛЕННЫЙ БЛОК ОТЗЫВОВ (CSS) --- */
+  .reviews { background: var(--color-bg); overflow: hidden; }
 
-.review-slider {
-  padding: 20px 0 50px; /* Отступы для пагинации */
-}
+  .review-slider {
+    padding: 20px 0 50px; /* Отступы для пагинации */
+  }
 
-.review-slider .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-}
+  .review-slider .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
 
-.review-slider .swiper-slide img {
-  max-height: 70vh; /* Скриншот не длиннее 70% высоты экрана */
-  width: auto;
-  max-width: 100%;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-soft);
-  cursor: grab;
-}
+  /* Стили для картинок в отзывах, чтобы они не были гигантскими */
+  .review-slider .swiper-slide img {
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* Ограничение высоты */
+    object-fit: contain; /* Сохраняет пропорции картинки */
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    cursor: grab;
+  }
 
-.review-slider .swiper-pagination-bullet-active {
-  background: var(--color-primary) !important;
-}
+  .review-slider .swiper-pagination-bullet-active {
+    background: var(--color-primary) !important;
+  }
   
 </style>
 </head>
@@ -687,35 +687,26 @@
       </div>
     </section>
 
+    <section class="reviews" id="reviews">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+          <span class="eyebrow">Отзывы</span>
+          <h2>Что говорят путешественники</h2>
+        </div>
 
-
-
-<section class="reviews" id="reviews">
-  <div class="container">
-    <div style="text-align: center; margin-bottom: 40px;">
-      <span class="eyebrow">Отзывы</span>
-      <h2>Что говорят путешественники</h2>
-    </div>
-
-    <div class="swiper review-slider reveal">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="1_feedback.webp" alt="Отзыв 1"></div>
-        <div class="swiper-slide"><img src="2_feedback.webp" alt="Отзыв 2"></div>
-        <div class="swiper-slide"><img src="3_feedback.webp" alt="Отзыв 3"></div>
-        <div class="swiper-slide"><img src="4_feedback.webp" alt="Отзыв 4"></div>
-        <div class="swiper-slide"><img src="5_feedback.webp" alt="Отзыв 4"></div>
-        <div class="swiper-slide"><img src="6_feedback.webp" alt="Отзыв 6"></div>
+        <div class="swiper review-slider reveal">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="1_feedback.webp" alt="Отзыв 1"></div>
+            <div class="swiper-slide"><img src="2_feedback.webp" alt="Отзыв 2"></div>
+            <div class="swiper-slide"><img src="3_feedback.webp" alt="Отзыв 3"></div>
+            <div class="swiper-slide"><img src="4_feedback.webp" alt="Отзыв 4"></div>
+            <div class="swiper-slide"><img src="5_feedback.webp" alt="Отзыв 5"></div>
+            <div class="swiper-slide"><img src="6_feedback.webp" alt="Отзыв 6"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
       </div>
-      <div class="swiper-pagination"></div>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-    
+    </section>
 
     <section id="dates">
       <div class="container">
@@ -839,11 +830,9 @@
         e.preventDefault();
         modal.style.display = 'flex';
 
-
-    if (typeof ym !== 'undefined') {
-      ym(106897818, 'reachGoal', 'open_popup');
-    }
-        
+        if (typeof ym !== 'undefined') {
+          ym(106897818, 'reachGoal', 'open_popup');
+        }
       });
     });
 
@@ -882,32 +871,28 @@
       }
     });
 
-// Инициализация слайдера отзывов
-const reviewSwiper = new Swiper(".review-slider", {
-  slidesPerView: 1,
-  spaceBetween: 30,
-  loop: true,
-  centeredSlides: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  breakpoints: {
-    // На компьютерах показываем по 3 отзыва в ряд
-    1024: {
-      slidesPerView: 3,
-    },
-    // На планшетах — по 2
-    768: {
-      slidesPerView: 2,
-    }
-  }
-});
+    // Инициализация слайдера отзывов
+    const reviewSwiper = new Swiper(".review-slider", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      centeredSlides: false, /* Выравнивание по левому краю для корректной сетки */
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        // На компьютерах показываем по 3 отзыва в ряд
+        1024: {
+          slidesPerView: 3,
+        },
+        // На планшетах — по 2
+        768: {
+          slidesPerView: 2,
+        }
+      }
+    });
 
-
-
-
-    
   </script>
   
 </body>
