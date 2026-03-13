@@ -493,6 +493,127 @@
   .review-slider .swiper-pagination-bullet-active {
     background: var(--color-primary) !important;
   }
+
+
+
+/* --- Блок мессенджеров --- */
+.messenger-cta {
+  padding: 40px 0 60px;
+}
+
+.messenger-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(23, 94, 64, 0.1);
+}
+
+.messenger-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.messenger-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.messenger-text h2 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: var(--color-primary);
+}
+
+.messenger-text p {
+  color: var(--color-muted);
+  font-size: 15px;
+  margin: 0;
+  max-width: 550px;
+}
+
+.messenger-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-shrink: 0;
+  min-width: 240px;
+}
+
+/* Стилизация кнопок под мессенджеры */
+.btn-tg {
+  background: #2AABEE;
+  color: #fff;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition);
+}
+
+.btn-tg:hover {
+  background: #2292ce;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(42, 171, 238, 0.2);
+}
+
+.btn-max {
+  background: #1f2937; /* Темный нейтральный цвет, так как у Max нет общеизвестного бренд-цвета */
+  color: #fff;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition);
+}
+
+.btn-max:hover {
+  background: #111827;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(31, 41, 55, 0.2);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 900px) {
+  .messenger-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+  }
+  
+  .messenger-info {
+    flex-direction: column;
+  }
+  
+  .messenger-actions {
+    width: 100%;
+  }
+  
+  .btn-tg, .btn-max {
+    width: 100%;
+  }
+}
+
+
+
+
+
   
 </style>
 </head>
@@ -540,8 +661,8 @@
             <span class="tag">Лето 2026</span>
             <span class="tag">9 дней погружения</span>
           </div>
-          <h1>Карелия. Ладога, <br><span style="color:var(--color-primary-light)">шхеры и Валаам</span></h1>
-          <p class="hero-lead">Лодочное путешествие без толп туристов и тяжелых рюкзаков. Дикая природа, скалы, тишина и ощущение перезагрузки.</p>
+          <h1>Карелия. Ладога. <br><span style="color:var(--color-primary-light)">Шхеры и Валаам</span></h1>
+          <p class="hero-lead">Лодочное путешествие без толп туристов и тяжелых рюкзаков. Белые ночи, дикая природа, скалы, тишина и ощущение перезагрузки.</p>
           
           <div class="hero-actions">
             <button class="btn btn-primary js-open-modal">Забронировать тур</button>
@@ -558,7 +679,7 @@
           
           <div class="floating-review">
             <div class="stars" style="color: #fbbf24;">★★★★★</div>
-            <p style="font-size: 12px; margin:0;">«Это не просто работа. Это возвращение домой и страсть влюблять вас в настоящую Карелию.»</p>
+            <p style="font-size: 12px; margin:0;">«Это не просто работа. Это возвращение домой и страсть влюблять вас в настоящую Карелию».</p>
             <div style="margin-top:8px; font-weight:700; font-size:12px;">— Лев Геннадьевич</div>
           </div>
         </div>
@@ -573,7 +694,7 @@
           <div class="reason-card">
             <div class="reason-icon">🚤</div>
             <h3>Свобода от рюкзака</h3>
-            <p style="color:var(--color-muted); font-size: 14px;">Лодка — ваш транспорт и носильщик. Вы гребете в удовольствие, а вещи плывут рядом. Наслаждайтесь пейзажем, а не думайте о спине.</p>
+            <p style="color:var(--color-muted); font-size: 14px;">Лодка — ваш транспорт и носильщик. Вы наслаждаетесь пейзажами, а не думаете о спине.</p>
           </div>
           <div class="reason-card">
             <div class="reason-icon">🌲</div>
@@ -610,8 +731,8 @@
                 <span>1-5</span><small>Дни</small>
               </div>
               <div class="day-content">
-                <h3>Шхеры и Ладога</h3>
-                <p style="font-size:14px; margin:0;">Исследуем шхеры, любуемся Рериховскими местами. Купаемся, ловим рыбу и живем в палатках на диких островах.</p>
+                <h3>Шхеры и Ладога (первый этап)</h3>
+                <p style="font-size:14px; margin:0;">Старт — п. Кузнечное (Лен. Обл.) Исследуем шхеры, любуемся Рериховскими местами. Купаемся, ловим рыбу и живем в палатках на диких островах.</p>
               </div>
             </div>
             
@@ -630,8 +751,8 @@
                 <span>6-9</span><small>Дни</small>
               </div>
               <div class="day-content">
-                <h3>Остров Валаам</h3>
-                <p style="font-size:14px; margin:0;">4 дня в тишине монастыря. Экскурсии, катерная прогулка и самостоятельное изучение острова силы.</p>
+                <h3>Остров Валаам (второй этап)</h3>
+                <p style="font-size:14px; margin:0;">4 дня в тишине монастыря. Экскурсии, катерная прогулка и самостоятельное изучение острова силы. Финиш — п. Приозерск. (Лен. Обл.)</p>
               </div>
             </div>
           </div>
@@ -681,7 +802,7 @@
         <div>
           <span class="eyebrow" style="color: #6ee7b7;">Ваш гид</span>
           <h2>Лев Геннадьевич</h2>
-          <p class="guide-quote">"50+ лет в Карелии. Я буквально вырос в этих шхерах, исходил их вдоль и поперек. Ладога для меня — не точка на карте, а часть жизни. Я провожу туры по местам моего детства, чтобы вы почувствовали настоящую Карелию."</p>
+          <p class="guide-quote">"50+ лет в Карелии. Я буквально вырос в этих местах, исходил их вдоль и поперек. Ладога для меня — не точка на карте, а часть жизни. Я провожу туры по местам моего детства, чтобы вы почувствовали настоящую Карелию."</p>
           <ul style="margin-top: 20px; font-size: 14px; color: #d1d5db;">
             <li style="margin-bottom:8px">✓ 30+ лет опыта в туризме</li>
             <li style="margin-bottom:8px">✓ 15+ лет проведения туров по Карелии</li>
@@ -736,8 +857,8 @@
               <span style="font-size:14px; color:var(--color-muted);">Период Белых Ночей</span>
             </div>
             <div>
-              <span class="price-tag">79 000 ₽</span>
-              <br><small style="color:var(--color-accent)">69 000 ₽ до 20.03</small>
+              <span class="price-tag">69 000 ₽ до 20.03</span>
+              <br><small style="color:var(--color-accent)">79 000 ₽</small>
             </div>
             <div>
               <span class="spots-left">Мест немного</span>
@@ -751,8 +872,8 @@
               <span style="font-size:14px; color:var(--color-muted);">Спелая черника и прохлада</span>
             </div>
             <div>
-              <span class="price-tag">79 000 ₽</span>
-              <br><small style="color:var(--color-accent)">69 000 ₽ до 20.03</small>
+              <span class="price-tag">69 000 ₽ до 20.03</span>
+              <br><small style="color:var(--color-accent)">79 000 ₽ </small>
             </div>
             <div>
               <span style="font-size:12px; color:green; background:#e6f4ea; padding:4px 8px; border-radius:4px;">Идет набор</span>
@@ -791,7 +912,7 @@
               <div class="included-item">
                 <span class="included-icon">🚤</span>
                 <div>
-                  <strong>Полная логистика:</strong> Трансферы от п. Кузнечное до финиша в Приозерске + билеты на «Метеор» (Валаам и обратно).
+                  <strong>Полная логистика:</strong> Трансферы от п. Кузнечное (Лен. Обл.) до финиша в Приозерске (Лен. Обл.) + билеты на «Метеор» (Валаам и обратно).
                 </div>
               </div>
 
@@ -819,7 +940,7 @@
               <div class="included-item">
                 <span class="included-icon">🏕️</span>
                 <div>
-                  <strong>Снаряжение и флот:</strong> Лодки, спасжилеты + моторная лодка сопровождения для безопасности и комфорта.
+                  <strong>Снаряжение:</strong> Лодки, спасжилеты + моторная лодка сопровождения для безопасности и комфорта.
                 </div>
               </div>
 
@@ -898,6 +1019,54 @@
       </div>
     </section>
 
+
+
+
+
+      <section class="messenger-cta" id="contacts">
+  <div class="container">
+    <div class="messenger-card">
+      <div class="messenger-info">
+        <img src="https://xn-----8kcgrslk2bfpm9h4b.xn--p1ai/lev.jpg" alt="Лев Геннадьевич" class="messenger-avatar">
+        <div class="messenger-text">
+          <h2>Сомневаетесь? Давайте просто спишемся</h2>
+          <p>Никаких навязчивых звонков и скриптов продаж. Напишите мне напрямую. Я 15 лет хожу по Ладоге и честно скажу, подойдет ли вам этот маршрут, какая будет погода и стоит ли брать с собой теплый свитер.</p>
+        </div>
+      </div>
+      
+      <div class="messenger-actions">
+        <a href="https://t.me/LevLevdzenpohod" target="_blank" class="btn btn-tg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Написать в Telegram
+        </a>
+        
+        <a href="https://max.ru/u/f9LHodD0cOK1RSzfTZqLlDGNRQfSKw48_vV9s8OJwqylYcTVBYmtQboijQM" target="_blank" class="btn btn-max">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 11.5A8.38 8.38 0 0 1 21 14C21 18.97 16.97 23 12 23C7.03 23 3 18.97 3 14C3 9.03 7.03 5 12 5C13.25 5 14.43 5.25 15.5 5.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 10C13.1046 10 14 9.10457 14 8C14 6.89543 13.1046 6 12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 3L15 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Написать в MAX
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+
+
+
+
+
+
+
+
+
+
+
+    
   </main>
 
   <footer>
