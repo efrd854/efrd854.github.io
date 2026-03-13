@@ -613,6 +613,138 @@
 
 
 
+Отличное маркетинговое решение. Контраст тарифов — это классический паттерн «Приманка» (Decoy Effect). Когда человек видит, что за 44 000 ₽ он получает только половину, а доплатив 25 000 ₽ (по раннему бронированию), он получает SPA, Метеор, Валаам и еще 4 дня отдыха, дорогой тариф начинает казаться очень выгодным.
+
+Но, как твой адвокат дьявола, я обязан указать на логическую дыру, которая сейчас появится на сайте: Даты.
+Если старт 9-дневного тура 27 июня, а финиш 5 июля, то 5-дневный тур закончится 1 июля. Это нужно четко прописать, иначе люди будут думать, что 5-дневный тур можно начать в любой день из этого диапазона.
+
+Я полностью переписал твой блок <section id="dates">. Вынес стили наверх для удобства (но лучше перенеси их в свой основной блок <style> в <head>), сделал сетку тарифов и сохранил твой блок «Что входит в стоимость» для базовых вещей.
+
+Обновленный код блока «Даты и цены»
+HTML
+<style>
+  /* Стили для тарифов */
+  .tariffs-wrapper {
+    margin-bottom: 50px;
+  }
+  .global-dates {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .date-badge {
+    background: #fff;
+    border: 1px solid rgba(23, 94, 64, 0.15);
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-weight: 600;
+    color: var(--color-primary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  }
+  
+  .tariffs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr; /* Правая карточка чуть шире для акцента */
+    gap: 30px;
+    align-items: center;
+  }
+
+  .tariff-card {
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Базовый тариф */
+  .tariff-basic {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: var(--color-text);
+  }
+  .tariff-basic .tariff-price { color: var(--color-text); }
+  .tariff-basic .tariff-features li::before { content: '✓'; color: var(--color-muted); }
+  .tariff-basic .tariff-features li.disabled { color: var(--color-muted); text-decoration: line-through; opacity: 0.6; }
+  .tariff-basic .tariff-features li.disabled::before { content: '×'; color: #ef4444; text-decoration: none; display: inline-block;}
+
+  /* Максимальный тариф */
+  .tariff-max {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 25px 50px -12px rgba(23, 94, 64, 0.4);
+    transform: scale(1.03); /* Выделяем визуально */
+    z-index: 2;
+    border: 1px solid var(--color-primary-light);
+  }
+  .tariff-max .tariff-price { color: #fff; }
+  .tariff-max .tariff-features li::before { content: '✓'; color: #34d399; font-weight: bold; }
+  
+  .hit-badge {
+    position: absolute;
+    top: -16px;
+    right: 30px;
+    background: var(--color-accent);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+  }
+
+  .tariff-header { margin-bottom: 30px; }
+  .tariff-header h3 { font-size: 24px; margin-bottom: 8px; }
+  .tariff-header p { font-size: 14px; opacity: 0.8; margin: 0; min-height: 42px; }
+  
+  .tariff-price-block { margin-bottom: 30px; }
+  .tariff-price { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 8px; }
+  .tariff-old-price { font-size: 16px; text-decoration: line-through; opacity: 0.7; }
+  .tariff-note { font-size: 13px; color: var(--color-accent); font-weight: 600; }
+
+  .tariff-features { list-style: none; margin-bottom: 40px; flex-grow: 1; }
+  .tariff-features li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .tariff-features li::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .tariff-btn-wrap { margin-top: auto; }
+  
+  /* Стили для сетки "Что входит" */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 15px; }
+  .included-item { display: flex; align-items: flex-start; gap: 12px; }
+  .included-icon { font-size: 20px; line-height: 1.3; min-width: 24px; }
+
+  @media (max-width: 900px) {
+    .tariffs-grid { grid-template-columns: 1fr; gap: 40px; }
+    .tariff-max { transform: scale(1); }
+    .global-dates { flex-direction: column; gap: 15px; align-items: center; }
+  }
+  @media (max-width: 768px) {
+    .included-grid { grid-template-columns: 1fr; gap: 15px; }
+  }
+
+
+
+
+
+
+  
+
+
 
   
 </style>
@@ -842,138 +974,108 @@
 
 
 <section id="dates">
-      <div class="container">
-        <div class="price-block">
-          <div style="text-align: center; margin-bottom: 30px;">
-            <h2>Даты и стоимость 2026</h2>
-            <p style="max-width: 600px; margin: 0 auto; color: var(--color-muted);">
-              Мы придерживаемся принципа «Всё включено». <br>Вам нужно только добраться до точки сбора, остальное — наша забота.
-            </p>
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h2>Даты и тарифы 2026</h2>
+      <p style="max-width: 600px; margin: 0 auto; color: var(--color-muted);">
+        Выберите подходящий формат. Даты заездов общие, но маршруты отличаются глубиной погружения.
+      </p>
+    </div>
+
+    <div class="global-dates">
+      <div class="date-badge">📅 27 июня — 5 июля (Белые ночи)</div>
+      <div class="date-badge">📅 17 августа — 25 августа (Черника)</div>
+    </div>
+
+    <div class="tariffs-wrapper">
+      <div class="tariffs-grid">
+        
+        <div class="tariff-card tariff-basic">
+          <div class="tariff-header">
+            <h3>Шхеры</h3>
+            <p>5 дней. Идеально для тех, у кого мало времени. Только лодки, острова и дикая природа.</p>
           </div>
-
-          <div class="date-row">
-            <div class="date-info">
-              <h4>27 июня — 5 июля</h4>
-              <span style="font-size:14px; color:var(--color-muted);">Период Белых Ночей</span>
-            </div>
-            <div>
-              <span class="price-tag">69 000 ₽ до 20.03</span>
-              <br><small style="color:var(--color-accent)">79 000 ₽</small>
-            </div>
-            <div>
-              <span class="spots-left">Мест немного</span>
-              <button class="btn btn-accent btn-sm js-open-modal" style="margin-left: 15px; padding: 10px 20px; font-size: 14px;">Забронировать</button>
-            </div>
+          <div class="tariff-price-block">
+            <div class="tariff-price">44 000 ₽</div>
+            <div class="tariff-note">Цена фиксирована</div>
           </div>
-
-          <div class="date-row">
-            <div class="date-info">
-              <h4>17 августа — 25 августа</h4>
-              <span style="font-size:14px; color:var(--color-muted);">Спелая черника и прохлада</span>
+          <ul class="tariff-features">
+            <li>5 дней лодочного похода по островам</li>
+            <li>Проживание в палатках на диких стоянках</li>
+            <li>Полевая баня на берегу Ладоги</li>
+            <li class="disabled">SPA-комплекс с бассейном</li>
+            <li class="disabled">Билеты на «Метеор»</li>
+            <li class="disabled">4 дня на острове Валаам</li>
+            <li class="disabled">Экскурсии и катер вокруг Валаама</li>
+          </ul>
+          <div class="tariff-btn-wrap">
+            <button class="btn btn-outline js-open-modal" style="width: 100%;">Забронировать 5 дней</button>
+            <div style="text-align:center; margin-top:12px; font-size:12px; color:var(--color-muted);">
+              Окончание тура на 5-й день. <br>Трансфер в Приозерск.
             </div>
-            <div>
-              <span class="price-tag">69 000 ₽ до 20.03</span>
-              <br><small style="color:var(--color-accent)">79 000 ₽ </small>
-            </div>
-            <div>
-              <span style="font-size:12px; color:green; background:#e6f4ea; padding:4px 8px; border-radius:4px;">Идет набор</span>
-              <button class="btn btn-accent btn-sm js-open-modal" style="margin-left: 15px; padding: 10px 20px; font-size: 14px;">Забронировать</button>
-            </div>
-          </div>
-
-          <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
-
-          <div style="margin-bottom: 20px;">
-            <h3 style="margin-bottom: 25px; font-size: 22px;">Что входит в стоимость:</h3>
-            
-            <style>
-              .included-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                font-size: 15px;
-              }
-              .included-item {
-                display: flex;
-                align-items: flex-start;
-                gap: 12px;
-              }
-              .included-icon {
-                font-size: 20px;
-                line-height: 1.3;
-                min-width: 24px;
-              }
-              @media (max-width: 768px) {
-                .included-grid { grid-template-columns: 1fr; gap: 15px; }
-              }
-            </style>
-
-            <div class="included-grid">
-              <div class="included-item">
-                <span class="included-icon">🚤</span>
-                <div>
-                  <strong>Полная логистика:</strong> Трансферы от п. Кузнечное (Лен. Обл.) до финиша в Приозерске (Лен. Обл.) + билеты на «Метеор» (Валаам и обратно).
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🍲</span>
-                <div>
-                  <strong>Вкусное питание:</strong> Горячие завтраки и ужины на костре, сытные перекусы в обед. Готовим мы — вы отдыхаете.
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🧖‍♂️</span>
-                <div>
-                  <strong>SPA-релакс:</strong> 3 часа полного расслабления в SPA-комплексе (бассейн, хамам, баня) для восстановления сил.
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">⚓</span>
-                <div>
-                  <strong>Эксклюзив на Валааме:</strong> Две экскурсии — пешая по Усадьбе и уникальная прогулка на катере вокруг островов.
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🏕️</span>
-                <div>
-                  <strong>Снаряжение:</strong> Лодки, спасжилеты + моторная лодка сопровождения для безопасности и комфорта.
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🎫</span>
-                <div>
-                  <strong>Все сборы оплачены:</strong> Разрешения нацпарка «Ладожские шхеры» и плата за стоянки на Валааме включены.
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🎒</span>
-                <div>
-                  <strong>Грузовой сервис:</strong> Доставка ваших вещей на Валааме от причала до места стоянки (вам не нести тяжести).
-                </div>
-              </div>
-
-              <div class="included-item">
-                <span class="included-icon">🌲</span>
-                <div>
-                  <strong>Работа гидов:</strong> Круглосуточное сопровождение и помощь опытных инструкторов на маршруте.
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed #ddd; text-align: center; font-size: 14px; color: var(--color-muted);">
-            <p>Детям предоставляется скидка. <br>Кэшбек за приведённого друга — вместе веселее!</p>
           </div>
         </div>
-      </div>
-    </section>
 
+        <div class="tariff-card tariff-max">
+          <div class="hit-badge">Максимум эмоций</div>
+          <div class="tariff-header">
+            <h3>Шхеры + Валаам</h3>
+            <p>9 дней. Полная перезагрузка. Лодочный поход плавно переходит в комфортный отдых и экскурсии.</p>
+          </div>
+          <div class="tariff-price-block">
+            <div class="tariff-old-price">79 000 ₽</div>
+            <div class="tariff-price">69 000 ₽</div>
+            <div class="tariff-note" style="color: #fcd34d;">Скидка за раннее бронирование до 20.03</div>
+          </div>
+          <ul class="tariff-features">
+            <li>5 дней лодочного похода по островам</li>
+            <li>Проживание в палатках на диких стоянках</li>
+            <li>Полевая баня на берегу Ладоги</li>
+            <li><strong>SPA-комплекс</strong> (3 часа: бассейн, хамам)</li>
+            <li><strong>Билеты на «Метеор»</strong> (Валаам и обратно)</li>
+            <li><strong>4 дня на острове Валаам</strong></li>
+            <li><strong>Две эксклюзивные экскурсии</strong></li>
+            <li><strong>Грузовой сервис</strong> (перевозка вещей)</li>
+          </ul>
+          <div class="tariff-btn-wrap">
+            <button class="btn btn-accent js-open-modal" style="width: 100%; box-shadow: none;">Забронировать 9 дней</button>
+            <div style="text-align:center; margin-top:12px; font-size:12px; color:rgba(255,255,255,0.7);">
+              Осталось 4 места на июнь
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="price-block" style="padding: 30px; background: #fff; border-radius: var(--radius-lg); border: 1px solid rgba(0,0,0,0.05);">
+      <h3 style="margin-bottom: 25px; font-size: 20px;">Включено в оба тарифа:</h3>
+      <div class="included-grid">
+        <div class="included-item">
+          <span class="included-icon">🍲</span>
+          <div><strong>Вкусное питание:</strong> Горячие завтраки и ужины на костре, сытные перекусы. Готовим мы — вы отдыхаете.</div>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🏕️</span>
+          <div><strong>Снаряжение:</strong> Резиновые лодки, спасжилеты + моторная лодка сопровождения для безопасности.</div>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🎫</span>
+          <div><strong>Эко-сборы:</strong> Разрешения национального парка «Ладожские шхеры» полностью оплачены.</div>
+        </div>
+        <div class="included-item">
+          <span class="included-icon">🌲</span>
+          <div><strong>Работа гидов:</strong> Круглосуточное сопровождение и помощь опытных инструкторов на воде и суше.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; font-size: 14px; color: var(--color-muted);">
+      <p>Детям предоставляется скидка. Кэшбек за приведённого друга — вместе веселее!</p>
+    </div>
+
+  </div>
+</section>
 
 
 
