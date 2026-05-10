@@ -1,2149 +1,2865 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insulab — Разбор анализов с фокусом на инсулинорезистентность</title>
-<meta name="description" content="Персональный разбор ваших анализов от врача за 48 часов. Понятным языком, с приоритетами и вопросами для следующего приёма.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VQ6NEQW209"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-VQ6NEQW209');
-</script>
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109116544', 'ym');
-
-    ym(109116544, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/109116544" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-
-<style>
-:root {
-  --cream: #FAF7F2;
-  --cream-warm: #F2EBDF;
-  --cream-deep: #E8DFD0;
-  --ink: #1F1A28;
-  --ink-soft: #4A434F;
-  --mute: #8B8590;
-  --line: #D9D2C8;
-  --line-soft: #E8E2D6;
-  --plum: #5D4F73;
-  --plum-deep: #3D3050;
-  --plum-light: #E6DFEC;
-  --bronze: #B8956A;
-  --bronze-deep: #8C6E48;
-  --bronze-light: #EDDFC9;
-  --white: #FFFFFF;
-  --green: #6B8E5A;
-  --green-bg: #E8EFE2;
-  --amber: #C99750;
-  --amber-bg: #F8EFE0;
-  --red: #B85C5C;
-  --red-bg: #F5E3E3;
-
-  --serif: 'Fraunces', Georgia, serif;
-  --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-
-body {
-  font-family: var(--sans);
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--ink);
-  background: var(--cream);
-  overflow-x: hidden;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-}
-
-/* Subtle paper texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.4;
-  z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-
-img, svg { display: block; max-width: 100%; }
-
-a { color: inherit; text-decoration: none; }
-
-button { font: inherit; cursor: pointer; border: none; background: none; }
-
-.container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 32px;
-  position: relative;
-  z-index: 2;
-}
-
-.container-narrow {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 32px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Typography */
-.serif { font-family: var(--serif); font-feature-settings: "ss01", "ss02"; font-variation-settings: "SOFT" 50, "WONK" 0; }
-.italic { font-family: var(--serif); font-style: italic; }
-
-h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; color: var(--ink); }
-
-.eyebrow {
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bronze-deep);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-.eyebrow::before {
-  content: '';
-  width: 24px;
-  height: 1px;
-  background: var(--bronze);
-}
-
-/* === HEADER === */
-.header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 22px 0;
-  transition: all 0.4s ease;
-  background: rgba(250, 247, 242, 0);
-}
-.header.scrolled {
-  background: rgba(250, 247, 242, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--line-soft);
-  padding: 14px 0;
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 26px;
-}
-.logo {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  white-space: nowrap;
-}
-.header-nav a {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ink-soft);
-  padding: 8px 0;
-  transition: color 0.2s ease;
-}
-.header-nav a:hover { color: var(--plum); }
-.logo-mark {
-  width: 28px; height: 28px;
-  border: 1.5px solid var(--plum);
-  border-radius: 50%;
-  position: relative;
-  display: inline-block;
-}
-.logo-mark::after {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  background: var(--plum);
-  border-radius: 50%;
-}
-.nav-cta {
-  font-size: 14px;
-  font-weight: 500;
-  padding: 11px 22px;
-  border-radius: 100px;
-  background: var(--ink);
-  color: var(--cream);
-  transition: all 0.3s ease;
-  margin-left: auto; /* прижимает кнопку к правому краю */
-}
-.nav-cta:hover {
-  background: var(--plum-deep);
-  transform: translateY(-1px);
-}
-
-/* === HERO === */
-.hero {
-  padding: 180px 0 100px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.hero-content { position: relative; }
-.hero-copy { min-width: 0; }
-
-.hero h1 {
-  font-size: clamp(36px, 5.2vw, 72px);
-  font-weight: 300;
-  line-height: 0.95;
-  margin: 32px 0 36px;
-  letter-spacing: -0.035em;
-}
-.hero h1 .ink-italic {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--plum);
-}
-
-.hero-lead {
-  font-size: 20px;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  max-width: 540px;
-  margin-bottom: 44px;
-  font-weight: 400;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--ink);
-  color: var(--cream);
-  font-size: 15px;
-  font-weight: 500;
-  padding: 18px 32px;
-  border-radius: 100px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--plum-deep);
-  transform: translateY(101%);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.btn-primary > * { position: relative; z-index: 1; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -20px rgba(31, 26, 40, 0.4); }
-.btn-primary:hover::after { transform: translateY(0); }
-
-.btn-arrow {
-  width: 18px; height: 18px;
-  transition: transform 0.3s ease;
-}
-.btn-primary:hover .btn-arrow { transform: translateX(4px); }
-
-.hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 14px;
-  color: var(--mute);
-}
-.hero-meta-dot {
-  width: 6px; height: 6px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.3); }
-}
-
-/* Hero visual — animated lab marker chart */
-.hero-visual {
-  position: relative;
-  aspect-ratio: 0.85 / 1;
-  width: 100%;
-  min-height: 480px;
-  align-self: stretch;
-}
-
-.hero-card {
-  position: absolute;
-  background: var(--white);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow:
-    0 1px 2px rgba(31, 26, 40, 0.04),
-    0 24px 48px -12px rgba(31, 26, 40, 0.12);
-  border: 1px solid var(--line-soft);
-}
-
-.hero-card-1 {
-  top: 4%; left: 0; width: 70%;
-  animation: float-1 6s ease-in-out infinite;
-}
-.hero-card-2 {
-  top: 30%; right: 0; width: 65%;
-  animation: float-2 7s ease-in-out infinite;
-}
-.hero-card-3 {
-  bottom: 6%; left: 8%; width: 78%;
-  animation: float-3 8s ease-in-out infinite;
-}
-
-@keyframes float-1 {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-12px) rotate(-2deg); }
-}
-@keyframes float-2 {
-  0%, 100% { transform: translateY(0) rotate(3deg); }
-  50% { transform: translateY(-8px) rotate(3deg); }
-}
-@keyframes float-3 {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-14px) rotate(-1deg); }
-}
-
-.marker-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  padding: 6px 0;
-}
-.marker-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.marker-dot.amber { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-bg); }
-.marker-dot.green { background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
-.marker-dot.red { background: var(--red); box-shadow: 0 0 0 3px var(--red-bg); }
-.marker-name { font-weight: 500; flex: 1; color: var(--ink); }
-.marker-value { font-family: var(--serif); font-weight: 500; font-size: 14px; color: var(--plum); }
-
-.card-title {
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--bronze-deep);
-  margin-bottom: 14px;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.card-title::before {
-  content: '';
-  width: 16px; height: 1px;
-  background: var(--bronze);
-}
-
-.card-quote {
-  font-family: var(--serif);
-  font-size: 18px;
-  font-style: italic;
-  line-height: 1.4;
-  color: var(--ink);
-  font-weight: 400;
-}
-.card-quote::before {
-  content: '"';
-  font-size: 36px;
-  line-height: 0;
-  vertical-align: -16px;
-  color: var(--bronze);
-  margin-right: 4px;
-}
-
-.priority-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 8px 0;
-  font-size: 13px;
-}
-.priority-num {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--plum);
-  flex-shrink: 0;
-  width: 18px;
-}
-
-/* Hero decorative line element */
-.hero-deco {
-  position: absolute;
-  top: 50%; left: -120px;
-  width: 280px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--bronze) 50%, transparent);
-  opacity: 0.6;
-  transform: rotate(-22deg);
-}
-
-/* === MARQUEE === */
-.marquee-section {
-  padding: 50px 0;
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
-  overflow: hidden;
-  background: var(--cream);
-}
-.marquee-label {
-  text-align: center;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--mute);
-  margin-bottom: 28px;
-}
-.marquee {
-  display: flex;
-  animation: scroll 38s linear infinite;
-  white-space: nowrap;
-}
-.marquee-item {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 400;
-  color: var(--ink-soft);
-  margin: 0 48px;
-  display: flex;
-  align-items: center;
-  gap: 48px;
-  font-style: italic;
-}
-.marquee-item::after {
-  content: '·';
-  color: var(--bronze);
-  font-style: normal;
-}
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* === SECTIONS === */
-.section {
-  padding: 140px 0;
-  position: relative;
-}
-.section, .contact-section, .marquee-section, .final-cta, .hero {
-  scroll-margin-top: 110px; /* чтобы фиксированная шапка не перекрывала якоря */
-}
-
-.section-warm { background: var(--cream-warm); }
-
-.section-header {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.section h2 {
-  font-size: clamp(40px, 5.5vw, 72px);
-  font-weight: 300;
-  margin-top: 24px;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
-}
-.section h2 .italic {
-  font-style: italic;
-  color: var(--plum);
-  font-weight: 400;
-}
-
-.section-lead {
-  font-size: 19px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-width: 580px;
-  margin: 28px auto 0;
-}
-
-/* === PAIN SECTION === */
-.pain-list {
-  max-width: 760px;
-  margin: 0 auto;
-  position: relative;
-}
-.pain-item {
-  font-family: var(--serif);
-  font-size: clamp(22px, 3vw, 34px);
-  font-weight: 300;
-  line-height: 1.35;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--ink-soft);
-  position: relative;
-  padding-left: 56px;
-  letter-spacing: -0.015em;
-  transition: color 0.4s ease;
-  cursor: default;
-}
-.pain-item:last-child { border-bottom: none; }
-.pain-item:hover { color: var(--ink); }
-
-.pain-item::before {
-  content: counter(pain, decimal-leading-zero);
-  counter-increment: pain;
-  position: absolute;
-  left: 0;
-  top: 38px;
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--bronze);
-  letter-spacing: 0.1em;
-}
-.pain-list { counter-reset: pain; }
-
-.pain-item .em {
-  font-style: italic;
-  color: var(--plum);
-}
-
-/* === HOW IT WORKS === */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 60px;
-}
-.step {
-  background: var(--white);
-  padding: 40px 32px;
-  border-radius: 4px;
-  border: 1px solid var(--line-soft);
-  position: relative;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.step:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 30px 60px -20px rgba(31, 26, 40, 0.12);
-  border-color: var(--bronze);
-}
-.step-num {
-  font-family: var(--serif);
-  font-size: 56px;
-  font-weight: 300;
-  color: var(--plum);
-  line-height: 1;
-  margin-bottom: 28px;
-  font-style: italic;
-}
-.step h3 {
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 14px;
-  letter-spacing: -0.015em;
-}
-.step p {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--ink-soft);
-}
-
-/* === WHAT'S INSIDE === */
-.report-section {
-  padding: 140px 0;
-}
-.report-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 100px;
-  align-items: center;
-}
-
-.report-features { padding-top: 20px; }
-.report-features h2 { margin-bottom: 40px; }
-
-.feature {
-  display: flex;
-  gap: 24px;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
-}
-.feature:last-child { border-bottom: none; }
-
-.feature-icon {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--bronze);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-  position: relative;
-}
-.feature-icon::after {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--bronze);
-  border-radius: 50%;
-}
-
-.feature h4 {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  letter-spacing: -0.015em;
-}
-.feature p {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--ink-soft);
-}
-
-/* Sample report mockup */
-.report-mockup {
-  position: relative;
-  background: var(--white);
-  border-radius: 8px;
-  padding: 40px 36px;
-  box-shadow:
-    0 1px 2px rgba(31, 26, 40, 0.04),
-    0 40px 80px -20px rgba(31, 26, 40, 0.18);
-  border: 1px solid var(--line-soft);
-  transform: rotate(-1deg);
-  transition: transform 0.5s ease;
-}
-.report-mockup:hover { transform: rotate(0); }
-
-.report-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 18px;
-  margin-bottom: 24px;
-}
-.report-header-left {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--plum);
-  letter-spacing: 0.02em;
-}
-.report-header-right {
-  font-size: 11px;
-  color: var(--mute);
-  letter-spacing: 0.05em;
-}
-
-.report-title {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  line-height: 1.1;
-}
-.report-subtitle {
-  font-size: 13px;
-  color: var(--mute);
-  margin-bottom: 22px;
-}
-
-.report-summary {
-  background: var(--plum-light);
-  border-left: 2px solid var(--plum);
-  padding: 16px 18px;
-  font-family: var(--serif);
-  font-size: 14px;
-  line-height: 1.55;
-  font-style: italic;
-  margin-bottom: 24px;
-  border-radius: 0 4px 4px 0;
-}
-
-.report-section-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bronze-deep);
-  margin-bottom: 12px;
-}
-
-.report-marker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: 13px;
-}
-.report-marker:last-child { border-bottom: none; }
-.report-marker-name { flex: 1; font-weight: 500; }
-.report-marker-value {
-  font-family: var(--serif);
-  font-weight: 500;
-  color: var(--plum);
-  font-size: 14px;
-}
-
-/* === PRICING === */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  margin-top: 60px;
-}
-
-.tier {
-  background: var(--white);
-  padding: 50px 36px;
-  border: 1px solid var(--line-soft);
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tier-featured {
-  background: var(--ink);
-  color: var(--cream);
-  z-index: 2;
-  transform: scale(1.04);
-}
-.tier-featured h3, .tier-featured .tier-price { color: var(--cream); }
-.tier-featured .tier-features li { color: rgba(250, 247, 242, 0.85); }
-.tier-featured .tier-features li::before { background: var(--bronze); }
-
-.tier-badge {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: var(--bronze);
-  color: var(--white);
-  padding: 6px 14px;
-  border-radius: 100px;
-}
-
-.tier h3 {
-  font-size: 26px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-.tier-tagline {
-  font-size: 14px;
-  color: var(--mute);
-  margin-bottom: 28px;
-}
-.tier-featured .tier-tagline { color: rgba(250, 247, 242, 0.55); }
-
-.tier-price {
-  font-family: var(--serif);
-  font-size: 56px;
-  font-weight: 300;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  margin-bottom: 4px;
-  color: var(--ink);
-}
-.tier-price .currency {
-  font-size: 24px;
-  vertical-align: top;
-  margin-right: 4px;
-  font-weight: 400;
-}
-
-.tier-period {
-  font-size: 13px;
-  color: var(--mute);
-  margin-bottom: 32px;
-}
-.tier-featured .tier-period { color: rgba(250, 247, 242, 0.55); }
-
-.tier-features {
-  list-style: none;
-  margin-bottom: 32px;
-}
-.tier-features li {
-  font-size: 14.5px;
-  line-height: 1.5;
-  padding: 12px 0;
-  padding-left: 22px;
-  position: relative;
-  color: var(--ink-soft);
-  border-bottom: 1px solid var(--line-soft);
-}
-.tier-featured .tier-features li {
-  border-bottom-color: rgba(250, 247, 242, 0.08);
-}
-.tier-features li:last-child { border-bottom: none; }
-.tier-features li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 18px;
-  width: 12px;
-  height: 1px;
-  background: var(--plum);
-}
-
-.tier-cta {
-  width: 100%;
-  padding: 16px 24px;
-  background: transparent;
-  border: 1px solid var(--ink);
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 100px;
-  text-align: center;
-  display: block;
-  transition: all 0.3s ease;
-}
-.tier-cta:hover {
-  background: var(--ink);
-  color: var(--cream);
-}
-.tier-featured .tier-cta {
-  background: var(--cream);
-  border-color: var(--cream);
-  color: var(--ink);
-}
-.tier-featured .tier-cta:hover {
-  background: var(--bronze);
-  border-color: var(--bronze);
-  color: var(--white);
-}
-
-.guarantee {
-  text-align: center;
-  margin-top: 50px;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 17px;
-  color: var(--ink-soft);
-}
-
-/* === TRUST SECTION === */
-.trust-section { padding: 140px 0; background: var(--cream-warm); }
-.trust-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.trust-quote {
-  font-family: var(--serif);
-  font-size: clamp(28px, 3.5vw, 42px);
-  font-weight: 300;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin-bottom: 36px;
-}
-.trust-quote .em { font-style: italic; color: var(--plum); }
-.trust-quote::before {
-  content: '"';
-  font-family: var(--serif);
-  font-size: 80px;
-  color: var(--bronze);
-  line-height: 0;
-  position: relative;
-  top: 24px;
-  margin-right: 4px;
-}
-
-.trust-author {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-.trust-author-avatar {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--plum-light) 0%, var(--bronze-light) 100%);
-  position: relative;
-  overflow: hidden;
-}
-.trust-author-avatar::after {
-  content: 'ЕМ';
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif);
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--plum);
-  letter-spacing: 0.02em;
-}
-.trust-author-name { font-weight: 600; font-size: 15px; }
-.trust-author-role { font-size: 13px; color: var(--mute); margin-top: 2px; }
-
-.trust-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  background: var(--line);
-}
-.stat {
-  background: var(--cream-warm);
-  padding: 36px 28px;
-}
-.stat-number {
-  font-family: var(--serif);
-  font-size: 64px;
-  font-weight: 300;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--plum);
-  margin-bottom: 10px;
-  font-style: italic;
-}
-.stat-label {
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--ink-soft);
-}
-
-/* === FAQ === */
-.faq-list {
-  max-width: 820px;
-  margin: 60px auto 0;
-}
-.faq-item {
-  border-top: 1px solid var(--line);
-  transition: all 0.3s ease;
-}
-.faq-item:last-child { border-bottom: 1px solid var(--line); }
-
-.faq-q {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 28px 0;
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  color: var(--ink);
-  transition: color 0.3s ease;
-}
-.faq-q:hover { color: var(--plum); }
-
-.faq-icon {
-  width: 28px; height: 28px;
-  flex-shrink: 0;
-  position: relative;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.faq-icon::before, .faq-icon::after {
-  content: '';
-  position: absolute;
-  background: var(--ink);
-  top: 50%;
-  left: 50%;
-  transition: all 0.3s ease;
-}
-.faq-icon::before {
-  width: 14px; height: 1px;
-  transform: translate(-50%, -50%);
-}
-.faq-icon::after {
-  width: 1px; height: 14px;
-  transform: translate(-50%, -50%);
-}
-.faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
-.faq-item.open .faq-icon { transform: rotate(180deg); }
-
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.faq-a-content {
-  padding: 0 0 32px;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-width: 680px;
-}
-
-/* === FINAL CTA === */
-.final-cta {
-  padding: 160px 0;
-  text-align: center;
-  background: var(--ink);
-  color: var(--cream);
-  position: relative;
-  overflow: hidden;
-}
-.final-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(ellipse at 20% 30%, rgba(184, 149, 106, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(93, 79, 115, 0.18) 0%, transparent 50%);
-  pointer-events: none;
-}
-.final-cta-content { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
-
-.final-cta h2 {
-  color: var(--cream);
-  font-size: clamp(48px, 6.5vw, 88px);
-  font-weight: 300;
-  margin-bottom: 32px;
-  line-height: 1;
-  letter-spacing: -0.035em;
-}
-.final-cta h2 .italic { color: var(--bronze); font-style: italic; font-weight: 400; }
-
-.final-cta-lead {
-  font-size: 19px;
-  line-height: 1.6;
-  color: rgba(250, 247, 242, 0.7);
-  max-width: 540px;
-  margin: 0 auto 50px;
-}
-
-.final-cta .btn-primary {
-  background: var(--cream);
-  color: var(--ink);
-}
-.final-cta .btn-primary::after { background: var(--bronze); }
-.final-cta .btn-primary:hover { color: var(--white); }
-
-.final-cta-meta {
-  margin-top: 32px;
-  font-size: 13px;
-  color: rgba(250, 247, 242, 0.5);
-  font-family: var(--serif);
-  font-style: italic;
-}
-
-.final-cta-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-/* === FOOTER === */
-.footer {
-  padding: 80px 0 40px;
-  background: var(--ink);
-  color: rgba(250, 247, 242, 0.7);
-  border-top: 1px solid rgba(250, 247, 242, 0.08);
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 60px;
-  margin-bottom: 60px;
-}
-.footer-brand .logo { color: var(--cream); margin-bottom: 16px; }
-.footer-tagline {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 16px;
-  line-height: 1.5;
-  color: rgba(250, 247, 242, 0.5);
-  max-width: 320px;
-}
-
-.footer-col h5 {
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bronze);
-  margin-bottom: 20px;
-}
-.footer-col ul { list-style: none; }
-.footer-col li { padding: 6px 0; font-size: 14px; }
-.footer-col a:hover { color: var(--cream); }
-
-.footer-bottom {
-  padding-top: 28px;
-  border-top: 1px solid rgba(250, 247, 242, 0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: rgba(250, 247, 242, 0.4);
-}
-
-/* === REVEAL ANIMATIONS === */
-/* Default: visible (no-JS fallback). JS will hide them via .js-enabled class */
-.reveal { opacity: 1; transform: none; }
-
-.js-enabled .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.js-enabled .reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-.reveal-delay-5 { transition-delay: 0.5s; }
-
-/* === RESPONSIVE === */
-@media (max-width: 980px) {
-  .hero { padding: 140px 0 80px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
-  .hero-visual { aspect-ratio: 1.2 / 1; max-width: 480px; }
-  .steps { grid-template-columns: repeat(2, 1fr); }
-  .report-grid { grid-template-columns: 1fr; gap: 60px; }
-  .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
-  .tier-featured { transform: none; }
-  .trust-grid { grid-template-columns: 1fr; gap: 60px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-  .section { padding: 100px 0; }
-  .container, .container-narrow { padding: 0 24px; }
-}
-
-@media (max-width: 600px) {
-  .hero { padding: 120px 0 60px; }
-  .hero-content { min-width: 0; }
-  .hero-copy {
-    width: 100%;
-    padding: 0 6px 0 2px;
-    overflow: hidden;
-  }
-  .hero .eyebrow {
-    display: flex;
-    width: 100%;
-    white-space: normal;
-    flex-wrap: wrap;
-    row-gap: 6px;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-  }
-  .hero h1 {
-    font-size: clamp(30px, 9.2vw, 36px);
-    margin: 24px 0 28px;
-    line-height: 1.02;
-    letter-spacing: -0.02em;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  .hero h1 br { display: none; }
-  .hero-lead {
-    font-size: 17px;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  .hero-actions {
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .hero-meta {
-    font-size: 13px;
-    flex-wrap: wrap;
-    overflow-wrap: anywhere;
-  }
-  .steps { grid-template-columns: 1fr; }
-  .trust-stats { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-  .section { padding: 80px 0; }
-  .pain-item { font-size: 22px; padding-left: 44px; padding-top: 24px; padding-bottom: 24px; }
-  .pain-item::before { top: 30px; }
-  .header-nav { display: none; }
-  .nav-cta { padding: 9px 16px; font-size: 13px; }
-  .btn-primary { padding: 16px 26px; font-size: 14px; }
-  .marquee-item { font-size: 20px; margin: 0 28px; gap: 28px; }
-}
-
-/* === SINGLE TIER PRICING === */
-.pricing-single { max-width: 560px; margin: 60px auto 0; }
-.tier-single {
-  background: radial-gradient(120% 120% at 0% 0%, rgba(93,79,115,0.24) 0%, transparent 52%), var(--ink);
-  color: var(--cream);
-  padding: 56px 52px;
-  border-radius: 10px;
-  border: 1px solid rgba(184,149,106,0.28);
-  box-shadow: 0 34px 72px -42px rgba(31,26,40,0.7), 0 10px 28px -18px rgba(31,26,40,0.45);
-  position: relative;
-  overflow: hidden;
-}
-.tier-single::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(250,247,242,0.08) 0%, rgba(250,247,242,0) 28%);
-}
-.tier-single-eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bronze); display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-.tier-single-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--bronze); }
-.tier-single h3 { font-size: 32px; font-weight: 400; color: var(--cream); margin-bottom: 6px; letter-spacing: -0.015em; }
-.tier-single-tagline { font-size: 15px; color: rgba(250,247,242,0.64); margin-bottom: 36px; }
-.tier-single-price { font-family: var(--serif); font-size: 80px; font-weight: 300; letter-spacing: -0.05em; line-height: 1; color: var(--cream); margin-bottom: 6px; text-shadow: 0 10px 24px rgba(0,0,0,0.32); }
-.tier-single-price .currency { font-size: 32px; vertical-align: top; margin-right: 4px; font-weight: 400; margin-top: 14px; display: inline-block; }
-.tier-single-period { font-size: 13px; color: rgba(250,247,242,0.45); margin-bottom: 40px; font-family: var(--serif); font-style: italic; }
-.tier-single-features { list-style: none; margin-bottom: 44px; }
-.tier-single-features li { font-size: 15px; line-height: 1.5; padding: 14px 0; padding-left: 24px; position: relative; color: rgba(250,247,242,0.85); border-bottom: 1px solid rgba(250,247,242,0.08); }
-.tier-single-features li:last-child { border-bottom: none; }
-.tier-single-features li::before { content: ''; position: absolute; left: 0; top: 21px; width: 12px; height: 1px; background: var(--bronze); }
-
-/* === TALLY BUTTONS === */
-/* Primary — на тёмном фоне */
-.tally-btn-primary { display: block; width: 100%; padding: 20px 32px; background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 15px; font-weight: 600; border-radius: 100px; text-align: center; border: none; cursor: pointer; transition: all 0.3s ease; letter-spacing: -0.01em; }
-.tally-btn-primary:hover { background: var(--bronze-light); transform: translateY(-1px); box-shadow: 0 12px 28px -10px rgba(31,26,40,0.3); }
-/* Secondary — на тёмном фоне */
-.tally-btn-secondary { display: block; width: 100%; padding: 16px 32px; background: transparent; color: rgba(250,247,242,0.7); font-family: var(--sans); font-size: 14px; font-weight: 500; border-radius: 100px; text-align: center; border: 1px solid rgba(250,247,242,0.2); cursor: pointer; transition: all 0.3s ease; margin-top: 12px; letter-spacing: -0.01em; }
-.tally-btn-secondary:hover { border-color: rgba(250,247,242,0.5); color: var(--cream); }
-/* Final CTA — dark section */
-.tally-btn-final { display: inline-flex; align-items: center; gap: 12px; background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 15px; font-weight: 600; padding: 20px 36px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.3s ease; }
-.tally-btn-final:hover { background: var(--bronze-light); transform: translateY(-2px); box-shadow: 0 20px 40px -16px rgba(31,26,40,0.35); }
-/* Tally popup overlay */
-.tally-overlay,
-[class*="tally-overlay"] {
-  background: rgba(20, 17, 25, 0.66) !important;
-}
-[class*="tally-modal"],
-[class*="tally-popup"],
-[class*="tally-modal"] iframe,
-[class*="tally-popup"] iframe {
-  border-radius: 5% !important;
-  overflow: hidden !important;
-}
-/* Contact form button */
-.tally-contact-btn { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: var(--ink-soft); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 24px; border-radius: 100px; border: 1px solid var(--line); cursor: pointer; transition: all 0.3s ease; }
-.tally-contact-btn:hover { border-color: var(--plum); color: var(--plum); }
-
-.pricing-note { text-align: center; margin-top: 24px; font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--ink-soft); }
-
-/* === SAMPLE REPORT CTA === */
-.sample-cta { margin-top: 40px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.sample-note { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--ink-soft); }
-.btn-secondary { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: var(--ink-soft); font-size: 14px; font-weight: 500; padding: 14px 22px; border-radius: 100px; border: 1px solid var(--line); transition: all 0.3s ease; cursor: pointer; font-family: var(--sans); }
-.btn-secondary:hover { border-color: var(--bronze); color: var(--ink); }
-
-/* === CONTACT SECTION === */
-.contact-section { padding: 100px 0; background: var(--cream-warm); }
-.contact-inner { max-width: 760px; margin: 0 auto; text-align: center; }
-.contact-inner .contact-h2 { font-family: var(--serif); font-size: clamp(36px,4.5vw,52px); font-weight: 300; margin-bottom: 16px; letter-spacing: -0.025em; line-height: 1.05; }
-.contact-inner .contact-h2 .italic { font-style: italic; color: var(--plum); }
-.contact-lead { font-size: 18px; color: var(--ink-soft); margin-bottom: 44px; line-height: 1.55; }
-.contact-options { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
-.contact-card { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--line-soft); padding: 20px 28px; border-radius: 8px; font-size: 15px; font-weight: 500; color: var(--ink); transition: all 0.3s ease; text-decoration: none; }
-.contact-card:hover { border-color: var(--bronze); transform: translateY(-2px); box-shadow: 0 12px 28px -10px rgba(31,26,40,0.1); }
-.contact-card-icon { width: 36px; height: 36px; background: var(--plum-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.contact-card-icon svg { width: 16px; height: 16px; stroke: var(--plum); }
-.contact-card-sub { font-size: 12px; color: var(--mute); font-weight: 400; margin-top: 2px; }
-
-/* Scroll-to-top widget */
-.scroll-top-btn {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 1px solid var(--plum-deep);
-  background: var(--plum);
-  color: var(--cream);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 16px 34px -18px rgba(31,26,40,0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease, color 0.25s ease;
-  z-index: 120;
-}
-.scroll-top-btn.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-.scroll-top-btn:hover {
-  border-color: var(--plum);
-  background: var(--plum-deep);
-  color: var(--cream);
-}
-.scroll-top-btn svg { width: 20px; height: 20px; }
-
-@media (max-width: 600px) {
-  .tier-single { padding: 36px 28px; }
-  .tier-single-price { font-size: 64px; }
-  .contact-options { flex-direction: column; align-items: stretch; }
-  .scroll-top-btn {
-    width: 46px;
-    height: 46px;
-    right: 16px;
-    bottom: 16px;
-  }
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insulab — Разбор анализов с фокусом на инсулинорезистентность</title>
+  <meta name="description"
+    content="Персональный разбор ваших анализов от врача за 48 часов. Понятным языком, с приоритетами и вопросами для следующего приёма.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQ6NEQW209"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-VQ6NEQW209');
+  </script>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+      k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=109116544', 'ym');
+
+    ym(109116544, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: "dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/109116544" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
+
+
+  <style>
+    :root {
+      --cream: #FAF7F2;
+      --cream-warm: #F2EBDF;
+      --cream-deep: #E8DFD0;
+      --ink: #1F1A28;
+      --ink-soft: #4A434F;
+      --mute: #8B8590;
+      --line: #D9D2C8;
+      --line-soft: #E8E2D6;
+      --plum: #5D4F73;
+      --plum-deep: #3D3050;
+      --plum-light: #E6DFEC;
+      --bronze: #B8956A;
+      --bronze-deep: #8C6E48;
+      --bronze-light: #EDDFC9;
+      --white: #FFFFFF;
+      --green: #6B8E5A;
+      --green-bg: #E8EFE2;
+      --amber: #C99750;
+      --amber-bg: #F8EFE0;
+      --red: #B85C5C;
+      --red-bg: #F5E3E3;
+
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--cream);
+      overflow-x: hidden;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+    }
+
+    /* Subtle paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .container-narrow {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Typography */
+    .serif {
+      font-family: var(--serif);
+      font-feature-settings: "ss01", "ss02";
+      font-variation-settings: "SOFT" 50, "WONK" 0;
+    }
+
+    .italic {
+      font-family: var(--serif);
+      font-style: italic;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--serif);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bronze-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    /* === HEADER === */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 22px 0;
+      transition: all 0.4s ease;
+      background: rgba(250, 247, 242, 0);
+    }
+
+    .header.scrolled {
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-soft);
+      padding: 14px 0;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 26px;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      white-space: nowrap;
+    }
+
+    .header-nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      padding: 8px 0;
+      transition: color 0.2s ease;
+    }
+
+    .header-nav a:hover {
+      color: var(--plum);
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--plum);
+      border-radius: 50%;
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background: var(--plum);
+      border-radius: 50%;
+    }
+
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 22px;
+      border-radius: 100px;
+      background: var(--ink);
+      color: var(--cream);
+      transition: all 0.3s ease;
+      margin-left: auto;
+      /* прижимает кнопку к правому краю */
+    }
+
+    .nav-cta:hover {
+      background: var(--plum-deep);
+      transform: translateY(-1px);
+    }
+
+    /* === HERO === */
+    .hero {
+      padding: 180px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5.2vw, 72px);
+      font-weight: 300;
+      line-height: 0.95;
+      margin: 32px 0 36px;
+      letter-spacing: -0.035em;
+    }
+
+    .hero h1 .ink-italic {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--plum);
+    }
+
+    .hero-lead {
+      font-size: 20px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      max-width: 540px;
+      margin-bottom: 44px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 18px 32px;
+      border-radius: 100px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--plum-deep);
+      transform: translateY(101%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -20px rgba(31, 26, 40, 0.4);
+    }
+
+    .btn-primary:hover::after {
+      transform: translateY(0);
+    }
+
+    .btn-arrow {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+      color: var(--mute);
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.3);
+      }
+    }
+
+    /* Hero visual — animated lab marker chart */
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 0.85 / 1;
+      width: 100%;
+      min-height: 480px;
+      align-self: stretch;
+    }
+
+    .hero-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow:
+        0 1px 2px rgba(31, 26, 40, 0.04),
+        0 24px 48px -12px rgba(31, 26, 40, 0.12);
+      border: 1px solid var(--line-soft);
+    }
+
+    .hero-card-1 {
+      top: 4%;
+      left: 0;
+      width: 70%;
+      animation: float-1 6s ease-in-out infinite;
+    }
+
+    .hero-card-2 {
+      top: 30%;
+      right: 0;
+      width: 65%;
+      animation: float-2 7s ease-in-out infinite;
+    }
+
+    .hero-card-3 {
+      bottom: 6%;
+      left: 8%;
+      width: 78%;
+      animation: float-3 8s ease-in-out infinite;
+    }
+
+    @keyframes float-1 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(-2deg);
+      }
+    }
+
+    @keyframes float-2 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(3deg);
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(3deg);
+      }
+    }
+
+    @keyframes float-3 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(-1deg);
+      }
+    }
+
+    .marker-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      padding: 6px 0;
+    }
+
+    .marker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .marker-dot.amber {
+      background: var(--amber);
+      box-shadow: 0 0 0 3px var(--amber-bg);
+    }
+
+    .marker-dot.green {
+      background: var(--green);
+      box-shadow: 0 0 0 3px var(--green-bg);
+    }
+
+    .marker-dot.red {
+      background: var(--red);
+      box-shadow: 0 0 0 3px var(--red-bg);
+    }
+
+    .marker-name {
+      font-weight: 500;
+      flex: 1;
+      color: var(--ink);
+    }
+
+    .marker-value {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--plum);
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--bronze-deep);
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    .card-quote {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .card-quote::before {
+      content: '"';
+      font-size: 36px;
+      line-height: 0;
+      vertical-align: -16px;
+      color: var(--bronze);
+      margin-right: 4px;
+    }
+
+    .priority-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    .priority-num {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--plum);
+      flex-shrink: 0;
+      width: 18px;
+    }
+
+    /* Hero decorative line element */
+    .hero-deco {
+      position: absolute;
+      top: 50%;
+      left: -120px;
+      width: 280px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--bronze) 50%, transparent);
+      opacity: 0.6;
+      transform: rotate(-22deg);
+    }
+
+    /* === MARQUEE === */
+    .marquee-section {
+      padding: 50px 0;
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 1px solid var(--line-soft);
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    .marquee-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mute);
+      margin-bottom: 28px;
+    }
+
+    .marquee {
+      display: flex;
+      animation: scroll 38s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-item {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink-soft);
+      margin: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      font-style: italic;
+    }
+
+    .marquee-item::after {
+      content: '·';
+      color: var(--bronze);
+      font-style: normal;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* === SECTIONS === */
+    .section {
+      padding: 140px 0;
+      position: relative;
+    }
+
+    .section,
+    .contact-section,
+    .marquee-section,
+    .final-cta,
+    .hero {
+      scroll-margin-top: 110px;
+      /* чтобы фиксированная шапка не перекрывала якоря */
+    }
+
+    .section-warm {
+      background: var(--cream-warm);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section h2 {
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 300;
+      margin-top: 24px;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+    }
+
+    .section h2 .italic {
+      font-style: italic;
+      color: var(--plum);
+      font-weight: 400;
+    }
+
+    .section-lead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      max-width: 580px;
+      margin: 28px auto 0;
+    }
+
+    /* === PAIN SECTION === */
+    .pain-list {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .pain-item {
+      font-family: var(--serif);
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 300;
+      line-height: 1.35;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-soft);
+      position: relative;
+      padding-left: 56px;
+      letter-spacing: -0.015em;
+      transition: color 0.4s ease;
+      cursor: default;
+    }
+
+    .pain-item:last-child {
+      border-bottom: none;
+    }
+
+    .pain-item:hover {
+      color: var(--ink);
+    }
+
+    .pain-item::before {
+      content: counter(pain, decimal-leading-zero);
+      counter-increment: pain;
+      position: absolute;
+      left: 0;
+      top: 38px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bronze);
+      letter-spacing: 0.1em;
+    }
+
+    .pain-list {
+      counter-reset: pain;
+    }
+
+    .pain-item .em {
+      font-style: italic;
+      color: var(--plum);
+    }
+
+    /* === HOW IT WORKS === */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 60px;
+    }
+
+    .step {
+      background: var(--white);
+      padding: 40px 32px;
+      border-radius: 4px;
+      border: 1px solid var(--line-soft);
+      position: relative;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px -20px rgba(31, 26, 40, 0.12);
+      border-color: var(--bronze);
+    }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--plum);
+      line-height: 1;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .step h3 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 14px;
+      letter-spacing: -0.015em;
+    }
+
+    .step p {
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    /* === WHAT'S INSIDE === */
+    .report-section {
+      padding: 140px 0;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .report-features {
+      padding-top: 20px;
+    }
+
+    .report-features h2 {
+      margin-bottom: 40px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .feature:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--bronze);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+    }
+
+    .feature-icon::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--bronze);
+      border-radius: 50%;
+    }
+
+    .feature h4 {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      letter-spacing: -0.015em;
+    }
+
+    .feature p {
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    /* Sample report mockup */
+    .report-mockup {
+      position: relative;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 40px 36px;
+      box-shadow:
+        0 1px 2px rgba(31, 26, 40, 0.04),
+        0 40px 80px -20px rgba(31, 26, 40, 0.18);
+      border: 1px solid var(--line-soft);
+      transform: rotate(-1deg);
+      transition: transform 0.5s ease;
+    }
+
+    .report-mockup:hover {
+      transform: rotate(0);
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .report-header-left {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--plum);
+      letter-spacing: 0.02em;
+    }
+
+    .report-header-right {
+      font-size: 11px;
+      color: var(--mute);
+      letter-spacing: 0.05em;
+    }
+
+    .report-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .report-subtitle {
+      font-size: 13px;
+      color: var(--mute);
+      margin-bottom: 22px;
+    }
+
+    .report-summary {
+      background: var(--plum-light);
+      border-left: 2px solid var(--plum);
+      padding: 16px 18px;
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.55;
+      font-style: italic;
+      margin-bottom: 24px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .report-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bronze-deep);
+      margin-bottom: 12px;
+    }
+
+    .report-marker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13px;
+    }
+
+    .report-marker:last-child {
+      border-bottom: none;
+    }
+
+    .report-marker-name {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .report-marker-value {
+      font-family: var(--serif);
+      font-weight: 500;
+      color: var(--plum);
+      font-size: 14px;
+    }
+
+    /* === PRICING === */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin-top: 60px;
+    }
+
+    .tier {
+      background: var(--white);
+      padding: 50px 36px;
+      border: 1px solid var(--line-soft);
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tier-featured {
+      background: var(--ink);
+      color: var(--cream);
+      z-index: 2;
+      transform: scale(1.04);
+    }
+
+    .tier-featured h3,
+    .tier-featured .tier-price {
+      color: var(--cream);
+    }
+
+    .tier-featured .tier-features li {
+      color: rgba(250, 247, 242, 0.85);
+    }
+
+    .tier-featured .tier-features li::before {
+      background: var(--bronze);
+    }
+
+    .tier-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--bronze);
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .tier h3 {
+      font-size: 26px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .tier-tagline {
+      font-size: 14px;
+      color: var(--mute);
+      margin-bottom: 28px;
+    }
+
+    .tier-featured .tier-tagline {
+      color: rgba(250, 247, 242, 0.55);
+    }
+
+    .tier-price {
+      font-family: var(--serif);
+      font-size: 56px;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    .tier-price .currency {
+      font-size: 24px;
+      vertical-align: top;
+      margin-right: 4px;
+      font-weight: 400;
+    }
+
+    .tier-period {
+      font-size: 13px;
+      color: var(--mute);
+      margin-bottom: 32px;
+    }
+
+    .tier-featured .tier-period {
+      color: rgba(250, 247, 242, 0.55);
+    }
+
+    .tier-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .tier-features li {
+      font-size: 14.5px;
+      line-height: 1.5;
+      padding: 12px 0;
+      padding-left: 22px;
+      position: relative;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .tier-featured .tier-features li {
+      border-bottom-color: rgba(250, 247, 242, 0.08);
+    }
+
+    .tier-features li:last-child {
+      border-bottom: none;
+    }
+
+    .tier-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 18px;
+      width: 12px;
+      height: 1px;
+      background: var(--plum);
+    }
+
+    .tier-cta {
+      width: 100%;
+      padding: 16px 24px;
+      background: transparent;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 100px;
+      text-align: center;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .tier-cta:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .tier-featured .tier-cta {
+      background: var(--cream);
+      border-color: var(--cream);
+      color: var(--ink);
+    }
+
+    .tier-featured .tier-cta:hover {
+      background: var(--bronze);
+      border-color: var(--bronze);
+      color: var(--white);
+    }
+
+    .guarantee {
+      text-align: center;
+      margin-top: 50px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--ink-soft);
+    }
+
+    /* === TRUST SECTION === */
+    .trust-section {
+      padding: 140px 0;
+      background: var(--cream-warm);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .trust-quote {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 300;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 36px;
+    }
+
+    .trust-quote .em {
+      font-style: italic;
+      color: var(--plum);
+    }
+
+    .trust-quote::before {
+      content: '"';
+      font-family: var(--serif);
+      font-size: 80px;
+      color: var(--bronze);
+      line-height: 0;
+      position: relative;
+      top: 24px;
+      margin-right: 4px;
+    }
+
+    .trust-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .trust-author-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--plum-light) 0%, var(--bronze-light) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trust-author-avatar::after {
+      content: 'ЕМ';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--plum);
+      letter-spacing: 0.02em;
+    }
+
+    .trust-author-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .trust-author-role {
+      font-size: 13px;
+      color: var(--mute);
+      margin-top: 2px;
+    }
+
+    .trust-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: var(--line);
+    }
+
+    .stat {
+      background: var(--cream-warm);
+      padding: 36px 28px;
+    }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--plum);
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--ink-soft);
+    }
+
+    /* === FAQ === */
+    .faq-list {
+      max-width: 820px;
+      margin: 60px auto 0;
+    }
+
+    .faq-item {
+      border-top: 1px solid var(--line);
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      color: var(--ink);
+      transition: color 0.3s ease;
+    }
+
+    .faq-q:hover {
+      color: var(--plum);
+    }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--ink);
+      top: 50%;
+      left: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .faq-icon::before {
+      width: 14px;
+      height: 1px;
+      transform: translate(-50%, -50%);
+    }
+
+    .faq-icon::after {
+      width: 1px;
+      height: 14px;
+      transform: translate(-50%, -50%);
+    }
+
+    .faq-item.open .faq-icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+      opacity: 0;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-a-content {
+      padding: 0 0 32px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      max-width: 680px;
+    }
+
+    /* === FINAL CTA === */
+    .final-cta {
+      padding: 160px 0;
+      text-align: center;
+      background: var(--ink);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(184, 149, 106, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(93, 79, 115, 0.18) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .final-cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .final-cta h2 {
+      color: var(--cream);
+      font-size: clamp(48px, 6.5vw, 88px);
+      font-weight: 300;
+      margin-bottom: 32px;
+      line-height: 1;
+      letter-spacing: -0.035em;
+    }
+
+    .final-cta h2 .italic {
+      color: var(--bronze);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .final-cta-lead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: rgba(250, 247, 242, 0.7);
+      max-width: 540px;
+      margin: 0 auto 50px;
+    }
+
+    .final-cta .btn-primary {
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    .final-cta .btn-primary::after {
+      background: var(--bronze);
+    }
+
+    .final-cta .btn-primary:hover {
+      color: var(--white);
+    }
+
+    .final-cta-meta {
+      margin-top: 32px;
+      font-size: 13px;
+      color: rgba(250, 247, 242, 0.5);
+      font-family: var(--serif);
+      font-style: italic;
+    }
+
+    .final-cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* === FOOTER === */
+    .footer {
+      padding: 80px 0 40px;
+      background: var(--ink);
+      color: rgba(250, 247, 242, 0.7);
+      border-top: 1px solid rgba(250, 247, 242, 0.08);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand .logo {
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .footer-tagline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.5;
+      color: rgba(250, 247, 242, 0.5);
+      max-width: 320px;
+    }
+
+    .footer-col h5 {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      padding: 6px 0;
+      font-size: 14px;
+    }
+
+    .footer-col a:hover {
+      color: var(--cream);
+    }
+
+    .footer-bottom {
+      padding-top: 28px;
+      border-top: 1px solid rgba(250, 247, 242, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(250, 247, 242, 0.4);
+    }
+
+    /* === REVEAL ANIMATIONS === */
+    /* Default: visible (no-JS fallback). JS will hide them via .js-enabled class */
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+
+    .js-enabled .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .js-enabled .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .reveal-delay-5 {
+      transition-delay: 0.5s;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 980px) {
+      .hero {
+        padding: 140px 0 80px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .hero-visual {
+        aspect-ratio: 1.2 / 1;
+        max-width: 480px;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .report-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .tier-featured {
+        transform: none;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .section {
+        padding: 100px 0;
+      }
+
+      .container,
+      .container-narrow {
+        padding: 0 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 120px 0 60px;
+      }
+
+      .hero-content {
+        min-width: 0;
+      }
+
+      .hero-copy {
+        width: 100%;
+        padding: 0 6px 0 2px;
+        overflow: hidden;
+      }
+
+      .hero .eyebrow {
+        display: flex;
+        width: 100%;
+        white-space: normal;
+        flex-wrap: wrap;
+        row-gap: 6px;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+
+      .hero h1 {
+        font-size: clamp(30px, 9.2vw, 36px);
+        margin: 24px 0 28px;
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .hero h1 br {
+        display: none;
+      }
+
+      .hero-lead {
+        font-size: 17px;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .hero-actions {
+        gap: 14px;
+        align-items: flex-start;
+      }
+
+      .hero-meta {
+        font-size: 13px;
+        flex-wrap: wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+
+      .pain-item {
+        font-size: 22px;
+        padding-left: 44px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+      }
+
+      .pain-item::before {
+        top: 30px;
+      }
+
+      .header-nav {
+        display: none;
+      }
+
+      .nav-cta {
+        padding: 9px 16px;
+        font-size: 13px;
+      }
+
+      .btn-primary {
+        padding: 16px 26px;
+        font-size: 14px;
+      }
+
+      .marquee-item {
+        font-size: 20px;
+        margin: 0 28px;
+        gap: 28px;
+      }
+    }
+
+    /* === SINGLE TIER PRICING === */
+    .pricing-single {
+      max-width: 560px;
+      margin: 60px auto 0;
+    }
+
+    .tier-single {
+      background: radial-gradient(120% 120% at 0% 0%, rgba(93, 79, 115, 0.24) 0%, transparent 52%), var(--ink);
+      color: var(--cream);
+      padding: 56px 52px;
+      border-radius: 10px;
+      border: 1px solid rgba(184, 149, 106, 0.28);
+      box-shadow: 0 34px 72px -42px rgba(31, 26, 40, 0.7), 0 10px 28px -18px rgba(31, 26, 40, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tier-single::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(250, 247, 242, 0.08) 0%, rgba(250, 247, 242, 0) 28%);
+    }
+
+    .tier-single-eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .tier-single-eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    .tier-single h3 {
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 6px;
+      letter-spacing: -0.015em;
+    }
+
+    .tier-single-tagline {
+      font-size: 15px;
+      color: rgba(250, 247, 242, 0.64);
+      margin-bottom: 36px;
+    }
+
+    .tier-single-price {
+      font-family: var(--serif);
+      font-size: 80px;
+      font-weight: 300;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: var(--cream);
+      margin-bottom: 6px;
+      text-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+    }
+
+    .tier-single-price .currency {
+      font-size: 32px;
+      vertical-align: top;
+      margin-right: 4px;
+      font-weight: 400;
+      margin-top: 14px;
+      display: inline-block;
+    }
+
+    .tier-single-period {
+      font-size: 13px;
+      color: rgba(250, 247, 242, 0.45);
+      margin-bottom: 40px;
+      font-family: var(--serif);
+      font-style: italic;
+    }
+
+    .tier-single-features {
+      list-style: none;
+      margin-bottom: 44px;
+    }
+
+    .tier-single-features li {
+      font-size: 15px;
+      line-height: 1.5;
+      padding: 14px 0;
+      padding-left: 24px;
+      position: relative;
+      color: rgba(250, 247, 242, 0.85);
+      border-bottom: 1px solid rgba(250, 247, 242, 0.08);
+    }
+
+    .tier-single-features li:last-child {
+      border-bottom: none;
+    }
+
+    .tier-single-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 21px;
+      width: 12px;
+      height: 1px;
+      background: var(--bronze);
+    }
+
+    /* === TALLY BUTTONS === */
+    /* Primary — на тёмном фоне */
+    .tally-btn-primary {
+      display: block;
+      width: 100%;
+      padding: 20px 32px;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 100px;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .tally-btn-primary:hover {
+      background: var(--bronze-light);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px -10px rgba(31, 26, 40, 0.3);
+    }
+
+    /* Secondary — на тёмном фоне */
+    .tally-btn-secondary {
+      display: block;
+      width: 100%;
+      padding: 16px 32px;
+      background: transparent;
+      color: rgba(250, 247, 242, 0.7);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 100px;
+      text-align: center;
+      border: 1px solid rgba(250, 247, 242, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .tally-btn-secondary:hover {
+      border-color: rgba(250, 247, 242, 0.5);
+      color: var(--cream);
+    }
+
+    /* Final CTA — dark section */
+    .tally-btn-final {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 20px 36px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tally-btn-final:hover {
+      background: var(--bronze-light);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -16px rgba(31, 26, 40, 0.35);
+    }
+
+    /* Tally popup overlay */
+    .tally-overlay,
+    [class*="tally-overlay"] {
+      background: rgba(20, 17, 25, 0.66) !important;
+    }
+
+    [class*="tally-modal"],
+    [class*="tally-popup"],
+    [class*="tally-modal"] iframe,
+    [class*="tally-popup"] iframe {
+      border-radius: 5% !important;
+      overflow: hidden !important;
+    }
+
+    /* Contact form button */
+    .tally-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 14px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tally-contact-btn:hover {
+      border-color: var(--plum);
+      color: var(--plum);
+    }
+
+    .pricing-note {
+      text-align: center;
+      margin-top: 24px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+
+    /* === SAMPLE REPORT CTA === */
+    .sample-cta {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sample-note {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 14px 22px;
+      border-radius: 100px;
+      border: 1px solid var(--line);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-family: var(--sans);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--bronze);
+      color: var(--ink);
+    }
+
+    /* === CONTACT SECTION === */
+    .contact-section {
+      padding: 100px 0;
+      background: var(--cream-warm);
+    }
+
+    .contact-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-inner .contact-h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4.5vw, 52px);
+      font-weight: 300;
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+    }
+
+    .contact-inner .contact-h2 .italic {
+      font-style: italic;
+      color: var(--plum);
+    }
+
+    .contact-lead {
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin-bottom: 44px;
+      line-height: 1.55;
+    }
+
+    .contact-options {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border: 1px solid var(--line-soft);
+      padding: 20px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .contact-card:hover {
+      border-color: var(--bronze);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -10px rgba(31, 26, 40, 0.1);
+    }
+
+    .contact-card-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--plum-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-card-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--plum);
+    }
+
+    .contact-card-sub {
+      font-size: 12px;
+      color: var(--mute);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Scroll-to-top widget */
+    .scroll-top-btn {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid var(--plum-deep);
+      background: var(--plum);
+      color: var(--cream);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 34px -18px rgba(31, 26, 40, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+      z-index: 120;
+    }
+
+    .scroll-top-btn.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .scroll-top-btn:hover {
+      border-color: var(--plum);
+      background: var(--plum-deep);
+      color: var(--cream);
+    }
+
+    .scroll-top-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .tier-single {
+        padding: 36px 28px;
+      }
+
+      .tier-single-price {
+        font-size: 64px;
+      }
+
+      .contact-options {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .scroll-top-btn {
+        width: 46px;
+        height: 46px;
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
-<header class="header" id="header">
-  <div class="container">
-    <div class="header-inner">
-      <a href="#" class="logo">
-        <span class="logo-mark"></span>
-        Insulab
-      </a>
-      <nav class="header-nav" aria-label="Навигация по разделам">
-        <a href="#home">Главная</a>
-        <a href="#pricing">Цены</a>
-        <a href="#how-it-works">Как работает</a>
-        <a href="#report">Отчёт</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contacts">Контакты</a>
-      </nav>
-      <a href="#pricing" class="nav-cta">Получить разбор</a>
-    </div>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <span class="eyebrow reveal">Разбор анализов · Метаболизм · Питание</span>
-        <div class="hero-copy">
-          <h1 class="reveal reveal-delay-1">
-            Понять, что<br>
-            <span class="ink-italic">говорят анализы</span><br>
-            без 9-месячного ожидания.
-          </h1>
-          <p class="hero-lead reveal reveal-delay-2">
-            Личный разбор ваших анализов — с фокусом на инсулинорезистентность,
-            PCOS и метаболизм. Понятным языком, с приоритетами действий
-            и пятью вопросами для следующего приёма.
-          </p>
-        </div>
-        <div class="hero-actions reveal reveal-delay-3">
-          <!--TALLY--><button class="btn-primary" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760">
-            <span>Получить разбор за $79</span>
-            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M5 12h14M13 6l6 6-6 6"/>
-            </svg>
-          </button>
-          <div class="hero-meta">
-            <span class="hero-meta-dot"></span>
-            <span>Готовность отчёта · 48 часов</span>
-          </div>
-        </div>
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="https://insulab.app/" class="logo">
+          <span class="logo-mark"></span>
+          Insulab
+        </a>
+        <nav class="header-nav" aria-label="Навигация по разделам">
+          <a href="#home">Главная</a>
+          <a href="#pricing">Цены</a>
+          <a href="#how-it-works">Как работает</a>
+          <a href="#report">Отчёт</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <a href="#pricing" class="nav-cta">Получить разбор</a>
       </div>
+    </div>
+  </header>
 
-      <!-- Visual -->
-      <div class="hero-visual reveal reveal-delay-4">
-        <div class="hero-deco"></div>
-
-        <div class="hero-card hero-card-1">
-          <div class="card-title">Найдено</div>
-          <div class="marker-row">
-            <span class="marker-dot amber"></span>
-            <span class="marker-name">Инсулин натощак</span>
-            <span class="marker-value">12.4</span>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="eyebrow reveal">Разбор анализов · Метаболизм · Питание</span>
+          <div class="hero-copy">
+            <h1 class="reveal reveal-delay-1">
+              Понять, что<br>
+              <span class="ink-italic">говорят анализы</span><br>
+              без 9-месячного ожидания.
+            </h1>
+            <p class="hero-lead reveal reveal-delay-2">
+              Личный разбор ваших анализов — с фокусом на инсулинорезистентность,
+              PCOS и метаболизм. Понятным языком, с приоритетами действий
+              и пятью вопросами для следующего приёма.
+            </p>
           </div>
-          <div class="marker-row">
-            <span class="marker-dot amber"></span>
-            <span class="marker-name">SHBG</span>
-            <span class="marker-value">28</span>
-          </div>
-          <div class="marker-row">
-            <span class="marker-dot green"></span>
-            <span class="marker-name">Глюкоза</span>
-            <span class="marker-value">5.1</span>
-          </div>
-          <div class="marker-row">
-            <span class="marker-dot amber"></span>
-            <span class="marker-name">Ферритин</span>
-            <span class="marker-value">32</span>
+          <div class="hero-actions reveal reveal-delay-3">
+            <!--TALLY--><button class="btn-primary" data-tally-open="Pd8ajd" data-tally-layout="modal"
+              data-tally-width="760">
+              <span>Получить разбор за $79</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+            <div class="hero-meta">
+              <span class="hero-meta-dot"></span>
+              <span>Готовность отчёта · 48 часов</span>
+            </div>
           </div>
         </div>
 
-        <div class="hero-card hero-card-2">
-          <div class="card-title">Главное</div>
-          <div class="card-quote">
-            Инсулин — драйвер ваших симптомов. Это самая обратимая стадия.
+        <!-- Visual -->
+        <div class="hero-visual reveal reveal-delay-4">
+          <div class="hero-deco"></div>
+
+          <div class="hero-card hero-card-1">
+            <div class="card-title">Найдено</div>
+            <div class="marker-row">
+              <span class="marker-dot amber"></span>
+              <span class="marker-name">Инсулин натощак</span>
+              <span class="marker-value">12.4</span>
+            </div>
+            <div class="marker-row">
+              <span class="marker-dot amber"></span>
+              <span class="marker-name">SHBG</span>
+              <span class="marker-value">28</span>
+            </div>
+            <div class="marker-row">
+              <span class="marker-dot green"></span>
+              <span class="marker-name">Глюкоза</span>
+              <span class="marker-value">5.1</span>
+            </div>
+            <div class="marker-row">
+              <span class="marker-dot amber"></span>
+              <span class="marker-name">Ферритин</span>
+              <span class="marker-value">32</span>
+            </div>
+          </div>
+
+          <div class="hero-card hero-card-2">
+            <div class="card-title">Главное</div>
+            <div class="card-quote">
+              Инсулин — драйвер ваших симптомов. Это самая обратимая стадия.
+            </div>
+          </div>
+
+          <div class="hero-card hero-card-3">
+            <div class="card-title">Приоритеты</div>
+            <div class="priority-row">
+              <span class="priority-num">01</span>
+              <span>Снизить инсулин — это запустит остальное</span>
+            </div>
+            <div class="priority-row">
+              <span class="priority-num">02</span>
+              <span>Восстановить ферритин — для энергии</span>
+            </div>
+            <div class="priority-row">
+              <span class="priority-num">03</span>
+              <span>Пять вопросов для эндокринолога</span>
+            </div>
           </div>
         </div>
-
-        <div class="hero-card hero-card-3">
-          <div class="card-title">Приоритеты</div>
-          <div class="priority-row">
-            <span class="priority-num">01</span>
-            <span>Снизить инсулин — это запустит остальное</span>
-          </div>
-          <div class="priority-row">
-            <span class="priority-num">02</span>
-            <span>Восстановить ферритин — для энергии</span>
-          </div>
-          <div class="priority-row">
-            <span class="priority-num">03</span>
-            <span>Пять вопросов для эндокринолога</span>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- MARQUEE -->
-<section class="marquee-section">
-  <div class="marquee-label">Поддерживаем форматы анализов из</div>
-  <div class="marquee">
-    <div class="marquee-item">Инвитро <span class="italic">·</span></div>
-    <div class="marquee-item">Гемотест <span class="italic">·</span></div>
-    <div class="marquee-item">Хеликс <span class="italic">·</span></div>
-    <div class="marquee-item">KDL <span class="italic">·</span></div>
-    <div class="marquee-item">CMD <span class="italic">·</span></div>
-    <div class="marquee-item">LabCorp <span class="italic">·</span></div>
-    <div class="marquee-item">Quest <span class="italic">·</span></div>
-    <div class="marquee-item">Synevo <span class="italic">·</span></div>
-    <div class="marquee-item">Medicover <span class="italic">·</span></div>
-    <!-- Duplicate for seamless loop -->
-    <div class="marquee-item">Инвитро <span class="italic">·</span></div>
-    <div class="marquee-item">Гемотест <span class="italic">·</span></div>
-    <div class="marquee-item">Хеликс <span class="italic">·</span></div>
-    <div class="marquee-item">KDL <span class="italic">·</span></div>
-    <div class="marquee-item">CMD <span class="italic">·</span></div>
-    <div class="marquee-item">LabCorp <span class="italic">·</span></div>
-    <div class="marquee-item">Quest <span class="italic">·</span></div>
-    <div class="marquee-item">Synevo <span class="italic">·</span></div>
-    <div class="marquee-item">Medicover <span class="italic">·</span></div>
-  </div>
-</section>
+  <!-- MARQUEE -->
+  <section class="marquee-section">
+    <div class="marquee-label">Поддерживаем форматы анализов из</div>
+    <div class="marquee">
+      <div class="marquee-item">Инвитро <span class="italic">·</span></div>
+      <div class="marquee-item">Гемотест <span class="italic">·</span></div>
+      <div class="marquee-item">Хеликс <span class="italic">·</span></div>
+      <div class="marquee-item">KDL <span class="italic">·</span></div>
+      <div class="marquee-item">CMD <span class="italic">·</span></div>
+      <div class="marquee-item">LabCorp <span class="italic">·</span></div>
+      <div class="marquee-item">Quest <span class="italic">·</span></div>
+      <div class="marquee-item">Synevo <span class="italic">·</span></div>
+      <div class="marquee-item">Medicover <span class="italic">·</span></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="marquee-item">Инвитро <span class="italic">·</span></div>
+      <div class="marquee-item">Гемотест <span class="italic">·</span></div>
+      <div class="marquee-item">Хеликс <span class="italic">·</span></div>
+      <div class="marquee-item">KDL <span class="italic">·</span></div>
+      <div class="marquee-item">CMD <span class="italic">·</span></div>
+      <div class="marquee-item">LabCorp <span class="italic">·</span></div>
+      <div class="marquee-item">Quest <span class="italic">·</span></div>
+      <div class="marquee-item">Synevo <span class="italic">·</span></div>
+      <div class="marquee-item">Medicover <span class="italic">·</span></div>
+    </div>
+  </section>
 
-<!-- PAIN SECTION -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal">Узнаёте?</span>
-      <h2 class="reveal reveal-delay-1">
-        Анализы &laquo;<span class="italic">в норме</span>&raquo;.<br>
-        А вам не очень.
-      </h2>
-    </div>
-    <div class="pain-list">
-      <div class="pain-item reveal">
-        Полгода ждали приёма у эндокринолога — получили <span class="em">15 минут</span> и фразу &laquo;худейте&raquo;.
-      </div>
-      <div class="pain-item reveal">
-        Врач посмотрел общий анализ, сказал &laquo;всё нормально&raquo; — но <span class="em">вы знаете</span>, что это не так.
-      </div>
-      <div class="pain-item reveal">
-        Гуглили HOMA-IR, свободный тестостерон, инсулин натощак — и стало <span class="em">только запутаннее</span>.
-      </div>
-      <div class="pain-item reveal">
-        Пробовали диеты, спорт, БАДы — <span class="em">вес не идёт</span>, усталость не уходит.
-      </div>
-      <div class="pain-item reveal">
-        Ушли с приёма без понимания — <span class="em">что именно делать</span> в ближайший месяц.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section section-warm" id="how-it-works">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal">Как это работает</span>
-      <h2 class="reveal reveal-delay-1">
-        Четыре шага.<br>
-        <span class="italic">Сорок восемь часов.</span>
-      </h2>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">01</div>
-        <h3>Загрузите анализы</h3>
-        <p>PDF или фото из любой лаборатории — Инвитро, Хеликс, Гемотест и других. Принимаем в любом виде.</p>
-      </div>
-      <div class="step reveal reveal-delay-1">
-        <div class="step-num">02</div>
-        <h3>Расскажите о себе</h3>
-        <p>Короткая форма на 5 минут: симптомы, лекарства, что вы хотите понять. Чем больше контекста, тем точнее разбор.</p>
-      </div>
-      <div class="step reveal reveal-delay-2">
-        <div class="step-num">03</div>
-        <h3>Анализ + проверка врача</h3>
-        <p>Готовим разбор по PCOS-релевантным референсам и контексту ваших симптомов. Каждый отчёт проверяет врач.</p>
-      </div>
-      <div class="step reveal reveal-delay-3">
-        <div class="step-num">04</div>
-        <h3>Получите отчёт</h3>
-        <p>6-страничный PDF на email в течение 48 часов. Простым языком, с приоритетами и вопросами для врача.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHAT'S INSIDE -->
-<section class="section report-section" id="report">
-  <div class="container">
-    <div class="report-grid">
-      <div class="report-features">
-        <span class="eyebrow reveal">Что в отчёте</span>
+  <!-- PAIN SECTION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow reveal">Узнаёте?</span>
         <h2 class="reveal reveal-delay-1">
-          Шесть страниц.<br>
-          <span class="italic">Только о вас.</span>
+          Анализы &laquo;<span class="italic">в норме</span>&raquo;.<br>
+          А вам не очень.
         </h2>
-
-        <div class="feature reveal reveal-delay-2">
-          <div class="feature-icon"></div>
-          <div>
-            <h4>Каждый маркер расшифрован</h4>
-            <p>Что значит конкретно ваше значение — в контексте инсулинорезистентности, а не общей популяции.</p>
-          </div>
+      </div>
+      <div class="pain-list">
+        <div class="pain-item reveal">
+          Полгода ждали приёма у эндокринолога — получили <span class="em">15 минут</span> и фразу
+          &laquo;худейте&raquo;.
         </div>
-
-        <div class="feature reveal reveal-delay-2">
-          <div class="feature-icon"></div>
-          <div>
-            <h4>Светофорный анализ</h4>
-            <p>Чёткие флаги по PCOS-релевантным референсам, не просто &laquo;в пределах нормы&raquo;.</p>
-          </div>
+        <div class="pain-item reveal">
+          Врач посмотрел общий анализ, сказал &laquo;всё нормально&raquo; — но <span class="em">вы знаете</span>, что
+          это не так.
         </div>
-
-        <div class="feature reveal reveal-delay-3">
-          <div class="feature-icon"></div>
-          <div>
-            <h4>Три приоритета — в порядке важности</h4>
-            <p>На чём фокусироваться в первую очередь именно вам, а не общий список из 20 пунктов.</p>
-          </div>
+        <div class="pain-item reveal">
+          Гуглили HOMA-IR, свободный тестостерон, инсулин натощак — и стало <span class="em">только запутаннее</span>.
         </div>
-
-        <div class="feature reveal reveal-delay-3">
-          <div class="feature-icon"></div>
-          <div>
-            <h4>Пять вопросов для врача</h4>
-            <p>Конкретные, привязанные к вашим цифрам — чтобы следующий 15-минутный приём не прошёл впустую.</p>
-          </div>
+        <div class="pain-item reveal">
+          Пробовали диеты, спорт, БАДы — <span class="em">вес не идёт</span>, усталость не уходит.
         </div>
-
-        <div class="feature reveal reveal-delay-4">
-          <div class="feature-icon"></div>
-          <div>
-            <h4>План пересдачи</h4>
-            <p>Что и когда пересдавать через 3 месяца — чтобы видеть реальную динамику, а не гадать.</p>
-          </div>
+        <div class="pain-item reveal">
+          Ушли с приёма без понимания — <span class="em">что именно делать</span> в ближайший месяц.
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="sample-cta reveal reveal-delay-4">
-          <!--
+  <!-- HOW IT WORKS -->
+  <section class="section section-warm" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow reveal">Как это работает</span>
+        <h2 class="reveal reveal-delay-1">
+          Четыре шага.<br>
+          <span class="italic">Сорок восемь часов.</span>
+        </h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Загрузите анализы</h3>
+          <p>PDF или фото из любой лаборатории — Инвитро, Хеликс, Гемотест и других. Принимаем в любом виде.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step-num">02</div>
+          <h3>Расскажите о себе</h3>
+          <p>Короткая форма на 5 минут: симптомы, лекарства, что вы хотите понять. Чем больше контекста, тем точнее
+            разбор.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-num">03</div>
+          <h3>Анализ + проверка врача</h3>
+          <p>Готовим разбор по PCOS-релевантным референсам и контексту ваших симптомов. Каждый отчёт проверяет врач.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-num">04</div>
+          <h3>Получите отчёт</h3>
+          <p>6-страничный PDF на email в течение 48 часов. Простым языком, с приоритетами и вопросами для врача.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="section report-section" id="report">
+    <div class="container">
+      <div class="report-grid">
+        <div class="report-features">
+          <span class="eyebrow reveal">Что в отчёте</span>
+          <h2 class="reveal reveal-delay-1">
+            Шесть страниц.<br>
+            <span class="italic">Только о вас.</span>
+          </h2>
+
+          <div class="feature reveal reveal-delay-2">
+            <div class="feature-icon"></div>
+            <div>
+              <h4>Каждый маркер расшифрован</h4>
+              <p>Что значит конкретно ваше значение — в контексте инсулинорезистентности, а не общей популяции.</p>
+            </div>
+          </div>
+
+          <div class="feature reveal reveal-delay-2">
+            <div class="feature-icon"></div>
+            <div>
+              <h4>Светофорный анализ</h4>
+              <p>Чёткие флаги по PCOS-релевантным референсам, не просто &laquo;в пределах нормы&raquo;.</p>
+            </div>
+          </div>
+
+          <div class="feature reveal reveal-delay-3">
+            <div class="feature-icon"></div>
+            <div>
+              <h4>Три приоритета — в порядке важности</h4>
+              <p>На чём фокусироваться в первую очередь именно вам, а не общий список из 20 пунктов.</p>
+            </div>
+          </div>
+
+          <div class="feature reveal reveal-delay-3">
+            <div class="feature-icon"></div>
+            <div>
+              <h4>Пять вопросов для врача</h4>
+              <p>Конкретные, привязанные к вашим цифрам — чтобы следующий 15-минутный приём не прошёл впустую.</p>
+            </div>
+          </div>
+
+          <div class="feature reveal reveal-delay-4">
+            <div class="feature-icon"></div>
+            <div>
+              <h4>План пересдачи</h4>
+              <p>Что и когда пересдавать через 3 месяца — чтобы видеть реальную динамику, а не гадать.</p>
+            </div>
+          </div>
+
+          <div class="sample-cta reveal reveal-delay-4">
+            <!--
             TALLY: Кнопка просмотра образца в секции отчёта.
             Замените YOUR_SAMPLE_FORM_ID или укажите прямую ссылку на PDF.
           -->
-          <button
-            class="btn-secondary"
-            data-tally-open="Pd8ajd"
-            data-tally-layout="modal"
-            data-tally-width="760"
-            data-tally-emoji-text="📄"
-            data-tally-emoji-animation="wave"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-            Посмотреть образец отчёта
-          </button>
-          <span class="sample-note">— чтобы точно понимать, что вы получите</span>
-        </div>
-      </div>
-
-      <div class="report-mockup reveal reveal-delay-2">
-        <div class="report-header">
-          <div class="report-header-left">INSULAB · Образец</div>
-          <div class="report-header-right">14 МАЯ</div>
+            <button class="btn-secondary" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
+              data-tally-emoji-text="📄" data-tally-emoji-animation="wave">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              Посмотреть образец отчёта
+            </button>
+            <span class="sample-note">— чтобы точно понимать, что вы получите</span>
+          </div>
         </div>
 
-        <div class="report-title">Главное о ваших анализах</div>
-        <div class="report-subtitle">Анна, 32 · Инсулинорезистентность · Этап ранний</div>
+        <div class="report-mockup reveal reveal-delay-2">
+          <div class="report-header">
+            <div class="report-header-left">INSULAB · Образец</div>
+            <div class="report-header-right">14 МАЯ</div>
+          </div>
 
-        <div class="report-summary">
-          Картина классической ранней PCOS: инсулинорезистентность присутствует, но компенсирована. Это самая обратимая стадия — реальные изменения возможны за 3–6 месяцев.
-        </div>
+          <div class="report-title">Главное о ваших анализах</div>
+          <div class="report-subtitle">Анна, 32 · Инсулинорезистентность · Этап ранний</div>
 
-        <div class="report-section-label">Что отмечено</div>
-        <div class="report-marker">
-          <span class="marker-dot amber"></span>
-          <span class="report-marker-name">Инсулин натощак</span>
-          <span class="report-marker-value">12.4 мЕд/л</span>
-        </div>
-        <div class="report-marker">
-          <span class="marker-dot amber"></span>
-          <span class="report-marker-name">HOMA-IR</span>
-          <span class="report-marker-value">2.81</span>
-        </div>
-        <div class="report-marker">
-          <span class="marker-dot amber"></span>
-          <span class="report-marker-name">SHBG</span>
-          <span class="report-marker-value">28 нмоль/л</span>
-        </div>
-        <div class="report-marker">
-          <span class="marker-dot amber"></span>
-          <span class="report-marker-name">Ферритин</span>
-          <span class="report-marker-value">32 мкг/л</span>
-        </div>
-        <div class="report-marker">
-          <span class="marker-dot green"></span>
-          <span class="report-marker-name">Глюкоза натощак</span>
-          <span class="report-marker-value">5.1 ммоль/л</span>
-        </div>
-        <div class="report-marker">
-          <span class="marker-dot green"></span>
-          <span class="report-marker-name">HbA1c</span>
-          <span class="report-marker-value">5.3 %</span>
+          <div class="report-summary">
+            Картина классической ранней PCOS: инсулинорезистентность присутствует, но компенсирована. Это самая
+            обратимая стадия — реальные изменения возможны за 3–6 месяцев.
+          </div>
+
+          <div class="report-section-label">Что отмечено</div>
+          <div class="report-marker">
+            <span class="marker-dot amber"></span>
+            <span class="report-marker-name">Инсулин натощак</span>
+            <span class="report-marker-value">12.4 мЕд/л</span>
+          </div>
+          <div class="report-marker">
+            <span class="marker-dot amber"></span>
+            <span class="report-marker-name">HOMA-IR</span>
+            <span class="report-marker-value">2.81</span>
+          </div>
+          <div class="report-marker">
+            <span class="marker-dot amber"></span>
+            <span class="report-marker-name">SHBG</span>
+            <span class="report-marker-value">28 нмоль/л</span>
+          </div>
+          <div class="report-marker">
+            <span class="marker-dot amber"></span>
+            <span class="report-marker-name">Ферритин</span>
+            <span class="report-marker-value">32 мкг/л</span>
+          </div>
+          <div class="report-marker">
+            <span class="marker-dot green"></span>
+            <span class="report-marker-name">Глюкоза натощак</span>
+            <span class="report-marker-value">5.1 ммоль/л</span>
+          </div>
+          <div class="report-marker">
+            <span class="marker-dot green"></span>
+            <span class="report-marker-name">HbA1c</span>
+            <span class="report-marker-value">5.3 %</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PRICING — SINGLE TIER -->
-<section class="section section-warm" id="pricing">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow reveal">Цена</span>
-      <h2 class="reveal reveal-delay-1">
-        Один продукт.<br>
-        <span class="italic">Без лишнего.</span>
-      </h2>
-      <p class="section-lead reveal reveal-delay-2">
-        Перед оплатой можно посмотреть образец отчёта — чтобы точно понимать, что вы получите.
-      </p>
-    </div>
+  <!-- PRICING — SINGLE TIER -->
+  <section class="section section-warm" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow reveal">Цена</span>
+        <h2 class="reveal reveal-delay-1">
+          Один продукт.<br>
+          <span class="italic">Без лишнего.</span>
+        </h2>
+        <p class="section-lead reveal reveal-delay-2">
+          Перед оплатой можно посмотреть образец отчёта — чтобы точно понимать, что вы получите.
+        </p>
+      </div>
 
-    <div class="pricing-single">
-      <div class="tier-single reveal">
-        <div class="tier-single-eyebrow">Insulab · Разбор анализов</div>
-        <h3>Персональный разбор</h3>
-        <div class="tier-single-tagline">Отчёт за 48 часов · Проверка врача · Без подписок</div>
-        <div class="tier-single-price"><span class="currency">$</span>79</div>
-        <div class="tier-single-period">Единоразово</div>
-        <ul class="tier-single-features">
-          <li>6-страничный персональный PDF-отчёт</li>
-          <li>Разбор по PCOS-релевантным референсам</li>
-          <li>Проверка эндокринологом перед отправкой</li>
-          <li>Три приоритета действий в порядке важности</li>
-          <li>Пять вопросов для следующего приёма</li>
-          <li>План пересдачи через 3 месяца</li>
-          <li>2–3 уточняющих вопроса по email в течение 7 дней</li>
-        </ul>
-        <!--
+      <div class="pricing-single">
+        <div class="tier-single reveal">
+          <div class="tier-single-eyebrow">Insulab · Разбор анализов</div>
+          <h3>Персональный разбор</h3>
+          <div class="tier-single-tagline">Отчёт за 48 часов · Проверка врача · Без подписок</div>
+          <div class="tier-single-price"><span class="currency">$</span>79</div>
+          <div class="tier-single-period">Единоразово</div>
+          <ul class="tier-single-features">
+            <li>6-страничный персональный PDF-отчёт</li>
+            <li>Разбор по PCOS-релевантным референсам</li>
+            <li>Проверка эндокринологом перед отправкой</li>
+            <li>Три приоритета действий в порядке важности</li>
+            <li>Пять вопросов для следующего приёма</li>
+            <li>План пересдачи через 3 месяца</li>
+            <li>2–3 уточняющих вопроса по email в течение 7 дней</li>
+          </ul>
+          <!--
           TALLY: Основная форма оплаты/заказа.
           Замените YOUR_FORM_ID на ID вашей Tally-формы.
           Скрипт Tally подключён внизу страницы.
         -->
-        <button
-          class="tally-btn-primary"
-          data-tally-open="Pd8ajd"
-          data-tally-layout="modal"
-          data-tally-width="760"
-          data-tally-emoji-text="🧬"
-          data-tally-emoji-animation="wave"
-          data-tally-auto-close="3000"
-        >
-          Оформить разбор за $79
-        </button>
-        <!--
+          <button class="tally-btn-primary" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
+            data-tally-emoji-text="🧬" data-tally-emoji-animation="wave" data-tally-auto-close="3000">
+            Оформить разбор за $79
+          </button>
+          <!--
           TALLY: Кнопка просмотра образца отчёта.
           Замените YOUR_SAMPLE_FORM_ID на ID соответствующей Tally-формы.
           Или замените кнопку на: <a href="ПРЯМАЯ_ССЫЛКА_НА_PDF" target="_blank">
         -->
-        <button
-          class="tally-btn-secondary"
-          data-tally-open="Pd8ajd"
-          data-tally-layout="modal"
-          data-tally-width="760"
-          data-tally-emoji-text="📄"
-          data-tally-emoji-animation="wave"
-        >
-          Сначала посмотреть образец отчёта →
-        </button>
-      </div>
-    </div>
-
-    <p class="pricing-note reveal">
-      Отчёт доставляется в течение 48 часов после получения ваших анализов и заполнения формы.
-    </p>
-  </div>
-</section>
-
-<!-- TRUST SECTION -->
-<section class="section trust-section">
-  <div class="container">
-    <div class="trust-grid">
-      <div>
-        <span class="eyebrow reveal">Кто проверяет ваш отчёт</span>
-        <div class="trust-quote reveal reveal-delay-1">
-          За 12 лет в эндокринологии я вижу одно и то же:
-          у женщин с PCOS <span class="em">очень мало времени</span>
-          на приёме и <span class="em">очень много</span> вопросов.
-        </div>
-        <div class="trust-author reveal reveal-delay-2">
-          <div class="trust-author-avatar"></div>
-          <div>
-            <div class="trust-author-name">Елена Морозова, MD</div>
-            <div class="trust-author-role">Эндокринолог · 12 лет практики · Reviewer</div>
-          </div>
+          <button class="tally-btn-secondary" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
+            data-tally-emoji-text="📄" data-tally-emoji-animation="wave">
+            Сначала посмотреть образец отчёта →
+          </button>
         </div>
       </div>
 
-      <div class="trust-stats reveal reveal-delay-2">
-        <div class="stat">
-          <div class="stat-number">48 ч</div>
-          <div class="stat-label">Среднее время<br>подготовки отчёта</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">6</div>
-          <div class="stat-label">Страниц<br>персонального разбора</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">22</div>
-          <div class="stat-label">Маркера в фокусе:<br>метаболизм, гормоны, дефициты</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Отчётов проверяет<br>практикующий врач</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="section" id="faq">
-  <div class="container-narrow">
-    <div class="section-header">
-      <span class="eyebrow reveal">Частые вопросы</span>
-      <h2 class="reveal reveal-delay-1">
-        Что важно <span class="italic">знать.</span>
-      </h2>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Это медицинская консультация?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Нет. Это образовательный сервис, который помогает понять ваши анализы и подготовиться к разговору с врачом. Это не замена медицинской консультации, диагноза или лечения. Все важные решения о здоровье — только с лечащим врачом.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Какие анализы нужно загрузить?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            В идеале — недавняя кровь. Самые полезные показатели для PCOS-разбора: глюкоза и инсулин натощак (для HOMA-IR), HbA1c, гормональная панель (ЛГ, ФСГ, свободный и общий тестостерон, SHBG, ДГЭА-С, пролактин, АМГ), щитовидка (ТТГ, св. T3, св. T4), липиды, ферритин, витамин D. Если что-то отсутствует — работаем с тем, что есть, и подскажем, что добавить при следующей сдаче.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Что если врач сказал, что &laquo;всё в норме&raquo;?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Это самая частая причина обращения к нам. &laquo;В норме&raquo; по общим референсам и &laquo;оптимально&raquo; для PCOS — это часто разные вещи. Многие маркеры (инсулин натощак, свободный тестостерон, ферритин) попадают в &laquo;норму&raquo;, но в контексте PCOS рассказывают чёткую историю. Второй, внимательный взгляд часто находит закономерности, которые ваш врач не успел обсудить за 15 минут.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Как защищены мои данные?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Анализы и личная информация шифруются при передаче и хранении. Доступ есть только у вашего врача-ревьюера и нашей небольшой команды. После доставки отчёта оригиналы удаляются из активного хранения через 90 дней — если вы сами не попросите сохранить для сравнения с пересдачей.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Как мой врач отнесётся к этому отчёту?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Большинство врачей нормально воспринимают структурированную сводку с конкретными вопросами — это упрощает им работу за 15 минут. Мы не предлагаем спорить с лечащим врачом — мы помогаем задавать лучшие вопросы. По обратной связи клиенток, врачи часто благодарят за подготовленность.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>А если возникнут вопросы после получения отчёта?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Да — после получения отчёта вы можете задать 2–3 уточняющих вопроса по email в течение 7 дней. Мы отвечаем по существу и помогаем правильно подготовиться к следующему приёму у врача.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          <span>Возврат денег возможен?</span>
-          <span class="faq-icon"></span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-content">
-            Да. Если в течение 7 дней после получения отчёта вы не нашли его полезным — напишите нам, и мы вернём деньги полностью. Без вопросов и оправданий. Нам не нужны деньги от тех, кому мы не помогли.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-section" id="contacts">
-  <div class="container">
-    <div class="contact-inner">
-      <span class="eyebrow reveal" style="justify-content:center;margin-bottom:20px">Связаться</span>
-      <h2 class="contact-h2 reveal reveal-delay-1">
-        Есть вопрос<br>
-        <span class="italic">перед покупкой?</span>
-      </h2>
-      <p class="contact-lead reveal reveal-delay-2">
-        Напишите нам — ответим в течение нескольких часов.
+      <p class="pricing-note reveal">
+        Отчёт доставляется в течение 48 часов после получения ваших анализов и заполнения формы.
       </p>
-      <div class="contact-options reveal reveal-delay-2">
-        <a
-          href="#"
-          class="contact-card"
-          data-tally-open="YOUR_CONTACT_FORM_ID"
-          data-tally-emoji-text="✉️"
-          data-tally-emoji-animation="wave"
-        >
-          <div class="contact-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M21 3L3 10.5l6.5 2.5L15 7l-4 7 6 3.5L21 3z"/>
-            </svg>
+    </div>
+  </section>
+
+  <!-- TRUST SECTION -->
+  <section class="section trust-section">
+    <div class="container">
+      <div class="trust-grid">
+        <div>
+          <span class="eyebrow reveal">Кто проверяет ваш отчёт</span>
+          <div class="trust-quote reveal reveal-delay-1">
+            За 12 лет в эндокринологии я вижу одно и то же:
+            у женщин с PCOS <span class="em">очень мало времени</span>
+            на приёме и <span class="em">очень много</span> вопросов.
           </div>
-          <div>
-            <div>Форма обратной связи</div>
-            <div class="contact-card-sub">Откроется в popup</div>
+          <div class="trust-author reveal reveal-delay-2">
+            <div class="trust-author-avatar"></div>
+            <div>
+              <div class="trust-author-name">Елена Морозова, MD</div>
+              <div class="trust-author-role">Эндокринолог · 12 лет практики · Reviewer</div>
+            </div>
           </div>
-        </a>
-        <a href="mailto:support@insulab.app" class="contact-card">
-          <div class="contact-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="M2 8l10 7 10-7"/>
-            </svg>
+        </div>
+
+        <div class="trust-stats reveal reveal-delay-2">
+          <div class="stat">
+            <div class="stat-number">48 ч</div>
+            <div class="stat-label">Среднее время<br>подготовки отчёта</div>
           </div>
-          <div>
-            <div>support@insulab.app</div>
-            <div class="contact-card-sub">Email · ответ за 24ч</div>
+          <div class="stat">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Страниц<br>персонального разбора</div>
           </div>
-        </a>
+          <div class="stat">
+            <div class="stat-number">22</div>
+            <div class="stat-label">Маркера в фокусе:<br>метаболизм, гормоны, дефициты</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Отчётов проверяет<br>практикующий врач</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container">
-    <div class="final-cta-content">
-      <h2>
-        Хватит ждать.<br>
-        Время <span class="italic">понять.</span>
-      </h2>
-      <p class="final-cta-lead">
-        Следующий приём у эндокринолога — через несколько месяцев.
-        Ваш разбор — может быть на почте уже завтра.
-      </p>
-      <!--
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container-narrow">
+      <div class="section-header">
+        <span class="eyebrow reveal">Частые вопросы</span>
+        <h2 class="reveal reveal-delay-1">
+          Что важно <span class="italic">знать.</span>
+        </h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Это медицинская консультация?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Нет. Это образовательный сервис, который помогает понять ваши анализы и подготовиться к разговору с
+              врачом. Это не замена медицинской консультации, диагноза или лечения. Все важные решения о здоровье —
+              только с лечащим врачом.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Какие анализы нужно загрузить?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              В идеале — недавняя кровь. Самые полезные показатели для PCOS-разбора: глюкоза и инсулин натощак (для
+              HOMA-IR), HbA1c, гормональная панель (ЛГ, ФСГ, свободный и общий тестостерон, SHBG, ДГЭА-С, пролактин,
+              АМГ), щитовидка (ТТГ, св. T3, св. T4), липиды, ферритин, витамин D. Если что-то отсутствует — работаем с
+              тем, что есть, и подскажем, что добавить при следующей сдаче.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Что если врач сказал, что &laquo;всё в норме&raquo;?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Это самая частая причина обращения к нам. &laquo;В норме&raquo; по общим референсам и
+              &laquo;оптимально&raquo; для PCOS — это часто разные вещи. Многие маркеры (инсулин натощак, свободный
+              тестостерон, ферритин) попадают в &laquo;норму&raquo;, но в контексте PCOS рассказывают чёткую историю.
+              Второй, внимательный взгляд часто находит закономерности, которые ваш врач не успел обсудить за 15 минут.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Как защищены мои данные?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Анализы и личная информация шифруются при передаче и хранении. Доступ есть только у вашего врача-ревьюера
+              и нашей небольшой команды. После доставки отчёта оригиналы удаляются из активного хранения через 90 дней —
+              если вы сами не попросите сохранить для сравнения с пересдачей.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Как мой врач отнесётся к этому отчёту?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Большинство врачей нормально воспринимают структурированную сводку с конкретными вопросами — это упрощает
+              им работу за 15 минут. Мы не предлагаем спорить с лечащим врачом — мы помогаем задавать лучшие вопросы. По
+              обратной связи клиенток, врачи часто благодарят за подготовленность.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>А если возникнут вопросы после получения отчёта?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Да — после получения отчёта вы можете задать 2–3 уточняющих вопроса по email в течение 7 дней. Мы отвечаем
+              по существу и помогаем правильно подготовиться к следующему приёму у врача.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>Возврат денег возможен?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              Да. Если в течение 7 дней после получения отчёта вы не нашли его полезным — напишите нам, и мы вернём
+              деньги полностью. Без вопросов и оправданий. Нам не нужны деньги от тех, кому мы не помогли.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contacts">
+    <div class="container">
+      <div class="contact-inner">
+        <span class="eyebrow reveal" style="justify-content:center;margin-bottom:20px">Связаться</span>
+        <h2 class="contact-h2 reveal reveal-delay-1">
+          Есть вопрос<br>
+          <span class="italic">перед покупкой?</span>
+        </h2>
+        <p class="contact-lead reveal reveal-delay-2">
+          Напишите нам — ответим в течение нескольких часов.
+        </p>
+        <div class="contact-options reveal reveal-delay-2">
+          <a href="#" class="contact-card" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
+            data-tally-emoji-text="📄" data-tally-emoji-animation="wave">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 3L3 10.5l6.5 2.5L15 7l-4 7 6 3.5L21 3z" />
+              </svg>
+            </div>
+            <div>
+              <div>Форма обратной связи</div>
+              <div class="contact-card-sub">Откроется в popup</div>
+            </div>
+          </a>
+          <a href="mailto:support@insulab.app" class="contact-card">
+            <div class="contact-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 8l10 7 10-7" />
+              </svg>
+            </div>
+            <div>
+              <div>support@insulab.app</div>
+              <div class="contact-card-sub">Email · ответ за 24ч</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <div class="final-cta-content">
+        <h2>
+          Хватит ждать.<br>
+          Время <span class="italic">понять.</span>
+        </h2>
+        <p class="final-cta-lead">
+          Следующий приём у эндокринолога — через несколько месяцев.
+          Ваш разбор — может быть на почте уже завтра.
+        </p>
+        <!--
         TALLY: Final CTA — тот же YOUR_FORM_ID что и в hero.
       -->
-      <div class="final-cta-actions">
-        <button
-          class="tally-btn-final"
-          data-tally-open="Pd8ajd"
-          data-tally-layout="modal"
-          data-tally-width="760"
-          data-tally-emoji-text="🧬"
-          data-tally-emoji-animation="wave"
-          data-tally-auto-close="3000"
-        >
-          <span>Получить разбор за $79</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-        </button>
-        <a href="#" class="tally-btn-final">
-          <span>Посмотреть образец отчёта</span>
-        </a>
-      </div>
-      <p class="final-cta-meta">Проверка врача · 48 часов · Можно анонимно · Без подписок</p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="logo">
-          <span class="logo-mark"></span>
-          Insulab
-        </a>
-        <p class="footer-tagline">
-          Помогаем понять анализы и метаболизм — простым языком и с проверкой врача.
-        </p>
-      </div>
-      <div class="footer-col">
-        <h5>Сервис</h5>
-        <ul>
-          <li><a href="#pricing">Цены</a></li>
-          <li><a href="#">Образец отчёта</a></li>
-          <li><a href="#">Какие анализы нужны</a></li>
-          <li><a href="https://t.me/YOUR_TELEGRAM" target="_blank">Telegram</a></li>
-          <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Юридическое</h5>
-        <ul>
-          <li><a href="#">Политика приватности</a></li>
-          <li><a href="#">Условия сервиса</a></li>
-          <li><a href="#">Медицинский дисклеймер</a></li>
-          <li><a href="#">Возвраты</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Связаться</h5>
-        <ul>
-          <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
-          <li><a href="#">Telegram</a></li>
-          <li><a href="#">Instagram</a></li>
-        </ul>
+        <div class="final-cta-actions">
+          <button class="tally-btn-final" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
+            data-tally-emoji-text="🧬" data-tally-emoji-animation="wave" data-tally-auto-close="3000">
+            <span>Получить разбор за $79</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
+          <a href="#" class="tally-btn-final">
+            <span>Посмотреть образец отчёта</span>
+          </a>
+        </div>
+        <p class="final-cta-meta">Проверка врача · 48 часов · Можно анонимно · Без подписок</p>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>© 2026 Insulab · Образовательный сервис, не замена медицинской консультации</div>
-      <div>Сделано с заботой о метаболизме</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="https://insulab.app/" class="logo">
+            <span class="logo-mark"></span>
+            Insulab
+          </a>
+          <p class="footer-tagline">
+            Помогаем понять анализы и метаболизм — простым языком и с проверкой врача.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Сервис</h5>
+          <ul>
+            <li><a href="#pricing">Цены</a></li>
+            <li><a href="#">Образец отчёта</a></li>
+            <li><a href="#">Какие анализы нужны</a></li>
+            <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Юридическое</h5>
+          <ul>
+            <li><a href="legal.html">Юридические документы</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Связаться</h5>
+          <ul>
+            <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-disclaimer"
+        style="margin-top: 60px; font-size: 12px; color: rgba(250, 247, 242, 0.5); line-height: 1.5; max-width: 800px;">
+        <strong>Медицинский дисклеймер:</strong> Insulab не предоставляет медицинские диагнозы или лечение. Отчеты носят
+        исключительно образовательный и информационный характер и не заменяют консультацию с лицензированным врачом.
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Insulab · Образовательный сервис, не замена медицинской консультации</div>
+        <div>Сделано с заботой о метаболизме</div>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="Прокрутить наверх">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-    <path d="M12 19V5M5 12l7-7 7 7"/>
-  </svg>
-</button>
+  <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="Прокрутить наверх">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
 
-<script>
-// Mark JS-enabled (so CSS knows it can hide reveal items)
-document.documentElement.classList.add('js-enabled');
+  <script>
+    // Mark JS-enabled (so CSS knows it can hide reveal items)
+    document.documentElement.classList.add('js-enabled');
 
-// Header scroll effect
-const header = document.getElementById('header');
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 24) header.classList.add('scrolled');
-  else header.classList.remove('scrolled');
+    // Header scroll effect
+    const header = document.getElementById('header');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 24) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
 
-  if (window.scrollY > 900) scrollTopBtn.classList.add('is-visible');
-  else scrollTopBtn.classList.remove('is-visible');
-});
-
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-// Reveal on scroll — for everything below the fold
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, {
-  threshold: 0.05,
-  rootMargin: '0px 0px -40px 0px'
-});
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Trigger hero reveals immediately on load (above the fold)
-window.addEventListener('load', () => {
-  document.querySelectorAll('.hero .reveal').forEach(el => {
-    el.classList.add('visible');
-  });
-});
-
-// FAQ accordion
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    const item = q.closest('.faq-item');
-    const answer = item.querySelector('.faq-a');
-    const isOpen = item.classList.contains('open');
-
-    // Close others
-    document.querySelectorAll('.faq-item.open').forEach(other => {
-      if (other !== item) {
-        other.classList.remove('open');
-        other.querySelector('.faq-a').style.maxHeight = '0';
-      }
+      if (window.scrollY > 900) scrollTopBtn.classList.add('is-visible');
+      else scrollTopBtn.classList.remove('is-visible');
     });
 
-    if (isOpen) {
-      item.classList.remove('open');
-      answer.style.maxHeight = '0';
-    } else {
-      item.classList.add('open');
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-    }
-  });
-});
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target && this.getAttribute('href') !== '#') {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
+    // Reveal on scroll — for everything below the fold
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px -40px 0px'
+    });
 
-// Stat counter animation
-const statObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const text = el.textContent;
-      const numMatch = text.match(/(\d+)/);
-      if (numMatch) {
-        const target = parseInt(numMatch[1]);
-        const suffix = text.replace(numMatch[1], '').trim();
-        let current = 0;
-        const duration = 1400;
-        const startTime = performance.now();
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        const animate = (now) => {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          // Ease-out cubic
-          const eased = 1 - Math.pow(1 - progress, 3);
-          current = Math.round(target * eased);
-          el.textContent = current + (suffix ? ' ' + suffix : '');
-          if (progress < 1) requestAnimationFrame(animate);
-          else el.textContent = target + (suffix ? ' ' + suffix : '');
-        };
+    // Trigger hero reveals immediately on load (above the fold)
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.hero .reveal').forEach(el => {
+        el.classList.add('visible');
+      });
+    });
 
-        requestAnimationFrame(animate);
-        statObserver.unobserve(el);
-      }
-    }
-  });
-}, { threshold: 0.5 });
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const answer = item.querySelector('.faq-a');
+        const isOpen = item.classList.contains('open');
 
-document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
-</script>
+        // Close others
+        document.querySelectorAll('.faq-item.open').forEach(other => {
+          if (other !== item) {
+            other.classList.remove('open');
+            other.querySelector('.faq-a').style.maxHeight = '0';
+          }
+        });
+
+        if (isOpen) {
+          item.classList.remove('open');
+          answer.style.maxHeight = '0';
+        } else {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target && this.getAttribute('href') !== '#') {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Stat counter animation
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent;
+          const numMatch = text.match(/(\d+)/);
+          if (numMatch) {
+            const target = parseInt(numMatch[1]);
+            const suffix = text.replace(numMatch[1], '').trim();
+            let current = 0;
+            const duration = 1400;
+            const startTime = performance.now();
+
+            const animate = (now) => {
+              const elapsed = now - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              // Ease-out cubic
+              const eased = 1 - Math.pow(1 - progress, 3);
+              current = Math.round(target * eased);
+              el.textContent = current + (suffix ? ' ' + suffix : '');
+              if (progress < 1) requestAnimationFrame(animate);
+              else el.textContent = target + (suffix ? ' ' + suffix : '');
+            };
+
+            requestAnimationFrame(animate);
+            statObserver.unobserve(el);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
+  </script>
 
 
-<!--
+  <!--
   TALLY EMBED SCRIPT — подключает popup для всех data-tally-open кнопок.
   Оставьте последним в body. Не нужно ничего менять здесь.
 -->
-<script async src="https://tally.so/widgets/embed.js"></script>
+  <script async src="https://tally.so/widgets/embed.js"></script>
 
 </body>
+
 </html>

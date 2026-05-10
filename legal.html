@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Документы — Insulab</title>
+<meta name="description" content="Юридическая информация, политика конфиденциальности и пользовательское соглашение сервиса Insulab.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cream: #FAF7F2;
+  --cream-warm: #F2EBDF;
+  --cream-deep: #E8DFD0;
+  --ink: #1F1A28;
+  --ink-soft: #4A434F;
+  --mute: #8B8590;
+  --line: #D9D2C8;
+  --line-soft: #E8E2D6;
+  --plum: #5D4F73;
+  --plum-deep: #3D3050;
+  --plum-light: #E6DFEC;
+  --bronze: #B8956A;
+  --bronze-deep: #8C6E48;
+  --bronze-light: #EDDFC9;
+  --white: #FFFFFF;
+  --green: #6B8E5A;
+  --green-bg: #E8EFE2;
+  --amber: #C99750;
+  --amber-bg: #F8EFE0;
+  --red: #B85C5C;
+  --red-bg: #F5E3E3;
+
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--cream);
+  overflow-x: hidden;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+/* Subtle paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.serif { font-family: var(--serif); font-feature-settings: "ss01", "ss02"; font-variation-settings: "SOFT" 50, "WONK" 0; }
+.italic { font-family: var(--serif); font-style: italic; }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; color: var(--ink); }
+
+/* === HEADER === */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 22px 0;
+  transition: all 0.4s ease;
+  background: rgba(250, 247, 242, 0);
+}
+.header.scrolled {
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line-soft);
+  padding: 14px 0;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 26px;
+}
+.logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  white-space: nowrap;
+}
+.header-nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+.header-nav a:hover { color: var(--plum); }
+.logo-mark {
+  width: 28px; height: 28px;
+  border: 1.5px solid var(--plum);
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  background: var(--plum);
+  border-radius: 50%;
+}
+.nav-cta {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 11px 22px;
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--cream);
+  transition: all 0.3s ease;
+  margin-left: auto;
+}
+.nav-cta:hover {
+  background: var(--plum-deep);
+  transform: translateY(-1px);
+}
+
+/* === LEGAL PAGE LAYOUT === */
+.legal-section {
+  padding: 160px 0 100px;
+  min-height: 70vh;
+}
+.legal-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.legal-sidebar {
+  position: sticky;
+  top: 120px;
+}
+.legal-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tab-btn {
+  text-align: left;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+.tab-btn:hover {
+  background: rgba(232, 226, 214, 0.4); 
+  color: var(--ink);
+}
+.tab-btn.active {
+  background: var(--white);
+  color: var(--plum-deep);
+  border-color: var(--line-soft);
+  box-shadow: 0 4px 12px -4px rgba(31, 26, 40, 0.05);
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.4s ease;
+  background: var(--white);
+  padding: 60px 50px;
+  border-radius: 12px;
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 8px 30px -10px rgba(31, 26, 40, 0.04);
+}
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.legal-content h1 {
+  font-size: clamp(32px, 4vw, 44px);
+  margin-bottom: 24px;
+}
+.legal-content .last-updated {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--mute);
+  margin-bottom: 40px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.legal-content h2 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 48px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.legal-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+.legal-content ul, .legal-content ol {
+  margin-left: 20px;
+  margin-bottom: 24px;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.legal-content li {
+  margin-bottom: 8px;
+}
+.legal-content li::marker {
+  color: var(--bronze);
+}
+.legal-content a {
+  color: var(--plum);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* === FOOTER === */
+.footer {
+  padding: 80px 0 40px;
+  background: var(--ink);
+  color: rgba(250, 247, 242, 0.7);
+  border-top: 1px solid rgba(250, 247, 242, 0.08);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.footer-brand .logo { color: var(--cream); margin-bottom: 16px; }
+.footer-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(250, 247, 242, 0.5);
+  max-width: 320px;
+}
+
+.footer-col h5 {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { padding: 6px 0; font-size: 14px; }
+.footer-col a:hover { color: var(--cream); }
+
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid rgba(250, 247, 242, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(250, 247, 242, 0.4);
+}
+
+@media (max-width: 980px) {
+  .legal-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .legal-sidebar {
+    position: static;
+  }
+  .legal-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .tab-btn {
+    white-space: nowrap;
+  }
+  .tab-pane {
+    padding: 30px 24px;
+  }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .logo-mark { background: transparent; }
+  .header-nav { display: none; }
+}
+@media (max-width: 600px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"></span>
+        Insulab
+      </a>
+      <nav class="header-nav" aria-label="Навигация по разделам">
+        <a href="index.html#home">Главная</a>
+        <a href="index.html#pricing">Цены</a>
+        <a href="index.html#how-it-works">Как работает</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <a href="index.html#pricing" class="nav-cta">На главную</a>
+    </div>
+  </div>
+</header>
+
+<section class="legal-section">
+  <div class="container">
+    <div class="legal-grid">
+      
+      <!-- СИДБАР С ТАБАМИ -->
+      <aside class="legal-sidebar">
+        <div class="legal-nav">
+          <button class="tab-btn active" data-target="policy">Политика конфиденциальности</button>
+          <button class="tab-btn" data-target="terms">Пользовательское соглашение</button>
+          <button class="tab-btn" data-target="consent">Согласие на обработку данных</button>
+          <button class="tab-btn" data-target="disclaimer">Медицинский дисклеймер</button>
+          <button class="tab-btn" data-target="refund">Условия возврата</button>
+        </div>
+      </aside>
+
+      <!-- КОНТЕНТ МЕНЮ -->
+      <main class="legal-content">
+
+        <!-- 1. ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
+        <div class="tab-pane active" id="policy">
+          <h1>Политика конфиденциальности</h1>
+          <div class="last-updated">Последнее обновление: 29 Апреля 2026 г.</div>
+          
+          <p>Настоящая Политика конфиденциальности описывает, как Сервис Insulab (далее «Мы», «Сервис») собирает, использует и защищает вашу личную информацию.</p>
+
+          <h2>1. Какую информацию мы собираем</h2>
+          <p>При использовании сервиса мы можем запрашивать и хранить следующие данные:</p>
+          <ul>
+            <li>Контактные данные (имя, адрес электронной почты, номер телефона).</li>
+            <li>Результаты медицинских анализов, загружаемых пользователем (файлы PDF, фото).</li>
+            <li>Информация о симптомах, возрасте, текущем самочувствии (переданная через опросные формы формы).</li>
+          </ul>
+
+          <h2>2. Как мы используем данные</h2>
+          <p>Собранные персональные и медицинские данные используются строго для следующих целей:</p>
+          <ul>
+            <li>Предоставление услуги персональной расшифровки анализов.</li>
+            <li>Информирование вас о готовности отчёта.</li>
+            <li>Решение технических вопросов и вопросов возврата средств.</li>
+          </ul>
+          <p>Ваши данные используются только заявленными на сайте специалистами. Мы не продаем и не передаем ваши личные контактные данные третьим лицам без вашего разрешения.</p>
+
+          <h2>3. Безопасность и сроки хранения</h2>
+          <p>Все загруженные результаты анализов (файлы) хранятся в защищённом облаке. После подготовки и отправки отчета пользователю файлы анализов удаляются из нашего оперативного хранения в течение 90 дней, если пользователь явно не попросит нас их сохранить для сравнения с будущей пересдачей.</p>
+
+          <h2>4. Права пользователя</h2>
+          <p>Вы в любой момент можете запросить удаление ваших данных, написав нам на <a href="mailto:support@insulab.app">support@insulab.app</a>. Запрос обрабатывается в течение 3-х рабочих дней.</p>
+        </div>
+
+        <!-- 2. ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ (ОФЕРТА) -->
+        <div class="tab-pane" id="terms">
+          <h1>Пользовательское соглашение</h1>
+          <div class="last-updated">Последнее обновление: 29 Апреля 2026 г.</div>
+
+          <p>Данный документ является публичной офертой. Использование сайта и оплата услуг означает ваше безоговорочное согласие с условиями данного соглашения.</p>
+
+          <h2>1. Предмет соглашения</h2>
+          <p>Сервис предоставляет услугу глубокого информационного (образовательного) разбора результатов медицинских анализов, с фокусом на метаболические показатели и инсулинорезистентность.</p>
+
+          <h2>2. Медицинский дисклеймер (Отказ от ответственности)</h2>
+          <p><strong>Важно:</strong> Услуга <strong>не является</strong> медицинской консультацией, постановкой диагноза или назначением лечения. Отчет формируется исключительно в образовательных целях для помощи пользователю разобраться в терминологии и подготовиться к очному приему у лечащего врача.</p>
+          
+          <h2>3. Обязанности пользователя</h2>
+          <ul>
+            <li>Предоставлять достоверные данные в заполняемых анкетах.</li>
+            <li>Предоставлять читаемые форматы анализов.</li>
+            <li>Не использовать полученные отчёты для самолечения или самостоятельной отмены препаратов. Любые действия должны быть согласованы с лечащим врачом пользователя.</li>
+          </ul>
+
+          <h2>4. Стоимость и порядок оказания услуг</h2>
+          <p>Актуальная стоимость указана в разделе «Цены». Отчет формируется и отправляется на почту (email), предоставленную при оформлении заказа, в течение 48 часов с момента оплаты и отправки полных данных в форму.</p>
+        </div>
+
+        <!-- 3. СОГЛАСИЕ НА ОБРАБОТКУ ДАННЫХ -->
+        <div class="tab-pane" id="consent">
+          <h1>Согласие на обработку персональных данных</h1>
+          <div class="last-updated">Последнее обновление: 29 Апреля 2026 г.</div>
+
+          <p>Оформляя заказ или отправляя заявку через формы связи на сайте, вы даете свое согласие на обработку и хранение ваших персональных данных.</p>
+
+          <h2>1. Перечень обрабатываемых данных</h2>
+          <ul>
+            <li>Фамилия, Имя, Отчество (по желанию пользователя).</li>
+            <li>Контактная информация (Email, номер телефона или Telegram).</li>
+            <li>Сведения о состоянии здоровья: результаты лабораторных анализов, жалобы, параметры веса и возраста, информация о принимаемых лекарствах, оставленная по инициативе самого пользователя.</li>
+          </ul>
+
+          <h2>2. Способы обработки</h2>
+          <p>Обработка персональных данных может включать сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, блокирование, удаление, уничтожение персональных данных.</p>
+
+          <h2>3. Срок действия согласия</h2>
+          <p>Согласие вступает в силу с момента подтверждения (установление галочки, отправка формы) и действует бессрочно либо до момента отзыва согласия вами.</p>
+
+          <h2>4. Отзыв согласия</h2>
+          <p>Согласие может быть в любой момент отозвано путем направления письменного заявления на электронный адрес: <a href="mailto:support@insulab.app">support@insulab.app</a>. В случае отзыва согласия мы прекратим обработку ваших данных и уничтожим их в сроки, предусмотренные законодательством.</p>
+        </div>
+
+        <!-- 4. МЕДИЦИНСКИЙ ДИСКЛЕЙМЕР -->
+        <div class="tab-pane" id="disclaimer">
+          <h1>Медицинский дисклеймер</h1>
+          <div class="last-updated">Последнее обновление: 29 Апреля 2026 г.</div>
+
+          <p>Сервис Insulab является образовательным и не заменяет медицинскую консультацию, диагноз или лечение. Отчёты предназначены для помощи в понимании ваших лабораторных показателей и подготовки к разговору с вашим лечащим врачом.</p>
+          <p>Все решения о здоровье, лекарствах, добавках и образе жизни должны приниматься совместно с квалифицированным медицинским специалистом. Insulab не устанавливает диагнозы и не назначает лечение.</p>
+        </div>
+
+        <!-- 5. УСЛОВИЯ ВОЗВРАТА -->
+        <div class="tab-pane" id="refund">
+          <h1>Условия возврата</h1>
+          <div class="last-updated">Последнее обновление: 29 Апреля 2026 г.</div>
+
+          <p><strong>До отправки отчёта.</strong> Если вы решили отказаться от услуги до того, как мы приступили к подготовке отчёта — мы вернём 100% оплаты. Достаточно написать на <a href="mailto:support@insulab.app">support@insulab.app</a> в течение 24 часов после оплаты.</p>
+          <p><strong>После отправки отчёта.</strong> Подготовка персонального отчёта включает работу врача-ревьюера и аналитика. После того как отчёт отправлен вам на email, услуга считается оказанной в полном объёме, и оплата возврату не подлежит.</p>
+          <p><strong>Возврат при технических ошибках или несоответствии услуги.</strong> Если в отчёте содержатся фактические ошибки в интерпретации ваших показателей, или мы не смогли подготовить разбор по техническим причинам (например, не удалось распознать ваши анализы и мы не смогли запросить пересдачу) — мы вернём 100% оплаты в течение 14 дней по вашему запросу с описанием проблемы на <a href="mailto:support@insulab.app">support@insulab.app</a>.</p>
+          <p><strong>Если ваши анализы не подходят для разбора.</strong> Если загруженные вами анализы не содержат минимально необходимых маркеров для подготовки отчёта, мы свяжемся с вами до начала работы и предложим варианты: дождаться пересдачи или получить полный возврат.</p>
+          <p><strong>Сроки и способ возврата.</strong> Возврат производится на ту же карту, с которой была совершена оплата, в течение 5–10 рабочих дней с момента подтверждения возврата.</p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"></span>
+          Insulab
+        </a>
+        <p class="footer-tagline">
+          Помогаем понять анализы и метаболизм — простым языком и с проверкой врача.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Сервис</h5>
+        <ul>
+          <li><a href="index.html#pricing">Цены</a></li>
+          <li><a href="index.html#faq">Вопросы и ответы</a></li>
+          <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Юридическое</h5>
+        <ul>
+          <li><a href="#" class="footer-legal-link" data-target="policy">Политика приватности</a></li>
+          <li><a href="#" class="footer-legal-link" data-target="terms">Условия сервиса</a></li>
+          <li><a href="#" class="footer-legal-link" data-target="consent">Согласие на обработку</a></li>
+          <li><a href="#" class="footer-legal-link" data-target="disclaimer">Медицинский дисклеймер</a></li>
+          <li><a href="#" class="footer-legal-link" data-target="refund">Условия возврата</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Связаться</h5>
+        <ul>
+          <li><a href="mailto:support@insulab.app">support@insulab.app</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Insulab · Образовательный сервис, не замена медицинской консультации</div>
+      <div>Сделано с заботой о метаболизме</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Header scroll effect
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 24) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+});
+
+// Tab switcher logic
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanes = document.querySelectorAll('.tab-pane');
+const footerLegalLinks = document.querySelectorAll('.footer-legal-link');
+
+function switchTab(targetId) {
+  // Update buttons
+  tabBtns.forEach(btn => {
+    if (btn.dataset.target === targetId) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Update panes
+  tabPanes.forEach(pane => {
+    if (pane.id === targetId) {
+      pane.classList.add('active');
+    } else {
+      pane.classList.remove('active');
+    }
+  });
+
+  // Scroll to layout top on mobile so user sees the change
+  if (window.innerWidth <= 980) {
+    window.scrollTo({ top: document.querySelector('.legal-section').offsetTop - 80, behavior: 'smooth' });
+  }
+}
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    switchTab(e.target.dataset.target);
+  });
+});
+
+// Add functionality for footer links to jump to specific tab
+footerLegalLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = e.target.dataset.target;
+    switchTab(target);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Initialize hash handling if needed
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    switchTab(hash);
+  }
+});
+</script>
+
+</body>
+</html>
