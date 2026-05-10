@@ -1553,6 +1553,13 @@
       }
     }
 
+    @media (max-width: 480px) {
+      .container,
+      .container-narrow {
+        padding: 0 16px;
+      }
+    }
+
     @media (max-width: 600px) {
       .hero {
         padding: 120px 0 60px;
@@ -1564,8 +1571,9 @@
 
       .hero-copy {
         width: 100%;
-        padding: 0 6px 0 2px;
-        overflow: hidden;
+        max-width: 100%;
+        padding: 0;
+        box-sizing: border-box;
       }
 
       .hero .eyebrow {
@@ -1579,34 +1587,49 @@
       }
 
       .hero h1 {
-        font-size: clamp(30px, 9.2vw, 36px);
-        margin: 24px 0 28px;
-        line-height: 1.02;
-        letter-spacing: -0.02em;
-        overflow-wrap: anywhere;
+        font-size: clamp(24px, 7.5vw, 32px);
+        margin: 20px 0 24px;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
         word-break: break-word;
-      }
-
-      .hero h1 br {
-        display: none;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
+        max-width: 100%;
       }
 
       .hero-lead {
-        font-size: 17px;
+        font-size: 15px;
+        width: 100%;
         max-width: 100%;
-        overflow-wrap: anywhere;
+        box-sizing: border-box;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
         word-break: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
       }
 
       .hero-actions {
         gap: 14px;
         align-items: flex-start;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .hero-meta {
         font-size: 13px;
         flex-wrap: wrap;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        max-width: 100%;
       }
 
       .steps {
@@ -2116,7 +2139,7 @@
               без 9-месячного ожидания.
             </h1>
             <p class="hero-lead reveal reveal-delay-2">
-              Личный разбор ваших анализов — с фокусом на инсулинорезистентность,
+              Личный разбор ваших анализов — с фокусом на инсулино&shy;резистентность,
               PCOS и метаболизм. Понятным языком, с приоритетами действий
               и пятью вопросами для следующего приёма.
             </p>
