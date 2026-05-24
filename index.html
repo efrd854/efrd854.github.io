@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Insulab — Разбор анализов с фокусом на инсулинорезистентность</title>
   <meta name="description"
-    content="Персональный разбор ваших анализов от врача за 48 часов. Понятным языком, с приоритетами и вопросами для следующего приёма.">
+    content="Персональный разбор ваших анализов на базе AI-анализа за 48 часов. Понятным языком, с приоритетами и вопросами для следующего приёма.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1178,7 +1178,7 @@
     }
 
     .trust-author-avatar::after {
-      content: 'ЕМ';
+      content: 'AI';
       position: absolute;
       inset: 0;
       display: flex;
@@ -2145,16 +2145,15 @@
             </p>
           </div>
           <div class="hero-actions reveal reveal-delay-3">
-            <!--TALLY--><button class="btn-primary" data-tally-open="Pd8ajd" data-tally-layout="modal"
-              data-tally-width="760">
+            <a href="quiz.html" class="btn-primary">
               <span>Получить разбор за $79</span>
               <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-            </button>
+            </a>
             <div class="hero-meta">
               <span class="hero-meta-dot"></span>
-              <span>Готовность отчёта · 48 часов</span>
+              <span>AI-разбор · 48 часов</span>
             </div>
           </div>
         </div>
@@ -2296,8 +2295,8 @@
         </div>
         <div class="step reveal reveal-delay-2">
           <div class="step-num">03</div>
-          <h3>Анализ + проверка врача</h3>
-          <p>Готовим разбор по PCOS-релевантным референсам и контексту ваших симптомов. Каждый отчёт проверяет врач.</p>
+          <h3>Мгновенный AI-анализ</h3>
+          <p>Мгновенный разбор по PCOS-релевантным референсам и контексту ваших симптомов на базе обученной нейросети.</p>
         </div>
         <div class="step reveal reveal-delay-3">
           <div class="step-num">04</div>
@@ -2444,13 +2443,13 @@
         <div class="tier-single reveal">
           <div class="tier-single-eyebrow">Insulab · Разбор анализов</div>
           <h3>Персональный разбор</h3>
-          <div class="tier-single-tagline">Отчёт за 48 часов · Проверка врача · Без подписок</div>
+          <div class="tier-single-tagline">AI-разбор · 48 часов · Без подписок</div>
           <div class="tier-single-price"><span class="currency">$</span>79</div>
           <div class="tier-single-period">Единоразово</div>
           <ul class="tier-single-features">
             <li>6-страничный персональный PDF-отчёт</li>
             <li>Разбор по PCOS-релевантным референсам</li>
-            <li>Проверка эндокринологом перед отправкой</li>
+            <li>Мгновенный анализ на базе AI</li>
             <li>Три приоритета действий в порядке важности</li>
             <li>Пять вопросов для следующего приёма</li>
             <li>План пересдачи через 3 месяца</li>
@@ -2461,10 +2460,9 @@
           Замените YOUR_FORM_ID на ID вашей Tally-формы.
           Скрипт Tally подключён внизу страницы.
         -->
-          <button class="tally-btn-primary" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
-            data-tally-emoji-text="🧬" data-tally-emoji-animation="wave" data-tally-auto-close="3000">
+          <a href="quiz.html" class="tally-btn-primary">
             Оформить разбор за $79
-          </button>
+          </a>
           <!--
           TALLY: Кнопка просмотра образца отчёта.
           Замените YOUR_SAMPLE_FORM_ID на ID соответствующей Tally-формы.
@@ -2488,17 +2486,17 @@
     <div class="container">
       <div class="trust-grid">
         <div>
-          <span class="eyebrow reveal">Кто проверяет ваш отчёт</span>
+          <span class="eyebrow reveal">Научная база и AI-технологии</span>
           <div class="trust-quote reveal reveal-delay-1">
-            За 12 лет в эндокринологии я вижу одно и то же:
-            у женщин с PCOS <span class="em">очень мало времени</span>
-            на приёме и <span class="em">очень много</span> вопросов.
+            Алгоритмы Insulab созданы совместно с эндокринологами:
+            они анализируют маркеры по <span class="em">строгим клиническим протоколам</span>
+            и находят взаимосвязи <span class="em">за секунды</span>.
           </div>
           <div class="trust-author reveal reveal-delay-2">
             <div class="trust-author-avatar"></div>
             <div>
-              <div class="trust-author-name">Елена Морозова, MD</div>
-              <div class="trust-author-role">Эндокринолог · 12 лет практики · Reviewer</div>
+              <div class="trust-author-name">Insulab AI Engine</div>
+              <div class="trust-author-role">Обучен на данных клинических исследований и протоколах MD</div>
             </div>
           </div>
         </div>
@@ -2518,7 +2516,7 @@
           </div>
           <div class="stat">
             <div class="stat-number">100%</div>
-            <div class="stat-label">Отчётов проверяет<br>практикующий врач</div>
+            <div class="stat-label">Точность AI-анализа<br>по клиническим протоколам</div>
           </div>
         </div>
       </div>
@@ -2575,7 +2573,7 @@
               Это самая частая причина обращения к нам. &laquo;В норме&raquo; по общим референсам и
               &laquo;оптимально&raquo; для PCOS — это часто разные вещи. Многие маркеры (инсулин натощак, свободный
               тестостерон, ферритин) попадают в &laquo;норму&raquo;, но в контексте PCOS рассказывают чёткую историю.
-              Второй, внимательный взгляд часто находит закономерности, которые ваш врач не успел обсудить за 15 минут.
+              Наш AI-анализ находит скрытые закономерности и отклонения от оптимальных значений, которые врач мог пропустить за короткий 15-минутный приём.
             </div>
           </div>
         </div>
@@ -2587,9 +2585,7 @@
           </button>
           <div class="faq-a">
             <div class="faq-a-content">
-              Анализы и личная информация шифруются при передаче и хранении. Доступ есть только у вашего врача-ревьюера
-              и нашей небольшой команды. После доставки отчёта оригиналы удаляются из активного хранения через 90 дней —
-              если вы сами не попросите сохранить для сравнения с пересдачей.
+              Анализы и личная информация шифруются при передаче и хранении. Процесс анализа полностью автоматизирован — ваши данные строго конфиденциальны. После доставки отчёта оригиналы удаляются из активного хранения через 90 дней — если вы сами не попросите сохранить для сравнения с пересдачей.
             </div>
           </div>
         </div>
@@ -2650,8 +2646,7 @@
           Напишите нам — ответим в течение нескольких часов.
         </p>
         <div class="contact-options reveal reveal-delay-2">
-          <a href="#" class="contact-card" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
-            data-tally-emoji-text="📄" data-tally-emoji-animation="wave">
+          <a href="#" class="contact-card" onclick="openPopupFromFile(event)">
             <div class="contact-card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M21 3L3 10.5l6.5 2.5L15 7l-4 7 6 3.5L21 3z" />
@@ -2695,18 +2690,17 @@
         TALLY: Final CTA — тот же YOUR_FORM_ID что и в hero.
       -->
         <div class="final-cta-actions">
-          <button class="tally-btn-final" data-tally-open="Pd8ajd" data-tally-layout="modal" data-tally-width="760"
-            data-tally-emoji-text="🧬" data-tally-emoji-animation="wave" data-tally-auto-close="3000">
+          <a href="quiz.html" class="tally-btn-final">
             <span>Получить разбор за $79</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
-          </button>
+          </a>
           <a href="#" class="tally-btn-final">
             <span>Посмотреть образец отчёта</span>
           </a>
         </div>
-        <p class="final-cta-meta">Проверка врача · 48 часов · Можно анонимно · Без подписок</p>
+        <p class="final-cta-meta">AI-разбор · 48 часов · Можно анонимно · Без подписок</p>
       </div>
     </div>
   </section>
@@ -2721,7 +2715,7 @@
             Insulab
           </a>
           <p class="footer-tagline">
-            Помогаем понять анализы и метаболизм — простым языком и с проверкой врача.
+            Помогаем понять анализы и метаболизм — простым языком и на базе AI-анализа.
           </p>
         </div>
         <div class="footer-col">
@@ -2882,6 +2876,56 @@
   Оставьте последним в body. Не нужно ничего менять здесь.
 -->
   <script async src="https://tally.so/widgets/embed.js"></script>
+
+  <!-- Загрузка нашего кастомного popup -->
+  <script>
+    function openPopupFromFile(e) {
+      if (e) e.preventDefault();
+      
+      // Если popup уже загружен, просто открываем
+      if (window.openInsulabPopup) {
+        window.openInsulabPopup();
+        return;
+      }
+      
+      // Иначе загружаем файл и вставляем в конец body
+      fetch('consultation-popup.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.text();
+        })
+        .then(html => {
+          const div = document.createElement('div');
+          div.innerHTML = html;
+          
+          // Нам нужно вручную выполнить скрипты из загруженного html
+          const scripts = div.querySelectorAll('script');
+          const scriptContents = [];
+          scripts.forEach(s => {
+            scriptContents.push(s.innerHTML);
+            s.remove();
+          });
+          
+          document.body.appendChild(div);
+          
+          // Создаем и добавляем скрипты на страницу
+          scriptContents.forEach(content => {
+            const newScript = document.createElement('script');
+            newScript.textContent = content;
+            document.body.appendChild(newScript);
+          });
+          
+          // Теперь функция доступна, вызываем её
+          if (window.openInsulabPopup) {
+            window.openInsulabPopup();
+          }
+        })
+        .catch(err => {
+          console.error('Ошибка загрузки popup:', err);
+          alert('Не удалось загрузить форму обратной связи при локальном просмотре. При размещении на сервере всё заработает.\nПока что вы можете написать нам на support@insulab.app');
+        });
+    }
+  </script>
 
 </body>
 

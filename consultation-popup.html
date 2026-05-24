@@ -1,0 +1,549 @@
+<!-- 
+  ИНСТРУКЦИЯ ПО ИНТЕГРАЦИИ (INTEGRATION GUIDE):
+  
+  1. Размещение (Placement): 
+     Скопируйте весь этот код и вставьте его перед закрывающим тегом </body> в вашем главном файле (index.html).
+     Или, если вы используете сборщик / шаблонизатор, импортируйте этот файл как компонент.
+  
+  2. Вызов (Triggering): 
+     Чтобы открыть popup с любой кнопки или ссылки на сайте, добавьте к ней атрибут onclick:
+     <button onclick="window.openInsulabPopup()">Задать вопрос</button>
+     или используйте JavaScript:
+     document.getElementById('myButton').addEventListener('click', () => window.openInsulabPopup());
+     
+  3. Стили (Styles):
+     CSS использует ваши глобальные переменные (--plum, --bronze, --cream и др.),
+     поэтому popup автоматически будет соответствовать цветовой схеме сайта. 
+     Все классы имеют префикс `insula-`, чтобы избежать конфликтов.
+-->
+
+<style>
+  /* === POPUP STYLES === */
+  .insula-popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(31, 26, 40, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    padding: 24px;
+    font-family: var(--sans, 'Manrope', sans-serif);
+  }
+
+  .insula-popup-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .insula-popup-card {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    background: var(--white, #FFFFFF);
+    border-radius: 12px;
+    padding: 48px 40px;
+    box-shadow: 
+      0 1px 2px rgba(31, 26, 40, 0.04), 
+      0 40px 80px -20px rgba(31, 26, 40, 0.18);
+    border: 1px solid var(--line-soft, #E8E2D6);
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    opacity: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Кастомный скроллбар для popup */
+  .insula-popup-card::-webkit-scrollbar {
+    width: 6px;
+  }
+  .insula-popup-card::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .insula-popup-card::-webkit-scrollbar-thumb {
+    background: var(--line, #D9D2C8);
+    border-radius: 4px;
+  }
+
+  .insula-popup-overlay.is-open .insula-popup-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .insula-popup-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--mute, #8B8590);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .insula-popup-close:hover {
+    background: var(--cream-warm, #F2EBDF);
+    color: var(--ink, #1F1A28);
+  }
+
+  /* Typography */
+  .insula-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronze-deep, #8C6E48);
+    margin-bottom: 20px;
+  }
+  
+  .insula-eyebrow::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--bronze, #B8956A);
+  }
+
+  .insula-popup-title {
+    font-family: var(--serif, 'Fraunces', serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink, #1F1A28);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  
+  .insula-popup-title .italic {
+    font-style: italic;
+    color: var(--plum, #5D4F73);
+  }
+
+  .insula-popup-subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft, #4A434F);
+    margin-bottom: 32px;
+  }
+
+  /* Form Elements */
+  .insula-input-group {
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .insula-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink, #1F1A28);
+    margin-bottom: 8px;
+  }
+
+  .insula-input {
+    width: 100%;
+    background: var(--cream, #FAF7F2);
+    border: 1px solid var(--line-soft, #E8E2D6);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink, #1F1A28);
+    transition: all 0.3s ease;
+  }
+  
+  .insula-input::placeholder {
+    color: var(--mute, #8B8590);
+  }
+
+  .insula-input:focus {
+    outline: none;
+    background: var(--white, #FFFFFF);
+    border-color: var(--plum, #5D4F73);
+    box-shadow: 0 0 0 3px var(--plum-light, #E6DFEC);
+  }
+  
+  .insula-input.is-error {
+    border-color: var(--red, #B85C5C);
+    background: var(--red-bg, #F5E3E3);
+  }
+  
+  .insula-input.is-error:focus {
+    box-shadow: 0 0 0 3px rgba(184, 92, 92, 0.2);
+  }
+
+  .insula-textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 250px;
+  }
+
+  .insula-error-msg {
+    display: none;
+    font-size: 12px;
+    color: var(--red, #B85C5C);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+
+  .insula-privacy {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--mute, #8B8590);
+    margin-bottom: 32px;
+  }
+
+  /* Buttons */
+  .insula-btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: var(--ink, #1F1A28);
+    color: var(--cream, #FAF7F2);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 18px 32px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insula-btn-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--plum-deep, #3D3050);
+    transform: translateY(101%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .insula-btn-submit > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .insula-btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px -20px rgba(31, 26, 40, 0.4);
+  }
+
+  .insula-btn-submit:hover::after {
+    transform: translateY(0);
+  }
+
+  .insula-btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .insula-btn-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .insula-btn-submit:hover .insula-btn-arrow {
+    transform: translateX(4px);
+  }
+
+  .insula-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: var(--cream-warm, #F2EBDF);
+    color: var(--ink, #1F1A28);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 32px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 24px;
+  }
+  
+  .insula-btn-secondary:hover {
+    background: var(--line-soft, #E8E2D6);
+  }
+
+  /* Success State */
+  .insula-popup-success {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .insula-success-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--green-bg, #E8EFE2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .insula-success-dot {
+    width: 16px;
+    height: 16px;
+    background: var(--green, #6B8E5A);
+    border-radius: 50%;
+    animation: insula-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes insula-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .insula-popup-card {
+      padding: 40px 24px 32px;
+    }
+    .insula-popup-title {
+      font-size: 28px;
+    }
+  }
+</style>
+
+<!-- POPUP HTML -->
+<div id="insulab-consultation-popup" class="insula-popup-overlay" aria-hidden="true">
+  <div class="insula-popup-card" role="dialog" aria-modal="true" aria-labelledby="insula-popup-title">
+    <button class="insula-popup-close" id="insula-btn-close" aria-label="Закрыть окно">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <!-- Форма консультации -->
+    <div class="insula-popup-content" id="insula-popup-form-view">
+      <div class="insula-popup-header">
+        <span class="insula-eyebrow">Ваш вопрос</span>
+        <h3 class="insula-popup-title" id="insula-popup-title">Бесплатная <span class="italic">консультация</span></h3>
+        <p class="insula-popup-subtitle">Оставьте ваш email и вопрос — мы ответим в течение нескольких часов.</p>
+      </div>
+      
+      <form id="insula-consultation-form" novalidate>
+        <div class="insula-input-group">
+          <label for="insula-email" class="insula-label">Email для связи</label>
+          <input type="email" id="insula-email" name="email" class="insula-input" placeholder="hello@example.com" required>
+          <span class="insula-error-msg" id="insula-email-error">Пожалуйста, введите корректный email</span>
+        </div>
+        
+        <div class="insula-input-group">
+          <label for="insula-question" class="insula-label">Что вас беспокоит?</label>
+          <textarea id="insula-question" name="question" class="insula-input insula-textarea" placeholder="Опишите вашу ситуацию или задайте вопрос (можно приложить ссылки на файлы)..." required rows="4"></textarea>
+          <span class="insula-error-msg" id="insula-question-error">Это поле обязательно для заполнения</span>
+        </div>
+        
+        <p class="insula-privacy">
+          Отправляя форму, вы соглашаетесь с обработкой персональных данных. Консультация носит образовательный характер и не заменяет визит к врачу.
+        </p>
+        
+        <button type="submit" class="insula-btn-submit" id="insula-submit-btn">
+          <span id="insula-submit-text">Отправить вопрос</span>
+          <svg class="insula-btn-arrow" id="insula-submit-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+    
+    <!-- Экран успеха (спрятан по умолчанию) -->
+    <div class="insula-popup-content insula-popup-success" id="insula-popup-success-view" style="display: none;">
+      <div class="insula-success-icon">
+        <div class="insula-success-dot"></div>
+      </div>
+      <h3 class="insula-popup-title">Вопрос <span class="italic">получен!</span></h3>
+      <p class="insula-popup-subtitle">Мы отправим развернутый ответ на <strong id="insula-success-email"></strong> в течение нескольких часов.</p>
+      <button type="button" class="insula-btn-secondary" id="insula-close-success">
+        Понятно, спасибо
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP SCRIPTS -->
+<script>
+  (function() {
+    // Получаем элементы
+    const overlay = document.getElementById('insulab-consultation-popup');
+    const closeBtn = document.getElementById('insula-btn-close');
+    const formView = document.getElementById('insula-popup-form-view');
+    const successView = document.getElementById('insula-popup-success-view');
+    const form = document.getElementById('insula-consultation-form');
+    const emailInput = document.getElementById('insula-email');
+    const questionInput = document.getElementById('insula-question');
+    const emailError = document.getElementById('insula-email-error');
+    const questionError = document.getElementById('insula-question-error');
+    const closeSuccessBtn = document.getElementById('insula-close-success');
+    const submitBtn = document.getElementById('insula-submit-btn');
+    const submitText = document.getElementById('insula-submit-text');
+    const submitIcon = document.getElementById('insula-submit-icon');
+    const successEmailSpan = document.getElementById('insula-success-email');
+
+    // Глобальная функция для открытия popup (доступна из любой части сайта)
+    window.openInsulabPopup = function() {
+      // Сброс состояния при открытии
+      form.reset();
+      clearErrors();
+      formView.style.display = 'block';
+      successView.style.display = 'none';
+      submitBtn.disabled = false;
+      submitText.textContent = 'Отправить вопрос';
+      submitIcon.style.display = 'block';
+      
+      // Показываем popup
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      // Блокируем скролл на основной странице
+      document.body.style.overflow = 'hidden';
+      
+      // Фокус на первое поле с небольшой задержкой для анимации
+      setTimeout(() => emailInput.focus(), 300);
+    };
+
+    // Функция для закрытия popup
+    window.closeInsulabPopup = function() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      // Возвращаем скролл
+      document.body.style.overflow = '';
+    };
+
+    // Слушатели для закрытия
+    closeBtn.addEventListener('click', closeInsulabPopup);
+    closeSuccessBtn.addEventListener('click', closeInsulabPopup);
+    
+    // Закрытие по клику вне карточки
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        closeInsulabPopup();
+      }
+    });
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+        closeInsulabPopup();
+      }
+    });
+
+    // Очистка ошибок
+    function clearErrors() {
+      emailInput.classList.remove('is-error');
+      questionInput.classList.remove('is-error');
+      emailError.style.display = 'none';
+      questionError.style.display = 'none';
+    }
+
+    // Валидация Email
+    function isValidEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    // Обработка отправки формы
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearErrors();
+      
+      let hasError = false;
+      const emailValue = emailInput.value.trim();
+      const questionValue = questionInput.value.trim();
+
+      // Проверка email
+      if (!emailValue || !isValidEmail(emailValue)) {
+        emailInput.classList.add('is-error');
+        emailError.style.display = 'block';
+        hasError = true;
+      }
+
+      // Проверка вопроса
+      if (!questionValue) {
+        questionInput.classList.add('is-error');
+        questionError.style.display = 'block';
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Имитация отправки данных (замените на реальный fetch запрос)
+      submitBtn.disabled = true;
+      submitText.textContent = 'Отправка...';
+      submitIcon.style.display = 'none';
+
+      // Эмуляция задержки сети
+      setTimeout(() => {
+        // Здесь должен быть код отправки данных на сервер
+        /* 
+        fetch('/api/consultation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailValue, question: questionValue })
+        }).then(...)
+        */
+        
+        // Успех
+        successEmailSpan.textContent = emailValue;
+        
+        // Анимация перехода к экрану успеха
+        formView.style.opacity = '0';
+        setTimeout(() => {
+          formView.style.display = 'none';
+          formView.style.opacity = '1';
+          
+          successView.style.display = 'block';
+          // Небольшой reflow
+          void successView.offsetWidth;
+          
+          // Анимация появления
+          successView.animate([
+            { opacity: 0, transform: 'translateY(10px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ], { duration: 400, easing: 'ease' });
+          
+        }, 300);
+
+      }, 1200);
+    });
+
+    // Убираем класс ошибки при вводе
+    emailInput.addEventListener('input', function() {
+      if (this.classList.contains('is-error')) {
+        this.classList.remove('is-error');
+        emailError.style.display = 'none';
+      }
+    });
+
+    questionInput.addEventListener('input', function() {
+      if (this.classList.contains('is-error')) {
+        this.classList.remove('is-error');
+        questionError.style.display = 'none';
+      }
+    });
+
+  })();
+</script>

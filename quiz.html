@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insulab — Персональный опросник здоровья</title>
+  <meta name="description"
+    content="Пройдите короткий опросник и получите персональные рекомендации по анализам с фокусом на инсулинорезистентность.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #FAF7F2;
+      --cream-warm: #F2EBDF;
+      --cream-deep: #E8DFD0;
+      --ink: #1F1A28;
+      --ink-soft: #4A434F;
+      --mute: #8B8590;
+      --line: #D9D2C8;
+      --line-soft: #E8E2D6;
+      --plum: #5D4F73;
+      --plum-deep: #3D3050;
+      --plum-light: #E6DFEC;
+      --bronze: #B8956A;
+      --bronze-deep: #8C6E48;
+      --bronze-light: #EDDFC9;
+      --white: #FFFFFF;
+      --green: #6B8E5A;
+      --green-bg: #E8EFE2;
+      --amber: #C99750;
+      --amber-bg: #F8EFE0;
+      --red: #B85C5C;
+      --red-bg: #F5E3E3;
+
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--cream);
+      overflow-x: hidden;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+      min-height: 100vh;
+    }
+
+    /* Paper texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    .serif {
+      font-family: var(--serif);
+      font-feature-settings: "ss01", "ss02";
+    }
+
+    /* === HEADER === */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 22px 0;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .logo-mark {
+      width: 28px; height: 28px;
+      border: 1.5px solid var(--plum);
+      border-radius: 50%;
+      position: relative;
+      display: inline-block;
+    }
+    .logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background: var(--plum);
+      border-radius: 50%;
+    }
+
+    .header-back {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+      z-index: 2;
+      position: relative;
+    }
+    .header-back:hover { color: var(--plum); }
+    .header-back svg { width: 16px; height: 16px; }
+
+    /* === QUIZ LAYOUT === */
+    .quiz-page {
+      padding: 120px 0 80px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .quiz-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* === PROGRESS BAR === */
+    .quiz-progress {
+      margin-bottom: 48px;
+    }
+    .quiz-progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .quiz-progress-step {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--plum);
+      font-style: italic;
+    }
+    .quiz-progress-count {
+      font-size: 13px;
+      color: var(--mute);
+      font-weight: 500;
+    }
+    .quiz-progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--line-soft);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--plum), var(--bronze));
+      border-radius: 100px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    /* === QUIZ CARD === */
+    .quiz-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 48px 44px;
+      box-shadow:
+        0 1px 2px rgba(31, 26, 40, 0.04),
+        0 24px 60px -16px rgba(31, 26, 40, 0.12);
+      border: 1px solid var(--line-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--plum), var(--bronze));
+    }
+
+    /* === STEP ANIMATIONS === */
+    .quiz-step {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .quiz-step.active {
+      display: block;
+      animation: stepIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .quiz-step.exiting {
+      display: block;
+      animation: stepOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stepOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-16px); }
+    }
+
+    /* === GENDER SELECTOR === */
+    .gender-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .gender-title .italic {
+      font-style: italic;
+      color: var(--plum);
+      font-weight: 400;
+    }
+
+    .gender-subtitle {
+      text-align: center;
+      font-size: 16px;
+      color: var(--ink-soft);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .gender-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .gender-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 40px 24px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--cream);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gender-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(93, 79, 115, 0.06), rgba(184, 149, 106, 0.06));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .gender-btn:hover {
+      border-color: var(--plum);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px -16px rgba(31, 26, 40, 0.15);
+    }
+    .gender-btn:hover::after { opacity: 1; }
+
+    .gender-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gender-icon.female {
+      background: var(--plum-light);
+      border: 1.5px solid rgba(93, 79, 115, 0.3);
+    }
+    .gender-icon.male {
+      background: var(--bronze-light);
+      border: 1.5px solid rgba(184, 149, 106, 0.3);
+    }
+
+    .gender-icon svg {
+      width: 28px; height: 28px;
+    }
+
+    .gender-label {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink);
+      position: relative;
+      z-index: 1;
+    }
+
+    .gender-hint {
+      font-size: 13px;
+      color: var(--mute);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === QUESTION STYLING === */
+    .q-eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bronze-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .q-eyebrow::before {
+      content: '';
+      width: 18px; height: 1px;
+      background: var(--bronze);
+    }
+
+    .q-title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 3.5vw, 28px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .q-description {
+      font-size: 15px;
+      color: var(--mute);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    /* === FORM CONTROLS === */
+    .q-group {
+      margin-bottom: 20px;
+    }
+
+    .q-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .q-input {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .q-input:focus {
+      border-color: var(--plum);
+      box-shadow: 0 0 0 3px var(--plum-light);
+    }
+    .q-input::placeholder {
+      color: var(--mute);
+      font-weight: 400;
+    }
+
+    .q-input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .q-input-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Select */
+    .q-select {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238B8590' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .q-select:focus {
+      border-color: var(--plum);
+      box-shadow: 0 0 0 3px var(--plum-light);
+    }
+
+    /* Radio buttons */
+    .q-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .q-radio {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--cream);
+    }
+    .q-radio:hover {
+      border-color: var(--plum);
+      background: var(--plum-light);
+    }
+    .q-radio.selected {
+      border-color: var(--plum);
+      background: var(--plum-light);
+    }
+
+    .q-radio input[type="radio"] {
+      display: none;
+    }
+
+    .q-radio-circle {
+      width: 20px; height: 20px;
+      border: 1.5px solid var(--line);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .q-radio-circle::after {
+      content: '';
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--plum);
+      transform: scale(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .q-radio.selected .q-radio-circle {
+      border-color: var(--plum);
+    }
+    .q-radio.selected .q-radio-circle::after {
+      transform: scale(1);
+    }
+
+    .q-radio-label {
+      font-size: 15px;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    /* Checkbox grid */
+    .q-checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .q-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--cream);
+    }
+    .q-checkbox:hover {
+      border-color: var(--bronze);
+    }
+    .q-checkbox.checked {
+      border-color: var(--plum);
+      background: var(--plum-light);
+    }
+
+    .q-checkbox input[type="checkbox"] { display: none; }
+
+    .q-check-box {
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.3s ease;
+    }
+    .q-check-box svg {
+      width: 12px; height: 12px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .q-checkbox.checked .q-check-box {
+      background: var(--plum);
+      border-color: var(--plum);
+    }
+    .q-checkbox.checked .q-check-box svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .q-check-label {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* Slider / Range */
+    .q-slider-wrap {
+      padding: 8px 0;
+    }
+    .q-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--mute);
+      margin-bottom: 8px;
+    }
+    .q-slider-value {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--plum);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--line-soft);
+      border-radius: 100px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--plum);
+      border: 3px solid var(--white);
+      box-shadow: 0 2px 8px rgba(93, 79, 115, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--plum);
+      border: 3px solid var(--white);
+      box-shadow: 0 2px 8px rgba(93, 79, 115, 0.3);
+      cursor: pointer;
+    }
+
+    /* Textarea */
+    .q-textarea {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      resize: vertical;
+      min-height: 100px;
+      transition: all 0.3s ease;
+    }
+    .q-textarea:focus {
+      border-color: var(--plum);
+      box-shadow: 0 0 0 3px var(--plum-light);
+    }
+    .q-textarea::placeholder {
+      color: var(--mute);
+    }
+
+    /* === NAVIGATION BUTTONS === */
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 36px;
+      gap: 16px;
+    }
+
+    .quiz-btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--mute);
+      padding: 14px 20px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    .quiz-btn-back:hover {
+      color: var(--ink);
+      border-color: var(--line);
+    }
+    .quiz-btn-back svg {
+      width: 16px; height: 16px;
+    }
+
+    .quiz-btn-next {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 16px 28px;
+      border-radius: 100px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin-left: auto;
+    }
+    .quiz-btn-next::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--plum-deep);
+      transform: translateY(101%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .quiz-btn-next > * { position: relative; z-index: 1; }
+    .quiz-btn-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px -16px rgba(31, 26, 40, 0.4);
+    }
+    .quiz-btn-next:hover::after { transform: translateY(0); }
+    .quiz-btn-next svg {
+      width: 16px; height: 16px;
+      transition: transform 0.3s;
+    }
+    .quiz-btn-next:hover svg { transform: translateX(3px); }
+
+    .quiz-btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--plum), var(--plum-deep));
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 18px 36px;
+      border-radius: 100px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-left: auto;
+      box-shadow: 0 8px 24px -8px rgba(93, 79, 115, 0.4);
+    }
+    .quiz-btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -16px rgba(93, 79, 115, 0.5);
+    }
+    .quiz-btn-submit svg {
+      width: 18px; height: 18px;
+    }
+
+    /* === COMPLETION SCREEN === */
+    .quiz-complete {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .complete-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 28px;
+      background: var(--green-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+    }
+    .complete-icon svg {
+      width: 36px; height: 36px;
+      color: var(--green);
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .complete-title {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .complete-subtitle {
+      font-size: 16px;
+      color: var(--ink-soft);
+      margin-bottom: 36px;
+      line-height: 1.55;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .complete-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 18px 32px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+    .complete-btn:hover {
+      background: var(--plum-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px -16px rgba(31, 26, 40, 0.4);
+    }
+
+    /* === DECORATIVE === */
+    .quiz-deco-1 {
+      position: fixed;
+      top: 20%;
+      left: -80px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93, 79, 115, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .quiz-deco-2 {
+      position: fixed;
+      bottom: 10%;
+      right: -60px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184, 149, 106, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Extra gap for conditional sub-fields */
+    .q-subfield {
+      margin-top: 12px;
+      padding: 16px;
+      background: rgba(93, 79, 115, 0.04);
+      border-radius: 8px;
+      border-left: 2px solid var(--plum-light);
+      display: none;
+    }
+    .q-subfield.visible { display: block; }
+
+    /* === FOOTER === */
+    .quiz-footer {
+      padding: 32px 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--mute);
+      position: relative;
+      z-index: 2;
+    }
+    .quiz-footer a {
+      color: var(--plum);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .quiz-footer a:hover {
+      color: var(--bronze);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+      .quiz-page { padding: 100px 0 60px; }
+      .quiz-container { padding: 0 16px; }
+      .quiz-card { padding: 32px 20px; border-radius: 10px; }
+      .gender-options { grid-template-columns: 1fr; }
+      .q-checkbox-grid { grid-template-columns: 1fr; }
+      .q-input-row, .q-input-row-3 { grid-template-columns: 1fr; }
+      .quiz-nav { flex-wrap: wrap; }
+      .quiz-btn-back { order: 2; width: 100%; justify-content: center; }
+      .quiz-btn-next, .quiz-btn-submit { order: 1; width: 100%; justify-content: center; }
+      .gender-btn { padding: 28px 20px; }
+      .header-inner { padding: 0 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Decorative blobs -->
+  <div class="quiz-deco-1"></div>
+  <div class="quiz-deco-2"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"></span>
+        Insulab
+      </a>
+      <a href="index.html" class="header-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>На главную</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- QUIZ -->
+  <main class="quiz-page">
+    <div class="quiz-container">
+
+      <!-- Progress -->
+      <div class="quiz-progress" id="quizProgress" style="display: none;">
+        <div class="quiz-progress-info">
+          <span class="quiz-progress-step" id="progressLabel">Вопрос 1</span>
+          <span class="quiz-progress-count" id="progressCount">1 из 10</span>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Quiz Card -->
+      <div class="quiz-card">
+
+        <!-- STEP 0: Gender Selection -->
+        <div class="quiz-step active" id="step-gender">
+          <div class="gender-title">
+            Персональный <span class="italic">опросник</span>
+          </div>
+          <p class="gender-subtitle">
+            Выберите пол, чтобы мы задали правильные вопросы.<br>
+            Это займёт около 3 минут.
+          </p>
+          <div class="gender-options">
+            <button class="gender-btn" onclick="selectGender('female')">
+              <div class="gender-icon female">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#5D4F73" stroke-width="1.8">
+                  <circle cx="12" cy="9" r="5"/>
+                  <line x1="12" y1="14" x2="12" y2="22"/>
+                  <line x1="9" y1="19" x2="15" y2="19"/>
+                </svg>
+              </div>
+              <span class="gender-label">Женский</span>
+              <span class="gender-hint">10 вопросов</span>
+            </button>
+            <button class="gender-btn" onclick="selectGender('male')">
+              <div class="gender-icon male">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#8C6E48" stroke-width="1.8">
+                  <circle cx="10" cy="14" r="5"/>
+                  <line x1="14" y1="10" x2="21" y2="3"/>
+                  <polyline points="15,3 21,3 21,9"/>
+                </svg>
+              </div>
+              <span class="gender-label">Мужской</span>
+              <span class="gender-hint">10 вопросов</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================== FEMALE BRANCH ==================== -->
+
+        <!-- F1: Возраст -->
+        <div class="quiz-step" id="step-f1">
+          <div class="q-eyebrow">Вопрос 1 из 10</div>
+          <h2 class="q-title">Сколько вам лет?</h2>
+          <p class="q-description">Возраст влияет на интерпретацию гормональных и метаболических показателей</p>
+          <div class="q-group">
+            <label class="q-label">Возраст</label>
+            <input type="number" class="q-input" id="f-age" placeholder="Например, 32" min="16" max="99">
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F2: Рост, вес, талия -->
+        <div class="quiz-step" id="step-f2">
+          <div class="q-eyebrow">Вопрос 2 из 10</div>
+          <h2 class="q-title">Антропометрия</h2>
+          <p class="q-description">Рост, вес и окружность талии — ключевые маркеры метаболического здоровья</p>
+          <div class="q-input-row-3" style="margin-bottom: 20px;">
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Рост, см</label>
+              <input type="number" class="q-input" id="f-height" placeholder="165" min="100" max="220">
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Вес, кг</label>
+              <input type="number" class="q-input" id="f-weight" placeholder="62" min="30" max="300">
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Талия, см</label>
+              <input type="number" class="q-input" id="f-waist" placeholder="72" min="40" max="200">
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F3: Цикл -->
+        <div class="quiz-step" id="step-f3">
+          <div class="q-eyebrow">Вопрос 3 из 10</div>
+          <h2 class="q-title">Менструальный цикл</h2>
+          <p class="q-description">Фаза цикла влияет на уровни гормонов и интерпретацию анализов</p>
+
+          <div class="q-group">
+            <label class="q-label">Статус цикла</label>
+            <div class="q-radio-group" id="f-cycle-group">
+              <label class="q-radio" onclick="selectRadio(this, 'f-cycle')">
+                <input type="radio" name="f-cycle" value="regular">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Регулярный</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-cycle')">
+                <input type="radio" name="f-cycle" value="irregular">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Нерегулярный</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-cycle')">
+                <input type="radio" name="f-cycle" value="menopause">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Менопауза</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-cycle')">
+                <input type="radio" name="f-cycle" value="pregnancy">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Беременность</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-cycle')">
+                <input type="radio" name="f-cycle" value="lactation">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Лактация</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="q-subfield" id="f-cycle-day-field">
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">День цикла, когда сдавали анализы</label>
+              <input type="number" class="q-input" id="f-cycle-day" placeholder="Например, 5" min="1" max="45">
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F4: Контрацепция / ЗГТ -->
+        <div class="quiz-step" id="step-f4">
+          <div class="q-eyebrow">Вопрос 4 из 10</div>
+          <h2 class="q-title">Контрацепция или ЗГТ</h2>
+          <p class="q-description">Гормональные препараты существенно влияют на результаты анализов</p>
+
+          <div class="q-group">
+            <label class="q-label">Что принимаете?</label>
+            <div class="q-radio-group" id="f-contraception-group">
+              <label class="q-radio" onclick="selectRadio(this, 'f-contraception')">
+                <input type="radio" name="f-contraception" value="none">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Ничего не принимаю</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-contraception')">
+                <input type="radio" name="f-contraception" value="coc">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">КОК (оральные контрацептивы)</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-contraception')">
+                <input type="radio" name="f-contraception" value="mirena">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Мирена (спираль)</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-contraception')">
+                <input type="radio" name="f-contraception" value="hrt">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">ЗГТ (эстрогены, прогестерон)</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-contraception')">
+                <input type="radio" name="f-contraception" value="other">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Другое</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="q-subfield" id="f-contraception-detail-field">
+            <div class="q-group" style="margin-bottom: 12px;">
+              <label class="q-label">Название препарата</label>
+              <input type="text" class="q-input" id="f-contraception-name" placeholder="Например, Джес, Фемостон...">
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Как долго принимаете?</label>
+              <input type="text" class="q-input" id="f-contraception-duration" placeholder="Например, 2 года">
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F5: Препараты и БАДы -->
+        <div class="quiz-step" id="step-f5">
+          <div class="q-eyebrow">Вопрос 5 из 10</div>
+          <h2 class="q-title">Текущие препараты и БАДы</h2>
+          <p class="q-description">Перечислите всё, что принимаете регулярно</p>
+
+          <div class="q-group">
+            <label class="q-label">Что вы принимаете? (отметьте всё подходящее)</label>
+            <div class="q-checkbox-grid" id="f-meds-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="metformin">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Метформин</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="inositol">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Инозитол</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="levothyroxine">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Левотироксин</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="antidepressants">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Антидепрессанты</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="vitD">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Витамин D</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-meds" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ничего не принимаю</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Другие препараты или БАДы (если есть)</label>
+            <input type="text" class="q-input" id="f-meds-other" placeholder="Например, омега-3, магний, берберин...">
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F6: Симптомы -->
+        <div class="quiz-step" id="step-f6">
+          <div class="q-eyebrow">Вопрос 6 из 10</div>
+          <h2 class="q-title">Симптомы</h2>
+          <p class="q-description">Отметьте все симптомы, которые вас беспокоят</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="f-symptoms-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="weight_gain">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Набор веса</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="jaw_acne">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Акне по линии челюсти</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="hair_loss">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Выпадение волос</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="hirsutism">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Рост волос на лице/груди</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="acanthosis">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Акантоз (тёмные складки)</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="sleepy_after_food">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Сонливость после еды</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="sugar_cravings">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Тяга к сладкому</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="pms">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Выраженный ПМС</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="poor_sleep">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Плохой сон</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-symptoms" value="low_libido">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Низкое либидо</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F7: Диагнозы -->
+        <div class="quiz-step" id="step-f7">
+          <div class="q-eyebrow">Вопрос 7 из 10</div>
+          <h2 class="q-title">Установленные диагнозы</h2>
+          <p class="q-description">Отметьте диагнозы, которые вам когда-либо ставили</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="f-diagnoses-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="pcos">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">СПКЯ</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="hypothyroid">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Гипотиреоз / АИТ</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="diabetes">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Диабет / преддиабет</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="endometriosis">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Эндометриоз</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="gestational_diabetes">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Гестационный диабет в прошлом</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-diagnoses" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ничего из перечисленного</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F8: Семейный анамнез -->
+        <div class="quiz-step" id="step-f8">
+          <div class="q-eyebrow">Вопрос 8 из 10</div>
+          <h2 class="q-title">Семейный анамнез</h2>
+          <p class="q-description">Есть ли у ближайших родственников следующие заболевания?</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="f-family-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-family" value="diabetes_t2">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Диабет 2 типа</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-family" value="pcos">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">СПКЯ</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-family" value="early_cvd">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ранние инфаркты / инсульты</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="f-family" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ничего из перечисленного</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F9: Образ жизни -->
+        <div class="quiz-step" id="step-f9">
+          <div class="q-eyebrow">Вопрос 9 из 10</div>
+          <h2 class="q-title">Образ жизни</h2>
+          <p class="q-description">Активность, сон, стресс и алкоголь</p>
+
+          <div class="q-input-row" style="margin-bottom: 20px;">
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Тип активности</label>
+              <select class="q-select" id="f-activity-type">
+                <option value="" disabled selected>Выберите...</option>
+                <option value="none">Нет активности</option>
+                <option value="walking">Ходьба / прогулки</option>
+                <option value="yoga">Йога / пилатес</option>
+                <option value="cardio">Кардио (бег, плавание)</option>
+                <option value="strength">Силовые тренировки</option>
+                <option value="mixed">Смешанные</option>
+              </select>
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Сколько раз в неделю?</label>
+              <select class="q-select" id="f-activity-freq">
+                <option value="" disabled selected>Выберите...</option>
+                <option value="0">Не тренируюсь</option>
+                <option value="1-2">1–2 раза</option>
+                <option value="3-4">3–4 раза</option>
+                <option value="5+">5 и более</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Сколько часов сна обычно?</label>
+            <select class="q-select" id="f-sleep">
+              <option value="" disabled selected>Выберите...</option>
+              <option value="<5">Менее 5 часов</option>
+              <option value="5-6">5–6 часов</option>
+              <option value="6-7">6–7 часов</option>
+              <option value="7-8">7–8 часов</option>
+              <option value="8+">Более 8 часов</option>
+            </select>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Уровень стресса</label>
+            <div class="q-slider-wrap">
+              <div class="q-slider-value" id="f-stress-value">5</div>
+              <input type="range" id="f-stress" min="1" max="10" value="5" oninput="document.getElementById('f-stress-value').textContent = this.value">
+              <div class="q-slider-labels">
+                <span>1 — спокойно</span>
+                <span>10 — очень стрессово</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Алкоголь</label>
+            <select class="q-select" id="f-alcohol">
+              <option value="" disabled selected>Выберите...</option>
+              <option value="never">Не употребляю</option>
+              <option value="rare">Редко (пару раз в месяц)</option>
+              <option value="weekly">Еженедельно</option>
+              <option value="daily">Почти ежедневно</option>
+            </select>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- F10: Цель обращения -->
+        <div class="quiz-step" id="step-f10">
+          <div class="q-eyebrow">Вопрос 10 из 10</div>
+          <h2 class="q-title">Цель обращения</h2>
+          <p class="q-description">Что для вас сейчас в приоритете?</p>
+
+          <div class="q-group">
+            <div class="q-radio-group" id="f-goal-group">
+              <label class="q-radio" onclick="selectRadio(this, 'f-goal')">
+                <input type="radio" name="f-goal" value="weight_loss">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Похудеть</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-goal')">
+                <input type="radio" name="f-goal" value="cycle">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Восстановить цикл</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-goal')">
+                <input type="radio" name="f-goal" value="pregnancy">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Забеременеть</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-goal')">
+                <input type="radio" name="f-goal" value="energy">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Больше энергии</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'f-goal')">
+                <input type="radio" name="f-goal" value="prevention">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Профилактика</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-submit" onclick="submitQuiz()">
+              <span>Отправить</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+
+        <!-- ==================== MALE BRANCH ==================== -->
+
+        <!-- M1: Возраст -->
+        <div class="quiz-step" id="step-m1">
+          <div class="q-eyebrow">Вопрос 1 из 10</div>
+          <h2 class="q-title">Сколько вам лет?</h2>
+          <p class="q-description">Возраст влияет на интерпретацию гормональных и метаболических показателей</p>
+          <div class="q-group">
+            <label class="q-label">Возраст</label>
+            <input type="number" class="q-input" id="m-age" placeholder="Например, 38" min="16" max="99">
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M2: Рост, вес, талия -->
+        <div class="quiz-step" id="step-m2">
+          <div class="q-eyebrow">Вопрос 2 из 10</div>
+          <h2 class="q-title">Антропометрия</h2>
+          <p class="q-description">Рост, вес и окружность талии — ключевые маркеры метаболического здоровья</p>
+          <div class="q-input-row-3" style="margin-bottom: 20px;">
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Рост, см</label>
+              <input type="number" class="q-input" id="m-height" placeholder="178" min="100" max="220">
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Вес, кг</label>
+              <input type="number" class="q-input" id="m-weight" placeholder="85" min="30" max="300">
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Талия, см</label>
+              <input type="number" class="q-input" id="m-waist" placeholder="92" min="40" max="200">
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M3: Препараты и БАДы -->
+        <div class="quiz-step" id="step-m3">
+          <div class="q-eyebrow">Вопрос 3 из 10</div>
+          <h2 class="q-title">Текущие препараты и БАДы</h2>
+          <p class="q-description">Перечислите всё, что принимаете регулярно</p>
+
+          <div class="q-group">
+            <label class="q-label">Что вы принимаете? (отметьте всё подходящее)</label>
+            <div class="q-checkbox-grid" id="m-meds-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="testosterone">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Тестостерон / ААС</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="statins">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Статины</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="antidepressants">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Антидепрессанты</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="metformin">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Метформин</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="omega">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Омега-3</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-meds" value="vitD">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Витамин D</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Другие препараты или БАДы (если есть)</label>
+            <input type="text" class="q-input" id="m-meds-other" placeholder="Например, цинк, магний, креатин...">
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M4: Симптомы -->
+        <div class="quiz-step" id="step-m4">
+          <div class="q-eyebrow">Вопрос 4 из 10</div>
+          <h2 class="q-title">Симптомы</h2>
+          <p class="q-description">Отметьте все симптомы, которые вас беспокоят</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="m-symptoms-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="belly_fat">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Набор живота</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="fatigue">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Усталость</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="low_libido">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Низкое либидо</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="weak_erections">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ослабление утренних эрекций</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="muscle_loss">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Потеря мышечной массы</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="acanthosis">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Акантоз (тёмные складки)</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="sleepy_after_food">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Сонливость после еды</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="sugar_cravings">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Тяга к сладкому</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="snoring">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Храп / апноэ сна</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-symptoms" value="irritability">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Раздражительность / депрессия</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M5: Диагнозы -->
+        <div class="quiz-step" id="step-m5">
+          <div class="q-eyebrow">Вопрос 5 из 10</div>
+          <h2 class="q-title">Установленные диагнозы</h2>
+          <p class="q-description">Отметьте диагнозы, которые вам когда-либо ставили</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="m-diagnoses-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="diabetes">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Диабет / преддиабет</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="hypogonadism">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Гипогонадизм</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="sleep_apnea">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Апноэ сна</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="fatty_liver">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Жировой гепатоз</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="hypertension">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Гипертония</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diagnoses" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ничего из перечисленного</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M6: Семейный анамнез -->
+        <div class="quiz-step" id="step-m6">
+          <div class="q-eyebrow">Вопрос 6 из 10</div>
+          <h2 class="q-title">Семейный анамнез</h2>
+          <p class="q-description">Есть ли у ближайших родственников (особенно мужчин) следующие заболевания?</p>
+
+          <div class="q-group">
+            <div class="q-checkbox-grid" id="m-family-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-family" value="diabetes_t2">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Диабет 2 типа</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-family" value="early_mi">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ранние инфаркты у мужчин (до 55 лет)</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-family" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Ничего из перечисленного</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M7: Образ жизни -->
+        <div class="quiz-step" id="step-m7">
+          <div class="q-eyebrow">Вопрос 7 из 10</div>
+          <h2 class="q-title">Образ жизни</h2>
+          <p class="q-description">Активность, сон и стресс</p>
+
+          <div class="q-input-row" style="margin-bottom: 20px;">
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Тип активности</label>
+              <select class="q-select" id="m-activity-type">
+                <option value="" disabled selected>Выберите...</option>
+                <option value="none">Нет активности</option>
+                <option value="strength">Силовые тренировки</option>
+                <option value="cardio">Кардио (бег, плавание)</option>
+                <option value="mixed">Смешанные</option>
+              </select>
+            </div>
+            <div class="q-group" style="margin-bottom: 0;">
+              <label class="q-label">Сколько раз в неделю?</label>
+              <select class="q-select" id="m-activity-freq">
+                <option value="" disabled selected>Выберите...</option>
+                <option value="0">Не тренируюсь</option>
+                <option value="1-2">1–2 раза</option>
+                <option value="3-4">3–4 раза</option>
+                <option value="5+">5 и более</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Сколько часов сна обычно?</label>
+            <select class="q-select" id="m-sleep">
+              <option value="" disabled selected>Выберите...</option>
+              <option value="<5">Менее 5 часов</option>
+              <option value="5-6">5–6 часов</option>
+              <option value="6-7">6–7 часов</option>
+              <option value="7-8">7–8 часов</option>
+              <option value="8+">Более 8 часов</option>
+            </select>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Уровень стресса</label>
+            <div class="q-slider-wrap">
+              <div class="q-slider-value" id="m-stress-value">5</div>
+              <input type="range" id="m-stress" min="1" max="10" value="5" oninput="document.getElementById('m-stress-value').textContent = this.value">
+              <div class="q-slider-labels">
+                <span>1 — спокойно</span>
+                <span>10 — очень стрессово</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M8: Алкоголь и курение -->
+        <div class="quiz-step" id="step-m8">
+          <div class="q-eyebrow">Вопрос 8 из 10</div>
+          <h2 class="q-title">Алкоголь и курение</h2>
+          <p class="q-description">Эти факторы влияют на печень, гормоны и метаболизм</p>
+
+          <div class="q-group">
+            <label class="q-label">Алкоголь</label>
+            <div class="q-radio-group" id="m-alcohol-group">
+              <label class="q-radio" onclick="selectRadio(this, 'm-alcohol')">
+                <input type="radio" name="m-alcohol" value="never">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Не употребляю</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-alcohol')">
+                <input type="radio" name="m-alcohol" value="rare">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Редко (пару раз в месяц)</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-alcohol')">
+                <input type="radio" name="m-alcohol" value="weekly">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Еженедельно</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-alcohol')">
+                <input type="radio" name="m-alcohol" value="daily">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Почти ежедневно</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Курение</label>
+            <div class="q-radio-group" id="m-smoking-group">
+              <label class="q-radio" onclick="selectRadio(this, 'm-smoking')">
+                <input type="radio" name="m-smoking" value="never">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Не курю</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-smoking')">
+                <input type="radio" name="m-smoking" value="quit">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Бросил</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-smoking')">
+                <input type="radio" name="m-smoking" value="occasional">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Иногда</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-smoking')">
+                <input type="radio" name="m-smoking" value="daily">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Каждый день</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M9: Питание -->
+        <div class="quiz-step" id="step-m9">
+          <div class="q-eyebrow">Вопрос 9 из 10</div>
+          <h2 class="q-title">Питание</h2>
+          <p class="q-description">Опишите ваш типичный рацион</p>
+
+          <div class="q-group">
+            <label class="q-label">Типичный день питания</label>
+            <textarea class="q-textarea" id="m-diet" placeholder="Например: утром — яичница с хлебом, обед — суп и второе, ужин — мясо с салатом, перекусы — орехи, фрукты..."></textarea>
+          </div>
+
+          <div class="q-group">
+            <label class="q-label">Практикуете ли какие-то диеты?</label>
+            <div class="q-checkbox-grid" id="m-diet-type-grid">
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diet-type" value="intermittent_fasting">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Интервальное голодание</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diet-type" value="low_carb">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Низкоуглеводная / кето</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diet-type" value="high_protein">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Высокобелковая</span>
+              </label>
+              <label class="q-checkbox" onclick="toggleCheckbox(this)">
+                <input type="checkbox" name="m-diet-type" value="none">
+                <span class="q-check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="q-check-label">Без диет, ем всё</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-next" onclick="goNext()">
+              <span>Далее</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- M10: Цель обращения -->
+        <div class="quiz-step" id="step-m10">
+          <div class="q-eyebrow">Вопрос 10 из 10</div>
+          <h2 class="q-title">Цель обращения</h2>
+          <p class="q-description">Что для вас сейчас в приоритете?</p>
+
+          <div class="q-group">
+            <div class="q-radio-group" id="m-goal-group">
+              <label class="q-radio" onclick="selectRadio(this, 'm-goal')">
+                <input type="radio" name="m-goal" value="weight_loss">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Похудеть</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-goal')">
+                <input type="radio" name="m-goal" value="testosterone">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Повысить тестостерон</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-goal')">
+                <input type="radio" name="m-goal" value="energy_libido">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Энергия и либидо</span>
+              </label>
+              <label class="q-radio" onclick="selectRadio(this, 'm-goal')">
+                <input type="radio" name="m-goal" value="prevention">
+                <span class="q-radio-circle"></span>
+                <span class="q-radio-label">Профилактика</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-nav">
+            <button class="quiz-btn-back" onclick="goBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Назад</span>
+            </button>
+            <button class="quiz-btn-submit" onclick="submitQuiz()">
+              <span>Отправить</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+
+        <!-- ==================== COMPLETION ==================== -->
+        <div class="quiz-step" id="step-complete">
+          <div class="quiz-complete">
+            <div class="complete-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h2 class="complete-title">Спасибо за ваши ответы!</h2>
+            <p class="complete-subtitle">
+              Мы учтём всё, что вы рассказали, при подготовке персонального разбора ваших анализов.
+            </p>
+            <a href="index.html#pricing" class="complete-btn">
+              <span>Заказать разбор анализов</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /quiz-card -->
+    </div><!-- /quiz-container -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="quiz-footer">
+    <div>© 2026 Insulab · <a href="legal.html">Юридические документы</a> · <a href="mailto:support@insulab.app">support@insulab.app</a></div>
+  </footer>
+
+  <script>
+    // ===== Quiz Engine =====
+    let gender = null; // 'female' or 'male'
+    let currentStepIndex = 0;
+    const femaleSteps = ['f1','f2','f3','f4','f5','f6','f7','f8','f9','f10'];
+    const maleSteps   = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10'];
+    let steps = [];
+
+    function selectGender(g) {
+      gender = g;
+      steps = (g === 'female') ? femaleSteps : maleSteps;
+      currentStepIndex = 0;
+      transitionTo('step-' + steps[0]);
+      document.getElementById('quizProgress').style.display = 'block';
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function transitionTo(targetId) {
+      const currentEl = document.querySelector('.quiz-step.active');
+      const targetEl = document.getElementById(targetId);
+
+      if (currentEl) {
+        currentEl.classList.remove('active');
+        currentEl.classList.add('exiting');
+        setTimeout(() => {
+          currentEl.classList.remove('exiting');
+          targetEl.classList.add('active');
+        }, 280);
+      } else {
+        targetEl.classList.add('active');
+      }
+    }
+
+    function goNext() {
+      if (currentStepIndex < steps.length - 1) {
+        currentStepIndex++;
+        transitionTo('step-' + steps[currentStepIndex]);
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function goBack() {
+      if (currentStepIndex > 0) {
+        currentStepIndex--;
+        transitionTo('step-' + steps[currentStepIndex]);
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Go back to gender selection
+        gender = null;
+        steps = [];
+        currentStepIndex = 0;
+        document.getElementById('quizProgress').style.display = 'none';
+        transitionTo('step-gender');
+      }
+    }
+
+    function updateProgress() {
+      const total = steps.length;
+      const current = currentStepIndex + 1;
+      const pct = (current / total) * 100;
+
+      document.getElementById('progressLabel').textContent = 'Вопрос ' + current;
+      document.getElementById('progressCount').textContent = current + ' из ' + total;
+      document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    // ===== Form Controls =====
+    function selectRadio(el, name) {
+      // Remove selected from siblings
+      const group = el.closest('.q-radio-group');
+      group.querySelectorAll('.q-radio').forEach(r => r.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+
+      // Show/hide conditional fields
+      if (name === 'f-cycle') {
+        const val = el.querySelector('input').value;
+        const dayField = document.getElementById('f-cycle-day-field');
+        if (val === 'regular' || val === 'irregular') {
+          dayField.classList.add('visible');
+        } else {
+          dayField.classList.remove('visible');
+        }
+      }
+
+      if (name === 'f-contraception') {
+        const val = el.querySelector('input').value;
+        const detailField = document.getElementById('f-contraception-detail-field');
+        if (val !== 'none') {
+          detailField.classList.add('visible');
+        } else {
+          detailField.classList.remove('visible');
+        }
+      }
+    }
+
+    function toggleCheckbox(el) {
+      el.classList.toggle('checked');
+      const input = el.querySelector('input');
+      input.checked = !input.checked;
+    }
+
+    function submitQuiz() {
+      // Collect all data
+      const data = collectData();
+      console.log('Quiz data:', data);
+
+      // Show completion
+      document.getElementById('quizProgress').style.display = 'none';
+      transitionTo('step-complete');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function collectData() {
+      const data = { gender: gender };
+
+      if (gender === 'female') {
+        data.age = document.getElementById('f-age')?.value;
+        data.height = document.getElementById('f-height')?.value;
+        data.weight = document.getElementById('f-weight')?.value;
+        data.waist = document.getElementById('f-waist')?.value;
+        data.cycle = document.querySelector('input[name="f-cycle"]:checked')?.value;
+        data.cycleDay = document.getElementById('f-cycle-day')?.value;
+        data.contraception = document.querySelector('input[name="f-contraception"]:checked')?.value;
+        data.contraceptionName = document.getElementById('f-contraception-name')?.value;
+        data.contraceptionDuration = document.getElementById('f-contraception-duration')?.value;
+        data.meds = [...document.querySelectorAll('input[name="f-meds"]:checked')].map(i => i.value);
+        data.medsOther = document.getElementById('f-meds-other')?.value;
+        data.symptoms = [...document.querySelectorAll('input[name="f-symptoms"]:checked')].map(i => i.value);
+        data.diagnoses = [...document.querySelectorAll('input[name="f-diagnoses"]:checked')].map(i => i.value);
+        data.family = [...document.querySelectorAll('input[name="f-family"]:checked')].map(i => i.value);
+        data.activityType = document.getElementById('f-activity-type')?.value;
+        data.activityFreq = document.getElementById('f-activity-freq')?.value;
+        data.sleep = document.getElementById('f-sleep')?.value;
+        data.stress = document.getElementById('f-stress')?.value;
+        data.alcohol = document.getElementById('f-alcohol')?.value;
+        data.goal = document.querySelector('input[name="f-goal"]:checked')?.value;
+      } else {
+        data.age = document.getElementById('m-age')?.value;
+        data.height = document.getElementById('m-height')?.value;
+        data.weight = document.getElementById('m-weight')?.value;
+        data.waist = document.getElementById('m-waist')?.value;
+        data.meds = [...document.querySelectorAll('input[name="m-meds"]:checked')].map(i => i.value);
+        data.medsOther = document.getElementById('m-meds-other')?.value;
+        data.symptoms = [...document.querySelectorAll('input[name="m-symptoms"]:checked')].map(i => i.value);
+        data.diagnoses = [...document.querySelectorAll('input[name="m-diagnoses"]:checked')].map(i => i.value);
+        data.family = [...document.querySelectorAll('input[name="m-family"]:checked')].map(i => i.value);
+        data.activityType = document.getElementById('m-activity-type')?.value;
+        data.activityFreq = document.getElementById('m-activity-freq')?.value;
+        data.sleep = document.getElementById('m-sleep')?.value;
+        data.stress = document.getElementById('m-stress')?.value;
+        data.alcohol = document.querySelector('input[name="m-alcohol"]:checked')?.value;
+        data.smoking = document.querySelector('input[name="m-smoking"]:checked')?.value;
+        data.diet = document.getElementById('m-diet')?.value;
+        data.dietType = [...document.querySelectorAll('input[name="m-diet-type"]:checked')].map(i => i.value);
+        data.goal = document.querySelector('input[name="m-goal"]:checked')?.value;
+      }
+
+      return data;
+    }
+  </script>
+
+</body>
+
+</html>
