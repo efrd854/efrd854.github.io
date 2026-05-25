@@ -866,6 +866,184 @@
       .gender-btn { padding: 28px 20px; }
       .header-inner { padding: 0 16px; }
     }
+
+    /* === FILE UPLOAD AND EMAIL FOR COMPLETION STEP === */
+    .file-upload-container {
+      position: relative;
+      border: 2.5px dashed var(--line);
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      background: rgba(93, 79, 115, 0.02);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .file-upload-container:hover, .file-upload-container.dragover {
+      border-color: var(--plum);
+      background: rgba(93, 79, 115, 0.05);
+    }
+    .file-upload-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .file-upload-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      background: var(--plum-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--plum);
+    }
+    .file-upload-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+    .file-upload-text {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+    .file-upload-btn {
+      color: var(--plum);
+      font-weight: 600;
+      text-decoration: underline;
+      margin-right: 4px;
+    }
+    .file-upload-formats {
+      font-size: 12px;
+      color: var(--mute);
+    }
+    .file-upload-explanation {
+      margin-top: 14px;
+      padding: 16px;
+      background: var(--cream-warm);
+      border-radius: 8px;
+      border-left: 3px solid var(--bronze);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      text-align: left;
+    }
+    .file-upload-explanation strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 6px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .file-list-preview {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--white);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(31, 26, 40, 0.02);
+    }
+    .file-item-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .file-item-icon {
+      color: var(--green);
+      display: flex;
+      align-items: center;
+    }
+    .file-item-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    .file-item-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 280px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .file-item-size {
+      font-size: 12px;
+      color: var(--mute);
+    }
+    .file-item-remove {
+      color: var(--red);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+    .file-item-remove:hover {
+      opacity: 0.8;
+    }
+    .file-item-remove svg {
+      width: 18px;
+      height: 18px;
+    }
+    .q-hint {
+      display: block;
+      font-size: 12px;
+      color: var(--mute);
+      margin-top: 4px;
+    }
+    
+    /* Elegant alignment for payment button */
+    .complete-pay-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--plum), var(--plum-deep));
+      color: var(--cream);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 18px 36px;
+      border-radius: 100px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 12px 30px -10px rgba(93, 79, 115, 0.45);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 24px;
+    }
+    .complete-pay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -12px rgba(93, 79, 115, 0.6);
+      background: linear-gradient(135deg, var(--plum-deep), #2A1F3B);
+    }
+    .complete-pay-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Spinner animation */
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .spinner {
+      animation: rotate 2s linear infinite;
+    }
   </style>
 </head>
 
@@ -1976,20 +2154,63 @@
 
         <!-- ==================== COMPLETION ==================== -->
         <div class="quiz-step" id="step-complete">
-          <div class="quiz-complete">
-            <div class="complete-icon">
+          <div class="quiz-complete" style="text-align: left;">
+            <div class="complete-icon" style="margin: 0 auto 24px;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
-            <h2 class="complete-title">Спасибо за ваши ответы!</h2>
-            <p class="complete-subtitle">
-              Мы учтём всё, что вы рассказали, при подготовке персонального разбора ваших анализов.
+            <h2 class="complete-title" style="text-align: center; margin-bottom: 8px;">Анкета успешно заполнена!</h2>
+            <p class="complete-subtitle" style="text-align: center; margin-bottom: 32px;">
+              Остался последний шаг: укажите почту для отправки отчёта, прикрепите файлы анализов и перейдите к оплате.
             </p>
-            <a href="index.html#pricing" class="complete-btn">
-              <span>Заказать разбор анализов</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
+            
+            <form id="payment-form" onsubmit="handlePaymentSubmit(event)">
+              <!-- Email Field -->
+              <div class="q-group">
+                <label class="q-label" for="client-email">Электронная почта</label>
+                <input type="email" id="client-email" class="q-input" placeholder="example@mail.com" required>
+                <span class="q-hint">На этот адрес мы отправим ваш готовый персональный отчёт в формате PDF в течение 48 часов.</span>
+              </div>
+              
+              <!-- File Upload Field -->
+              <div class="q-group" style="margin-top: 24px;">
+                <label class="q-label">Загрузить файлы анализов</label>
+                
+                <div class="file-upload-container" id="upload-zone">
+                  <input type="file" id="analyses-file" class="file-upload-input" accept=".pdf,.png,.jpg,.jpeg,.zip,.rar" multiple onchange="handleFileSelect(this)">
+                  <div class="file-upload-content">
+                    <div class="file-upload-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                      </svg>
+                    </div>
+                    <div class="file-upload-text">
+                      <span class="file-upload-btn">Выбрать файлы</span>
+                      <span class="file-upload-drag">или перетащить их сюда</span>
+                    </div>
+                    <div class="file-upload-formats">PDF, JPEG, PNG, ZIP (до 20 МБ)</div>
+                  </div>
+                </div>
+                
+                <!-- Preview area for selected files -->
+                <div class="file-list-preview" id="file-list-preview"></div>
+                
+                <!-- Detailed explanation of why we need this field -->
+                <div class="file-upload-explanation">
+                  <strong>Для чего нужно это поле?</strong>
+                  Сюда вы можете загрузить результаты ваших медицинских анализов (например: инсулин натощак, глюкозу, гликированный гемоглобин, липидный профиль, гормоны щитовидной железы и др.).
+                </div>
+              </div>
+              
+              <!-- Pay Button -->
+              <button type="submit" class="complete-pay-btn">
+                <span>Оплатить разбор анализов</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 12H4M12 4l8 8-8 8" />
+                </svg>
+              </button>
+            </form>
           </div>
         </div>
 
@@ -2101,10 +2322,21 @@
       }
     }
 
-    function toggleCheckbox(el) {
+    function toggleCheckbox(el, event) {
+      const e = event || window.event;
+      if (e) {
+        if (e.target.tagName === 'INPUT') {
+          el.classList.toggle('checked');
+          return;
+        }
+        e.preventDefault();
+      }
+      
       el.classList.toggle('checked');
       const input = el.querySelector('input');
-      input.checked = !input.checked;
+      if (input) {
+        input.checked = !input.checked;
+      }
     }
 
     function submitQuiz() {
@@ -2164,6 +2396,158 @@
       }
 
       return data;
+    }
+
+    // ===== File Upload and Payment Integration =====
+    let selectedFiles = [];
+
+    function handleFileSelect(input) {
+      if (input.files) {
+        for (let i = 0; i < input.files.length; i++) {
+          // Check if file is already added
+          const alreadyAdded = selectedFiles.some(f => f.name === input.files[i].name && f.size === input.files[i].size);
+          if (!alreadyAdded) {
+            selectedFiles.push(input.files[i]);
+          }
+        }
+      }
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const preview = document.getElementById('file-list-preview');
+      if (!preview) return;
+      preview.innerHTML = '';
+
+      selectedFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        
+        const sizeKB = (file.size / 1024).toFixed(1);
+        const sizeStr = sizeKB > 1024 ? (sizeKB / 1024).toFixed(1) + ' МБ' : sizeKB + ' КБ';
+
+        item.innerHTML = `
+          <div class="file-item-info">
+            <span class="file-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <div>
+              <span class="file-item-name" title="${file.name}">${file.name}</span>
+              <span class="file-item-size">(${sizeStr})</span>
+            </div>
+          </div>
+          <span class="file-item-remove" onclick="removeFile(${index})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+        `;
+        preview.appendChild(item);
+      });
+    }
+
+    function removeFile(index) {
+      selectedFiles.splice(index, 1);
+      renderFileList();
+      
+      const fileInput = document.getElementById('analyses-file');
+      if (fileInput) {
+        fileInput.value = '';
+      }
+    }
+
+    function handlePaymentSubmit(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('client-email').value;
+      if (!email) {
+        alert('Пожалуйста, введите корректный адрес электронной почты.');
+        return;
+      }
+      
+      const btn = document.querySelector('.complete-pay-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+        btn.innerHTML = `
+          <svg class="spinner" viewBox="0 0 50 50" style="animation: rotate 2s linear infinite; width: 20px; height: 20px; color: var(--cream); display: inline-block; vertical-align: middle; margin-right: 8px;">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="80, 200" stroke-dashoffset="0" stroke-linecap="round"></circle>
+          </svg>
+          <span>Инициализация безопасной оплаты...</span>
+        `;
+      }
+      
+      // Simulate secure payment connection and success transition
+      setTimeout(() => {
+        const quizData = collectData();
+        quizData.email = email;
+        quizData.filesCount = selectedFiles.length;
+        quizData.filesNames = selectedFiles.map(f => f.name);
+        
+        console.log('Final Order Data:', quizData);
+        
+        const container = document.querySelector('.quiz-complete');
+        if (container) {
+          container.innerHTML = `
+            <div class="complete-icon" style="margin: 0 auto 28px; background: var(--green-bg); animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" style="width: 36px; height: 36px; display: block; margin: auto;">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h2 class="complete-title" style="text-align: center;">Оплата успешно совершена!</h2>
+            <p class="complete-subtitle" style="text-align: center; max-width: 500px; margin: 0 auto 36px;">
+              Спасибо за ваш заказ! Мы отправили чек об оплате и подтверждение на почту <strong>${email}</strong>.<br><br>
+              Наши эксперты уже приступили к анализу вашей анкеты ${selectedFiles.length > 0 ? 'и прикрепленных файлов' : ''}. Персональный разбор в формате PDF будет отправлен на вашу почту в течение 48 часов.
+            </p>
+            <div style="text-align: center;">
+              <a href="index.html" class="complete-btn">
+                <span>Вернуться на главную</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          `;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 2000);
+    }
+
+    // Drag and drop listeners initialization
+    function initDragAndDrop() {
+      const uploadZone = document.getElementById('upload-zone');
+      if (uploadZone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          uploadZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          uploadZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+          }, false);
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt.files;
+          const fileInput = document.getElementById('analyses-file');
+          if (fileInput && files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect(fileInput);
+          }
+        }, false);
+      }
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDragAndDrop);
+    } else {
+      initDragAndDrop();
     }
   </script>
 
