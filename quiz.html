@@ -13,6 +13,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
+  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
   <style>
     :root {
@@ -2459,6 +2460,17 @@
       }
     }
 
+    function openCheckout(userEmail, quizRef) {
+      const base = 'https://insulab.lemonsqueezy.com/checkout/buy/e0afa472-308a-4618-85cd-14f36fcf80a4';
+      const url = base
+        + '?embed=1&media=0&logo=0&desc=0&discount=0'
+        + '&checkout[email]=' + encodeURIComponent(userEmail)
+        + '&checkout[custom][quiz_ref]=' + encodeURIComponent(quizRef);
+
+      window.createLemonSqueezy();
+      window.LemonSqueezy.Url.Open(url);
+    }
+
     function handlePaymentSubmit(e) {
       e.preventDefault();
       
@@ -2480,38 +2492,31 @@
         `;
       }
       
-      // Simulate secure payment connection and success transition
+      const quizData = collectData();
+      quizData.email = email;
+      quizData.filesCount = selectedFiles.length;
+      quizData.filesNames = selectedFiles.map(f => f.name);
+      
+      console.log('Final Order Data:', quizData);
+      
+      const quizRef = 'ref_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      
+      // Open LemonSqueezy Checkout
+      openCheckout(email, quizRef);
+      
+      // Reset button state after a short delay so user can try again if they close checkout
       setTimeout(() => {
-        const quizData = collectData();
-        quizData.email = email;
-        quizData.filesCount = selectedFiles.length;
-        quizData.filesNames = selectedFiles.map(f => f.name);
-        
-        console.log('Final Order Data:', quizData);
-        
-        const container = document.querySelector('.quiz-complete');
-        if (container) {
-          container.innerHTML = `
-            <div class="complete-icon" style="margin: 0 auto 28px; background: var(--green-bg); animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" style="width: 36px; height: 36px; display: block; margin: auto;">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </div>
-            <h2 class="complete-title" style="text-align: center;">Оплата успешно совершена!</h2>
-            <p class="complete-subtitle" style="text-align: center; max-width: 500px; margin: 0 auto 36px;">
-              Спасибо за ваш заказ! Мы отправили чек об оплате и подтверждение на почту <strong>${email}</strong>.<br><br>
-              Мы готовим ваш персональный разбор: AI обрабатывает данные, затем врач проверяет точность перед отправкой на вашу почту в течение 24 часов.
-            </p>
-            <div style="text-align: center;">
-              <a href="index.html" class="complete-btn">
-                <span>Вернуться на главную</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-            </div>
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.innerHTML = `
+            <span>Оплатить разбор анализов</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 12H4M12 4l8 8-8 8" />
+            </svg>
           `;
-          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      }, 2000);
+      }, 3000);
     }
 
     // Drag and drop listeners initialization
